@@ -1,0 +1,81 @@
+* {
+    padding: 0;
+    margin: 0;
+  }
+ 
+  
+  .sidebar {
+    max-height: calc(100vh - 110px);
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    bottom: 0;
+    width: 200px;
+  
+  }
+  .sidebar .logo img {
+    width: 130px;
+  }
+
+  .sidebar .navigation {
+    display: flex;
+
+    align-items: center;
+    padding: 10px;
+    background-color: #121212;
+    border-radius: 8px;
+
+  }
+  .sidebar .navigation ul, .sidebar .navigation-1 ul {
+    list-style: none;
+    margin-left: 10px;
+    // margin-top: 20px;
+  }
+  .sidebar .navigation ul li, .sidebar .navigation-1 ul li{
+    padding: 10px 0px;
+  }
+  .sidebar .navigation ul li a, .sidebar .navigation-1 ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
+  .sidebar .navigation ul li a span,.sidebar .navigation-1 ul li a span  {
+    margin-right: 30px;
+  }
+  .sidebar .navigation ul li a:hover,
+  .sidebar .navigation-1 ul li a:hover,
+
+  .sidebar .navigation ul li a:active,
+  .sidebar .navigation-1 ul li a:active,
+
+  .sidebar .navigation ul li a:focus,
+  .sidebar .navigation-1 ul li a:focus 
+
+   {
+    color: #ffffff;
+  }
+  .sidebar .navigation ul li a:hover i,
+  .sidebar .navigation ul li a:active i,
+  .sidebar .navigation ul li a:focus .i {
+    color: #b3b3b3;
+  }
+
+  .sidebar .navigation ul li a:hover i:hover,
+  .sidebar .navigation-1 ul li a:hover i:hover,
+  .sidebar .navigation ul li a:hover i:active,
+  .sidebar .navigation ul li a:hover i:focus {
+    color: #ffffff;
+  }
+  
+
+  .navigation-1 {
+    background-color: #121212;
+    margin-top: 10px;
+    padding: 10px;
+
+    height: calc(100vh - 200px);
+    border-radius: 8px;
+  }
+  
+  
