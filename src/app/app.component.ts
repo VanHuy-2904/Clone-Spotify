@@ -1,7 +1,6 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AudioComponent } from './Components/play/audio/audio.component';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { MusicService } from './Service/Music/music.service';
@@ -23,7 +22,7 @@ import { SearchSerive } from './Service/Search/search.service';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-    providers: [AuthService, MusicService, PlaylistService, JwtHelperService, datatService, SearchSerive],
+    providers: [AuthService, MusicService, PlaylistService, datatService, SearchSerive],
 })
 export class AppComponent implements OnInit {
   title = 'web__nhac';
