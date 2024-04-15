@@ -1,8 +1,12 @@
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../Service/auth.service';
+import { AuthService } from '../../Service/Auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,41 +14,33 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, HttpClientModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-client_id = '87ac444283e74b2caa2a9be4134a8d67';
- client_secret = '0b8b21dbb9d84255ad0c94681ae3d56e';
- redirect_uri = 'http://localhost:4200';
- scope = 'user-read-private user-read-email';
+  client_id = '87ac444283e74b2caa2a9be4134a8d67';
+  client_secret = '0b8b21dbb9d84255ad0c94681ae3d56e';
+  redirect_uri = 'http://localhost:4200';
+  scope = 'user-read-private user-read-email';
   state = '123';
-  accessToken: any
-  constructor(private Authservice: AuthService){
-    this.accessToken =""
+  accessToken: any;
+  constructor(private Authservice: AuthService) {
+    this.accessToken = '';
   }
 
-  
-  
- Login() {
-  this.Authservice.Login();
-  
+  Login() {
+    this.Authservice.login();
+  }
 }
+// loginObj: Login;
 
+// constructor(private authservice: AuthService) {
+//   this.loginObj = new Login();
+// }
 
-
-}
-  // loginObj: Login;
-
-  // constructor(private authservice: AuthService) {
-  //   this.loginObj = new Login();
-  // }
-
-  // Login() {
-  //   this.authservice.onLogin(this.loginObj);
-  //   // debugger
-  // }
-
-
+// Login() {
+//   this.authservice.onLogin(this.loginObj);
+//   // debugger
+// }
 
 // export class Login {
 //   email: string;
