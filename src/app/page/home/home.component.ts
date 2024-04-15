@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../Service/Auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { ArtistComponent } from '../../Components/artist/artist.component';
+import { MusicService } from '../../Service/Music/music.service';
 // import { Login } from '../login/login.component';
 
 @Component({
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
     private http: HttpClient,
     private authservice: AuthService,
     private route: ActivatedRoute,
+    private musicService: MusicService
   ) {
     this.tracks = [];
     this.id = '';
@@ -32,7 +34,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.token = localStorage.getItem('token')
      console.log(this.token);
-     
     this.getartist();
     this.getTopTracks();
     this.getalbums();
