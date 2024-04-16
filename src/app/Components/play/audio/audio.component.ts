@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxSliderModule, Options, SliderComponent } from 'ngx-slider-v2';
-import { AuthService } from '../../../Service/auth/Auth.service';
-import { MusicService } from '../../../Service/music/music.service';
+import { AuthService } from '../../../Service/auths/auth.service';
+import { MusicService } from '../../../Service/musics/music.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

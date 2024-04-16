@@ -3,12 +3,13 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { AudioComponent } from './Components/play/audio/audio.component';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
-import { MusicService } from './Service/music/music.service';
+
 // import { PlaylistService } from './Service/PlayList/playlist.service';
 import { HomeComponent } from './page/home/home.component';
-import { DataService } from './Service/data/data.service';
+import { DataService } from './Service/datas/data.service';
 // import { SearchService } from './Service/Search/search.service';
-import { AuthService } from './Service/auth/Auth.service';
+import { AuthService } from './Service/auths/auth.service';
+import { MusicService } from './Service/musics/music.service';
 
 @Component({
   selector: 'app-root',

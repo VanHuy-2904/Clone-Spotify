@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../Service/auth/Auth.service';
+import { AuthService } from '../../Service/auths/auth.service';
 import { CommonModule } from '@angular/common';
 import { ArtistComponent } from '../../Components/artist/artist.component';
-import { MusicService } from '../../Service/music/music.service';
+import { MusicService } from '../../Service/musics/music.service';
 import { Subscription } from 'rxjs';
 import { Artist } from '../../Service/artist/Artists';
-import { Track } from '../../Service/music/track';
+import { Track } from '../../Service/musics/track';
 // import { Login } from '../login/login.component';
 
 @Component({

@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../Service/auth/Auth.service';
-import { DataService } from '../../Service/data/data.service';
-import { MusicService } from '../../Service/music/music.service';
+import { AuthService } from '../../Service/auths/auth.service';
+import { DataService } from '../../Service/datas/data.service';
+import { MusicService } from '../../Service/musics/music.service';
 import { Artist } from '../../Service/artist/Artists';
-import { Track } from '../../Service/music/track';
+import { Track } from '../../Service/musics/track';
 
 @Component({
   selector: 'app-artist',

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DataService } from '../../Service/data/data.service';
+import { DataService } from '../../Service/datas/data.service';
 // import { PlaylistService } from '../../Service/PlayList/playlist.service';
 
 @Component({

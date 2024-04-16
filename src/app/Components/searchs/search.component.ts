@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Album } from '../../Service/album/album';
-import { Track } from '../../Service/music/track';
-import { SearchService } from '../../Service/search/search.service';
+import { Track } from '../../Service/musics/track';
+import { SearchService } from '../../Service/searchs/search.service';
 
 @Component({
   selector: 'app-search',

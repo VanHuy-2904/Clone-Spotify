@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Track } from '../../Service/music/track';
+import { Track } from '../../Service/musics/track';
 import { Album } from '../../Service/album/album';
 import { Subscription } from 'rxjs';
-import { DataService } from '../../Service/data/data.service';
-import { MusicService } from '../../Service/music/music.service';
+import { DataService } from '../../Service/datas/data.service';
+import { MusicService } from '../../Service/musics/music.service';
 
 @Component({
   selector: 'app-albums',
