@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MusicService } from '../../Service/Music/music.service';
-import {  datatService } from '../../Service/Data/Data.service';
+import { Track } from '../../Service/music/track';
+import { Album } from '../../Service/album/album';
+import { Subscription } from 'rxjs';
+import { MusicService } from '../../Service/music/music.service';
+import { DataService } from '../../Service/data/data.service';
 
 @Component({
   selector: 'app-albums',
@@ -12,16 +15,17 @@ import {  datatService } from '../../Service/Data/Data.service';
   templateUrl: './albums.component.html',
   styleUrl: './albums.component.scss',
 })
-export class AlbumsComponent implements OnInit {
-  track: any[] = [];
-  album: any;
+export class AlbumsComponent implements OnInit, OnDestroy {
+  track: Track[] = [];
+  album!: Album;
   link: string;
-  Data: any[] = [];
+  getAlbumSub!: Subscription
+  getTrackAlbumSub!: Subscription
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private music: MusicService,
-    private dataservice: datatService
+    private dataService: DataService
   ) {
     this.link = '';
   }
@@ -29,54 +33,37 @@ export class AlbumsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
-      this.getalbum(id);
-      this.gettrackalbum(id);
+       this.getAlbum(id);
+      this.getTrackAlbum(id);
     });
   }
   format(milliseconds: number): string {
-  return this.dataservice.formatMillisecondsToMinutesAndSeconds(milliseconds)
+  return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds)
   }
-  updatedata(name: string, artist: string, img: string, id: string) {
-    this.dataservice.updatedata(name, artist, img, id)
+  updateData(nameTrack: string, artistTrack: string, imgTrack: string, idTrack: string) {
+    this.dataService.updateData(nameTrack, artistTrack, imgTrack, idTrack)
   }
 
-  gettrackalbum(id: string) {
-   this.dataservice.gettrackAlbum(id)
+   getTrackAlbum(id: string) {
+     this.getAlbumSub = this.getTrackAlbumSub =  this.dataService.getTrackAlbum(id)
       .subscribe((data: any) => {
-        console.log('trackalbum', data);
         this.track = data.items;
       });
   }
 
-  getalbum(id: string) {
-   this.dataservice.getalbumdetail(id)
+  getAlbum(id: string) {
+   this.dataService.getAlbumDetail(id)
       .subscribe((data: any) => {
-        console.log('albms:', data);
         this.album = data;
       });
   }
 
-  gettrackplay(id: string) {
+  getTrackPlay(id: string) {
     this.link = id;
   }
 
-  playmusic(trackuri: string) {
-    // console.log(1231321312321321, trackuri);
-    const body = {
-      context_uri: trackuri,
-      offset: {
-        position: 0,
-      },
-      position_ms: 0,
-    };
-    this.http
-      .put('https://api.spotify.com/v1/me/player/play', body, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      })
-      .subscribe((data) => {
-        console.log(data);
-      });
+  ngOnDestroy(): void {
+      this.getTrackAlbumSub.unsubscribe()
+      this.getAlbumSub.unsubscribe()
   }
 }

@@ -1,32 +1,29 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MusicService } from '../Music/music.service';
 import { Observable } from 'rxjs';
+import { MusicService } from '../music/music.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class datatService {
+export class DataService {
   constructor(
     private http: HttpClient,
     private music: MusicService,
   ) {}
-  updatedata(name: string, artist: string, img: string, id: string) {
-    const newdata = { name, artist, img, id };
+  updateData(
+    nameTrack: string,
+    artistTrack: string,
+    imgTrack: string,
+    idTrack: string,
+  ) {
+    const newData = { nameTrack, artistTrack, imgTrack, idTrack };
 
-    this.music.updatedata(newdata);
-    console.log(name);
+    this.music.updateData(newData);
   }
 
   getAlbum(id: string) {
-    return this.http.get(
-      `https://api.spotify.com/v1/artists/${id}/top-tracks`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
-    );
+    return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
   }
 
   formatMillisecondsToMinutesAndSeconds(milliseconds: number): string {
@@ -39,26 +36,14 @@ export class datatService {
   }
 
   getArtist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}`, {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }),
-    });
+    return this.http.get(`https://api.spotify.com/v1/artists/${id}`);
   }
 
-  gettrackAlbum(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/albums/${id}/tracks`, {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }),
-    });
+  getTrackAlbum(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/albums/${id}/tracks`);
   }
 
-  getalbumdetail(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/albums/${id}`, {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }),
-    });
+  getAlbumDetail(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/albums/${id}`);
   }
 }

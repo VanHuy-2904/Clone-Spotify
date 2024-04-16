@@ -3,12 +3,11 @@ p {
 }
 
 .banner-img {
-  // background-image: var(--background-url);
   position: relative;
   display: flex;
-  // background-color: green;
+
   background-size: cover;
-  background-position: top center; /* điều chỉnh vị trí của ảnh, ở đây là trung tâm trên */
+  background-position: top center;
   background-repeat: no-repeat;
   height: 230px;
   width: 100%;

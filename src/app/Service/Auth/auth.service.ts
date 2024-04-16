@@ -11,7 +11,7 @@ export class AuthService {
   refresh_token: any;
   userNameSubject$ = new BehaviorSubject('');
   userName$ = this.userNameSubject$.asObservable();
-  nameuser: string;
+  nameUser: string;
 
   constructor(
     private http: HttpClient,
@@ -20,23 +20,23 @@ export class AuthService {
   ) {
     this.accessToken = '';
     this.refresh_token = '';
-    this.nameuser = '';
+    this.nameUser = '';
   }
-  setToken(token:string) {
-    localStorage.setItem('token', token)
+  setToken(token: string) {
+    localStorage.setItem('token', token);
   }
-  gettoken(){
-    return localStorage.getItem('token')
+  getToken() {
+    return localStorage.getItem('token');
   }
   login() {
     const authorizeUrl = `https://accounts.spotify.com/authorize?client_id=${environment.client_id}&response_type=code&redirect_uri=${environment.redirect_uri}&scope=${environment.scope}&state=${environment.state}`;
     window.location.href = authorizeUrl;
-    // window.location.reload(); 
+    // window.location.reload();
   }
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('nameuser')
+    localStorage.removeItem('nameUser');
     const tokenUrl = 'https://accounts.spotify.com/api/token';
     this.http.post(tokenUrl, `token=${this.accessToken}`, {
       headers: new HttpHeaders({
@@ -45,17 +45,17 @@ export class AuthService {
     });
   }
 
-  exchangecode(code: string): Observable<any> {
+  exchangeCode(code: string): Observable<any> {
     const tokenUrl = 'https://accounts.spotify.com/api/token';
     const body = `grant_type=authorization_code&code=${code}&redirect_uri=${environment.redirect_uri}`;
 
-    // Tạo headers cho request
     const headers = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa(environment.client_id + ':' + environment.client_secret),
-      'Content-Type': 'application/x-www-form-urlencoded'
+      Authorization:
+        'Basic ' +
+        btoa(environment.client_id + ':' + environment.client_secret),
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    // Gửi yêu cầu POST đến Spotify API để đổi auth_code thành token
     return this.http.post(tokenUrl, body, { headers });
   }
 
@@ -70,7 +70,7 @@ export class AuthService {
     });
   }
 
-  getuserinfo(token: any): Observable<any> {
+  getUserinfo(token: any): Observable<any> {
     return this.http.get('https://api.spotify.com/v1/me', {
       headers: new HttpHeaders({
         Authorization: `Bearer ${token}`,

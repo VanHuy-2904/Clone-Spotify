@@ -5,31 +5,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class SearchSerive {
-  private inputvalue$ = new BehaviorSubject('');
-  data$ = this.inputvalue$.asObservable();
+export class SearchService {
+  private inputValue$ = new BehaviorSubject('');
+  data$ = this.inputValue$.asObservable();
   constructor(private http: HttpClient) {}
 
-  setinputvalue(input: string) {
-    this.inputvalue$.next(input);
+  setInputValue(input: string) {
+    this.inputValue$.next(input);
   }
 
-  getinput() {
+  getInput() {
     return this.data$;
   }
 
-  getfeature(): Observable<any> {
+  getFeature(): Observable<any> {
     return this.http.get(
       `https://api.spotify.com/v1/browse/featured-playlists?locale=VN`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
     );
   }
 
-  // getsearchvalue(input: string): Observable<any> {
+  // getSearchValue(input: string): Observable<any> {
   //   return this.http.get(
   //     `https://api.spotify.com/v1/search?q=${input}&type=artist`,
   //     {
@@ -40,37 +35,17 @@ export class SearchSerive {
   //   );
   // }
 
-  getArtistRS(input: string):Observable<any>{
+  getArtistRS(input: string): Observable<any> {
     return this.http.get(
       `https://api.spotify.com/v1/search?q=${input}&type=artist`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
     );
   }
 
-  getTrackRS(id: string):Observable<any>{
-    return this.http.get(
-      `https://api.spotify.com/v1/artists/${id}/top-tracks`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
-    );
+  getTrackRS(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
   }
 
-  getAlbumRS(id: string):Observable<any> {
-    return this.http.get(
-      `https://api.spotify.com/v1/artists/${id}/albums`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
-    );
+  getAlbumRS(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/artists/${id}/albums`);
   }
-
 }

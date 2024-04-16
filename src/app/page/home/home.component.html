@@ -1,6 +1,6 @@
-<!-- <ng-container *ngIf="token; else noToken">
-  <div class="playlist-wrapper">
-    <!-- <div class="spotify-playlists">
+<ng-container *ngIf="token; else noToken">
+  <!-- <div class="playlist-wrapper">
+    <div class="spotify-playlists">
       <h2>Nghệ sĩ</h2>
       <div class="list">
         <div class="item" *ngFor="let artist of artists">
@@ -42,13 +42,13 @@
     <div class="spotify-playlists">
       <h2>Top bài hát phổ biến</h2>
       <div class="list">
-        <div class="item" *ngFor="let toptrack of toptracks">
+        <div class="item" *ngFor="let topTrack of topTracks">
           <a style="text-decoration: none" [routerLink]="">
-            <img [src]="toptrack.album.images[1].url" />
+            <img [src]="topTrack.album.images[1].url" />
             <div class="play">
               <span class="fa fa-play"></span>
             </div>
-            <h4>{{ toptrack.name }}</h4>
+            <h4>{{ topTrack.name }}</h4>
           </a>
         </div>
       </div>
@@ -81,12 +81,12 @@
           <i class="bi bi-facebook"></i>
         </div>
       </div>
-    </div>
-  </div>
+    </div> 
+  <!-- </div> -->
 </ng-container>
 <ng-template #noToken>
   <div class="main">
     <a href="/signup">Đăng ký</a>
     <a href="/login"><button type="button">Đăng nhập</button></a>
   </div></ng-template
-> -->
+> 

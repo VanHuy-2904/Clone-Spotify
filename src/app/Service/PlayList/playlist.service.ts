@@ -17,45 +17,24 @@ export class PlaylistService {
     return this.http.get(`${this.spotifyApiUrl}/me/playlists`, { headers });
   }
 
-  getplaylist(idplaylist: string): Observable<any> {
+  getPlaylist(idPlaylist: string): Observable<any> {
     return this.http.get(
-      `https://api.spotify.com/v1/playlists/${idplaylist}/tracks`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
+      `https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`,
     );
   }
 
-  getinfoPlaylist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/playlists/${id}`, {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }),
-    });
+  getInfoPlaylist(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/playlists/${id}`);
   }
 
   getPicture(id: string) {
     return this.http.get(
       `
   https://api.spotify.com/v1/playlists/${id}/images`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
     );
   }
 
-  getmyPlaylist(): Observable<any> {
-    return this.http.get(
-      'https://api.spotify.com/v1/me/playlists ',
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
-    );
+  getMyPlaylist(): Observable<any> {
+    return this.http.get('https://api.spotify.com/v1/me/playlists ');
   }
 }

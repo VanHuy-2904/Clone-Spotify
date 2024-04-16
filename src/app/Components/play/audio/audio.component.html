@@ -5,8 +5,7 @@
         <img [src]="data[0].img" alt="" />
       </div>
       <div class="song-description">
-        <p class="title" (click)="playmusic(data[0].id)">
-          <!-- Watashitachi wa Sou Yatte Ikite Iku Jinshu na no -->
+        <p class="title">
           {{ data[0].name }}
         </p>
         <p class="artist">{{ data[0].artist }}</p>
@@ -24,14 +23,14 @@
       <div
         class="play"
         [ngClass]="{ show: !play, hide: play }"
-        (click)="handleclick()"
+        (click)="handleClick()"
       >
         <i class="bi bi-play-fill"></i>
       </div>
       <div
         class="hide"
         [ngClass]="{ show: play, hide: !play }"
-        (click)="handleclick()"
+        (click)="handleClick()"
       >
         <i class="bi bi-pause-fill"></i>
       </div>

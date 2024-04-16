@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../Service/Auth/auth.service';
+import { AuthService } from '../../Service/auth/auth.service';
 
 @Component({
   selector: 'app-callback',
@@ -12,7 +12,7 @@ import { AuthService } from '../../Service/Auth/auth.service';
 export class CallbackComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private authservice: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {}
   ngOnInit(): void {
@@ -24,16 +24,16 @@ export class CallbackComponent implements OnInit {
     });
   }
   handleCodeExchange(code: string): void {
-    this.authservice.exchangecode(code).subscribe(
+    this.authService.exchangeCode(code).subscribe(
       (data) => {
         console.log('exchange code: ', data);
-        this.authservice.setToken(data.access_token);
+        this.authService.setToken(data.access_token);
         console.log(localStorage.getItem('token'));
-        this.authservice.getuserinfo(data.access_token).subscribe((dataUser) => {
+        this.authService.getUserinfo(data.access_token).subscribe((dataUser) => {
           console.log(dataUser);
           
-          localStorage.setItem('nameuser', dataUser.display_name);
-          console.log(localStorage.getItem('nameuser'));
+          localStorage.setItem('nameUser', dataUser.display_name);
+          console.log(localStorage.getItem('nameUser'));
           this.router.navigate(['/']);
         });
       },

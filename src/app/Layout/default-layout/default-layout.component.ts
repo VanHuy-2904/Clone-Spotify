@@ -9,7 +9,7 @@ import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { AudioComponent } from '../../Components/play/audio/audio.component';
 import { HeaderComponent } from '../../Components/header/header.component';
-import { AuthService } from '../../Service/Auth/auth.service';
+import { AuthService } from '../../Service/auth/Auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({

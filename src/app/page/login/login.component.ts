@@ -6,7 +6,7 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../Service/Auth/auth.service';
+import { AuthService } from '../../Service/auth/Auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

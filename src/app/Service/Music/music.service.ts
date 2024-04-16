@@ -1,13 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '../Auth/auth.service';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
-interface MusicData {
-  name: string;
-  artist: string;
-  img: string;
-  id: string;
-}
+import { AuthService } from '../auth/auth.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -17,28 +12,22 @@ export class MusicService {
 
   constructor(
     private http: HttpClient,
-    private authservice: AuthService,
+    private authService: AuthService,
   ) {}
   getData() {
     return this.data$;
   }
 
-  updatedata(data: MusicData) {
+  updateData(data: MusicData) {
     this.dataSubject.next([]);
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
-  playmusic() {
+  playMusic() {
     console.log(localStorage.getItem('token'));
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    });
 
     // Make a GET request to Spotify API to play the track
     this.http
-      .get('https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl ', {
-        headers,
-      })
+      .get('https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl')
       .subscribe(
         (response) => {
           console.log('Track is now playing:', response);
@@ -49,26 +38,19 @@ export class MusicService {
       );
   }
 
-  gettoptrack():Observable<any> {
+  getTopTrack():Observable<any> {
   
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
     const params = new HttpParams()
-      .set('country', 'VN'); // Mã quốc gia của khu vực client
+      .set('country', 'VN'); 
 
     return this.http.get('https://api.spotify.com/v1/me/top/tracks', { headers, params });
   }
 
-  gettracklove():Observable<any>{
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    });
-    const params = new HttpParams()
-    .set('seed_genres', '0JQ5DAqbMKFz6FAsUtgAab');
-
-    return this.http.get('https://api.spotify.com/v1/recommendations', { headers});
-  }
+  
+  
 
   
 

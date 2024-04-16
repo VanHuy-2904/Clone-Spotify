@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../Service/Auth/auth.service';
-import { datatService } from '../../Service/Data/Data.service';
-import { MusicService } from '../../Service/Music/music.service';
+import { AuthService } from '../../Service/auth/auth.service';
+import { DataService } from '../../Service/data/data.service';
+import { MusicService } from '../../Service/music/music.service';
+import { Artist } from '../../Service/artist/Artists';
+import { Track } from '../../Service/music/track';
 
 @Component({
   selector: 'app-artist',
@@ -16,33 +18,33 @@ import { MusicService } from '../../Service/Music/music.service';
 })
 export class ArtistComponent implements OnInit {
   token: any;
-  getartistSubscription!: Subscription
+  getArtistSubscription!: Subscription
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private music: MusicService,
-    private authservice: AuthService,
-    private artistService: datatService,
+    private authService: AuthService,
+    private artistService: DataService,
   ) {}
-  listitems: any[] = [];
-  artist: any;
+  listItems: Track[] = [];
+  artist!: Artist;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       console.log(id);
-      this.getartist(id);
-      this.getalbum(id);
+      this.getArtist(id);
+      this.getAlbum(id);
     });
   }
 
-  updatedata(name: string, artist: string, img: string, id: string) {
-    this.artistService.updatedata(name, artist, img, id);
+  updateData(name: string, artist: string, img: string, id: string) {
+    this.artistService.updateData(name, artist, img, id);
   }
 
-  getalbum(id: string) {
+  getAlbum(id: string) {
     this.artistService.getAlbum(id).subscribe((data: any) => {
       console.log('data tracks: ', data);
-      this.listitems = data.tracks;
+      this.listItems = data.tracks;
     });
   }
 
@@ -52,8 +54,8 @@ export class ArtistComponent implements OnInit {
     );
   }
 
-  getartist(id: string) {
- this.getartistSubscription =   this.artistService.getArtist(id).subscribe((data: any) => {
+  getArtist(id: string) {
+ this.getArtistSubscription =   this.artistService.getArtist(id).subscribe((data: any) => {
       this.artist = data;
     });
   }

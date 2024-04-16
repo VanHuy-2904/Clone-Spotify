@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../Service/Auth/auth.service';
+import { AuthService } from '../../Service/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -12,13 +12,11 @@ import { FormsModule } from '@angular/forms';
 export class SignupComponent {
   signup: SignUp
 
-  constructor(private authservice: AuthService) {
+  constructor(private authService: AuthService) {
     this.signup = new SignUp()
   }
 
-  // SignUp() {
-  //   this.authservice.resgiter(this.signup)
-  // }
+
 }
 
 

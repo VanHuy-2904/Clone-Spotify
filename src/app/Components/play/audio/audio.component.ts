@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxSliderModule, Options, SliderComponent } from 'ngx-slider-v2';
-import { AuthService } from '../../../Service/Auth/auth.service';
-import { MusicService } from '../../../Service/Music/music.service';
+import { AuthService } from '../../../Service/auth/auth.service';
+import { MusicService } from '../../../Service/music/music.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -19,50 +19,31 @@ export class AudioComponent implements OnInit {
   private dataSubscription!: Subscription;
   constructor(
     private http: HttpClient,
-    private authservice: AuthService,
-    private musicservice: MusicService,
+    private authService: AuthService,
+    private musicService: MusicService,
   ) {}
 
   play: boolean = false;
   ngOnInit(): void {
     console.log(localStorage.getItem('token'));
-    
-    this.musicservice.playmusic()
-    this.getcurrentplaying().subscribe((data) => {
+
+    this.musicService.playMusic();
+    this.getCurrentPlaying().subscribe((data) => {
       console.log(data);
     });
 
-    // Đăng ký subscription để theo dõi thay đổi trong dữ liệu
-    this.dataSubscription = this.musicservice
+    this.dataSubscription = this.musicService
       .getData()
       .subscribe((data: any) => {
         this.data = data;
         console.log('name music:', data);
       });
   }
-  playmusic(trackuri: string) {
-    console.log(1231321312321321, trackuri);
-    const body = {
-      context_uri: trackuri,
-      offset: {
-        position: 0,
-      },
-      position_ms: 0,
-    };
-    this.http
-      .put('https://api.spotify.com/v1/me/player/play', body, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      })
-      .subscribe((data) => {
-        console.log(data);
-      });
-  }
+  
 
   accessToken: string = ''; // Access token received after user authentication
   trackUrl: string = 'SPOTIFY_TRACK_URL'; // Spotify track URL
-  getcurrentplaying(): Observable<any> {
+  getCurrentPlaying(): Observable<any> {
     return this.http.get(
       'https://api.spotify.com/v1/me/player/currently-playing',
       {
@@ -74,7 +55,7 @@ export class AudioComponent implements OnInit {
 
     // Make a GET request to Spotify API to play the track
   }
-  handleclick() {
+  handleClick() {
     this.play = !this.play;
     console.log(this.play);
   }
