@@ -1,10 +1,8 @@
-import { Injectable } from "@angular/core";
-interface featuredata{
-    id: string;
+import { Injectable } from '@angular/core';
+interface featuredata {
+  id: string;
 }
 @Injectable({
-    providedIn: 'root'
-  })
-export class FeatureService {
-
-}
+  providedIn: 'root',
+})
+export class FeatureService {}

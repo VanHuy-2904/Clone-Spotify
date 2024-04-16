@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { datatService } from '../../Service/Data/Data.service';
-import { PlaylistService } from '../../Service/PlayList/playlist.service';
+import { datatService } from '../../Service/data/Data.service';
+// import { PlaylistService } from '../../Service/PlayList/playlist.service';
 
 @Component({
   selector: 'app-playlists',
@@ -19,7 +19,7 @@ export class PlaylistsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private playlistService: PlaylistService,
+    // private playlistService: PlaylistService,
     private dataService: datatService,
   ) {}
   data: any[] = [];
@@ -29,12 +29,12 @@ export class PlaylistsComponent implements OnInit {
       console.log(code);
 
       if (code) {
-        this.playlistService.getplaylist(code).subscribe((playlists) => {
-          console.log('playlist', playlists);
-          this.data = playlists.items;
-          this.getpicture(code);
-          this.getinfoplaylist(code);
-        });
+        // this.playlistService.getplaylist(code).subscribe((playlists) => {
+        //   console.log('playlist', playlists);
+        //   this.data = playlists.items;
+        //   this.getpicture(code);
+        //   this.getinfoplaylist(code);
+        // });
       }
     });
   }
@@ -43,17 +43,17 @@ export class PlaylistsComponent implements OnInit {
   }
 
   getinfoplaylist(id: string) {
-    this.playlistService.getinfoPlaylist(id).subscribe((data: any) => {
-      console.log(data);
-      this.infoplaylist = data;
-    });
+    // this.playlistService.getinfoPlaylist(id).subscribe((data: any) => {
+    //   console.log(data);
+    //   this.infoplaylist = data;
+    // });
   }
 
   getpicture(id: string) {
-    this.playlistService.getPicture(id).subscribe((data: any) => {
-      console.log(data);
-      this.imgurl = data[0].url;
-    });
+    // this.playlistService.getPicture(id).subscribe((data: any) => {
+    //   console.log(data);
+    //   this.imgurl = data[0].url;
+    // });
   }
   updatedata(name: string, artist: string, img: string, id: string) {
     this.dataService.updatedata(name, artist, img, id);

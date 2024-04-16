@@ -21,11 +21,6 @@ export class SearchSerive {
   getfeature(): Observable<any> {
     return this.http.get(
       `https://api.spotify.com/v1/browse/featured-playlists?locale=VN`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
     );
   }
 
@@ -40,37 +35,17 @@ export class SearchSerive {
   //   );
   // }
 
-  getArtistRS(input: string):Observable<any>{
+  getArtistRS(input: string): Observable<any> {
     return this.http.get(
       `https://api.spotify.com/v1/search?q=${input}&type=artist`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
     );
   }
 
-  getTrackRS(id: string):Observable<any>{
-    return this.http.get(
-      `https://api.spotify.com/v1/artists/${id}/top-tracks`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
-    );
+  getTrackRS(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
   }
 
-  getAlbumRS(id: string):Observable<any> {
-    return this.http.get(
-      `https://api.spotify.com/v1/artists/${id}/albums`,
-      {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      },
-    );
+  getAlbumRS(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/artists/${id}/albums`);
   }
-
 }

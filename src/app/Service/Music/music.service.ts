@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '../Auth/auth.service';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
+import { AuthService } from '../auth/Auth.service';
 interface MusicData {
   name: string;
   artist: string;
@@ -30,15 +30,9 @@ export class MusicService {
   playmusic() {
     console.log(localStorage.getItem('token'));
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    });
-
     // Make a GET request to Spotify API to play the track
     this.http
-      .get('https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl ', {
-        headers,
-      })
+      .get('https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl')
       .subscribe(
         (response) => {
           console.log('Track is now playing:', response);
@@ -48,10 +42,4 @@ export class MusicService {
         },
       );
   }
-
-
-
-  
-
-  
 }

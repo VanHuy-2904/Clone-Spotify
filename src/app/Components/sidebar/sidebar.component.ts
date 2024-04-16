@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PlaylistService } from '../../Service/PlayList/playlist.service';
+// import { PlaylistService } from '../../Service/PlayList/playlist.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,11 +10,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
-  constructor(private playlist: PlaylistService) {}
+  constructor() {}
   ngOnInit() {
-    this.playlist.getPlaylists().subscribe((data) => {
-      console.log(data);
-    });
+    
   }
   
 }

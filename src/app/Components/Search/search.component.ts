@@ -4,7 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { SearchSerive } from '../../Service/Search/search.service';
+import { SearchSerive } from '../../Service/search/search.service';
+import { Track } from '../../Service/Tracks';
+import { Album } from '../../Service/Albums';
+// import { SearchSerive } from '../../Service/search/search.service';
 
 @Component({
   selector: 'app-search',
@@ -19,48 +22,15 @@ export class SearchComponent implements OnInit {
   searchvalue = '';
   type = 'playlist';
   dataPlaylist: any
-  dataTrack: any[]= []
-  dataAlbum: any[]= []
+  dataTrack: Track[]= []
+  dataAlbum: Album[]= []
 
   constructor(
     private http: HttpClient,
     private searchservice: SearchSerive,
   ) {}
   ngOnInit(): void {
-    this.searchservice.getinput().subscribe((data) => {
-      console.log(data);
-      this.searchvalue = data;
-      console.log(this.searchvalue);
-      if (this.searchvalue) {
-        this.data = []
-        this.searchservice
-          .getArtistRS(this.searchvalue)
-          .subscribe((data: any) => {
-            console.log(data);
-            this.dataPlaylist = data.artists.items
-            console.log(this.dataPlaylist);
-            this.searchservice.getTrackRS(this.dataPlaylist[0].id).subscribe((data: any)=> {
-              console.log("track: ", data);
-              this.dataTrack = data.tracks
-              this.searchservice.getAlbumRS(this.dataPlaylist[0].id).subscribe((data)=>{
-                console.log(data);
-                this.dataAlbum = data.items
-              })
-              
-            })
-            // this.data = data.artists.items;
-            
-          });
-      } else {
-        this.searchservice.getfeature().subscribe((data: any) => {
-          console.log(data);
-          
-          this.data = data['playlists'].items;
-        });
-      }
-    });
-
-    console.log(this.type);
+   
   }
 
   handelClick(type: string) {

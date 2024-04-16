@@ -3,12 +3,12 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { AudioComponent } from './Components/play/audio/audio.component';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
-import { MusicService } from './Service/Music/music.service';
-import { PlaylistService } from './Service/PlayList/playlist.service';
-import { AuthService } from './Service/Auth/auth.service';
+import { MusicService } from './Service/music/Music.service';
+// import { PlaylistService } from './Service/PlayList/playlist.service';
 import { HomeComponent } from './page/home/home.component';
-import { datatService } from './Service/Data/Data.service';
-import { SearchSerive } from './Service/Search/search.service';
+import { datatService } from './Service/data/Data.service';
+// import { SearchSerive } from './Service/Search/search.service';
+import { AuthService } from './Service/auth/Auth.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,7 @@ import { SearchSerive } from './Service/Search/search.service';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-    providers: [AuthService, MusicService, PlaylistService, datatService, SearchSerive],
+    providers: [AuthService, MusicService, datatService],
 })
 export class AppComponent implements OnInit {
   title = 'web__nhac';

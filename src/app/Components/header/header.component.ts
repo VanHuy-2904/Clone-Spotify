@@ -8,11 +8,12 @@ import {
   Renderer2,
 } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../Service/Auth/auth.service';
+import { AuthService } from '../../Service/auth/Auth.service';
 import { Observable, Subscribable, Subscription, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { SearchSerive } from '../../Service/Search/search.service';
+import { SearchSerive } from '../../Service/search/search.service';
+// import { SearchSerive } from '../../Service/search/search.service';
 
 @Component({
   selector: 'app-header',
@@ -54,6 +55,9 @@ export class HeaderComponent implements OnInit {
     console.log('aaaaa');
     return this.test + this.test2;
   }
+  onInputChange(event: any) {
+    this.searchservice.setinputvalue(this.searchvalue);
+  }
 
   ngOnInit(): void {
     // this.name = 'a'
@@ -66,7 +70,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authservice.logout();
   }
-  onInputChange(event: any) {
-    this.searchservice.setinputvalue(this.searchvalue);
-  }
+  // onInputChange(event: any) {
+  //   this.searchservice.setinputvalue(this.searchvalue);
+  // }
 }

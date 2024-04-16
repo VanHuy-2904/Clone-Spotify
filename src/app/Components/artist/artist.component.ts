@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../Service/Auth/auth.service';
-import { datatService } from '../../Service/Data/Data.service';
-import { MusicService } from '../../Service/Music/music.service';
+import { AuthService } from '../../Service/auth/Auth.service';
+import { datatService } from '../../Service/data/Data.service';
+import { MusicService } from '../../Service/music/Music.service';
+import { Artist } from '../../Service/Artists';
+import { Track } from '../../Service/Tracks';
 
 @Component({
   selector: 'app-artist',
@@ -24,8 +26,8 @@ export class ArtistComponent implements OnInit {
     private authservice: AuthService,
     private artistService: datatService,
   ) {}
-  listitems: any[] = [];
-  artist: any;
+  listitems: Track[] = [];
+  artist!: Artist;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
