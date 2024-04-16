@@ -22,7 +22,7 @@ import { MusicService } from '../../Service/music/music.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  albumNew: Album[] = []
+  tracks: Track[] = [];
   topTracks: Track[] = [];
   token!: string | null;
   artists: Artist[] = [];
@@ -33,20 +33,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private musicService: MusicService,
-    private dataService: DataService
+    private musicService: MusicService
   ) {
-
+    this.tracks = [];
     this.id = '';
   }
   ngOnInit(): void {
     this.token = localStorage.getItem('token')
    this.getTopTrack = this.musicService.getTopTrack().subscribe((data: any)=> {
+    console.log(data);
+    
       this.topTracks = data.items
-      this.getAlbumSub = this.dataService.getAlbumNew().subscribe((data:any)=> {
-        console.log(data);
-        this.albumNew = data.albums.items
-      })
     })    
   }
 

@@ -15,19 +15,6 @@
           </a>
         </div>
       </div>
-      <h2 style="margin-top: 15px;">Album mới phát hành</h2>
-      <div class="list">
-        <div class="item" *ngFor="let newAlbum of albumNew">
-          <a style="text-decoration: none" [routerLink]="">
-            <img [src]="newAlbum.images[0].url" />
-            <div class="play">
-              <span class="fa fa-play"></span>
-            </div>
-            <h4>{{ newAlbum.name }}</h4>
-          </a>
-        </div>
-      </div>
-      
 
       <div class="footer">
         <div class="footer_left">

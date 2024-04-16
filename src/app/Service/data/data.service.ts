@@ -46,8 +46,4 @@ export class DataService {
   getAlbumDetail(id: string): Observable<any> {
     return this.http.get(`https://api.spotify.com/v1/albums/${id}`);
   }
-
-  getAlbumNew():Observable<any> {
-    return this.http.get('https://api.spotify.com/v1/browse/new-releases')
-  }
 }
