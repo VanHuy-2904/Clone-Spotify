@@ -6,12 +6,12 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../Service/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { ArtistComponent } from '../../Components/artist/artist.component';
-import { MusicService } from '../../Service/music/music.service';
 import { Subscription } from 'rxjs';
 import { Artist } from '../../Service/artist/Artists';
 import { Track } from '../../Service/music/track';
 import { DataService } from '../../Service/data/data.service';
 import { Album } from '../../Service/album/album';
+import { MusicService } from '../../Service/music/music.service';
 // import { Login } from '../login/login.component';
 
 @Component({

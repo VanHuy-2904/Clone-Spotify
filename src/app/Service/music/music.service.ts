@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { MusicData } from './music.i';
 
@@ -40,18 +40,6 @@ export class MusicService {
   }
 
   getTopTrack():Observable<any> {
-  
-    
-    const params = new HttpParams()
-      .set('country', 'VN'); 
-
-    return this.http.get('https://api.spotify.com/v1/me/top/tracks', {params });
+    return this.http.get('https://api.spotify.com/v1/me/top/tracks')
   }
-
-  
-  
-
-  
-
-  
 }

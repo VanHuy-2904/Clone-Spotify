@@ -16,16 +16,7 @@
       <p>{{ i + 1 }}</p>
       <div class="img-ct">
         <img [src]="item.album.images[2].url" alt="" />
-        <p
-          (click)="
-            updateData(
-              item.name,
-              artist.name,
-              item.album.images[2].url,
-              item.uri
-            )
-          "
-        >
+        <p>
           {{ item.name }}
         </p>
       </div>
