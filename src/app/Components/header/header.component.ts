@@ -1,19 +1,15 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../Service/auth/Auth.service';
-import { Observable, Subscribable, Subscription, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import {
+  Component,
+  OnInit,
+  Renderer2
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchSerive } from '../../Service/search/search.service';
-// import { SearchSerive } from '../../Service/search/search.service';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { Observable, Subscription, map } from 'rxjs';
+import { AuthService } from '../../Service/auth/Auth.service';
+import { SearchService } from '../../Service/search/search.service';
 
 @Component({
   selector: 'app-header',
@@ -25,20 +21,20 @@ import { SearchSerive } from '../../Service/search/search.service';
 export class HeaderComponent implements OnInit {
   name: string | null;
   accessToken: any;
-  searchvalue = '';
+  searchValue = '';
   name$!: Observable<string>;
   token: any;
   showCt: boolean = false;
   constructor(
-    private authservice: AuthService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private http: HttpClient,
     private renderer: Renderer2,
-    private searchservice: SearchSerive,
+    private searchService: SearchService,
   ) {
     this.name = '';
     this.accessToken = '';
-    this.name$ = this.authservice.userName$.pipe(
+    this.name$ = this.authService.userName$.pipe(
       map((oldName) => `test ${oldName}`),
     );
   }
@@ -46,7 +42,7 @@ export class HeaderComponent implements OnInit {
 
   test = 1;
   test2 = 2;
-  exchangcodeSub!: Subscription;
+  exchangeCodeSub!: Subscription;
   handleClick() {
     this.showCt = !this.showCt;
   }
@@ -56,21 +52,21 @@ export class HeaderComponent implements OnInit {
     return this.test + this.test2;
   }
   onInputChange(event: any) {
-    this.searchservice.setinputvalue(this.searchvalue);
+    this.searchService.setInputValue(this.searchValue);
   }
 
   ngOnInit(): void {
     // this.name = 'a'
-    this.name = localStorage.getItem('nameuser');
+    this.name = localStorage.getItem('nameUser');
     this.token = localStorage.getItem('token');
   }
   login() {
-    this.authservice.login();
+    this.authService.login();
   }
   logout() {
-    this.authservice.logout();
+    this.authService.logout();
   }
   // onInputChange(event: any) {
-  //   this.searchservice.setinputvalue(this.searchvalue);
+  //   this.searchService.setInputValue(this.searchValue);
   // }
 }

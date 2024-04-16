@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { SearchSerive } from '../../Service/search/search.service';
-import { Track } from '../../Service/Tracks';
-import { Album } from '../../Service/Albums';
-// import { SearchSerive } from '../../Service/search/search.service';
+import { Album } from '../../Service/album/album';
+import { Track } from '../../Service/music/track';
+import { SearchService } from '../../Service/search/search.service';
 
 @Component({
   selector: 'app-search',
@@ -17,9 +15,8 @@ import { Album } from '../../Service/Albums';
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
-  // inputvalue: BehaviorSubject<string> = new BehaviorSubject('')
   data: any[] = [];
-  searchvalue = '';
+  searchValue = '';
   type = 'playlist';
   dataPlaylist: any
   dataTrack: Track[]= []
@@ -27,7 +24,7 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private searchservice: SearchSerive,
+    private searchService: SearchService,
   ) {}
   ngOnInit(): void {
    

@@ -2,12 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { AuthService } from '../auth/Auth.service';
-interface MusicData {
-  name: string;
-  artist: string;
-  img: string;
-  id: string;
-}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -17,17 +12,17 @@ export class MusicService {
 
   constructor(
     private http: HttpClient,
-    private authservice: AuthService,
+    private authService: AuthService,
   ) {}
   getData() {
     return this.data$;
   }
 
-  updatedata(data: MusicData) {
+  updateData(data: MusicData) {
     this.dataSubject.next([]);
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
-  playmusic() {
+  playMusic() {
     console.log(localStorage.getItem('token'));
 
     // Make a GET request to Spotify API to play the track

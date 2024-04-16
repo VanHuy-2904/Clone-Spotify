@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-interface featuredata {
+interface featureData {
   id: string;
 }
 @Injectable({

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { SearchComponent } from './Components/search/search.component';
 import { AlbumsComponent } from './Components/albums/albums.component';
 import { ArtistComponent } from './Components/artist/artist.component';
-import { PlaylistsComponent } from './Components/playlistdetail/playlists.component';
+import { PlaylistsComponent } from './Components/play-list-detail/playlists.component';
 import { DefaultLayoutComponent } from './Layout/default-layout/default-layout.component';
 import { authGuard } from './Service/auth/auth.guard';
 import { HomeComponent } from './page/home/home.component';

@@ -6,10 +6,10 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../Service/auth/Auth.service';
 import { CommonModule } from '@angular/common';
 import { ArtistComponent } from '../../Components/artist/artist.component';
-import { MusicService } from '../../Service/music/Music.service';
+import { MusicService } from '../../Service/music/music.service';
 import { Subscription } from 'rxjs';
-import { Artist } from '../../Service/Artists';
-import { Track } from '../../Service/Tracks';
+import { Artist } from '../../Service/artist/Artists';
+import { Track } from '../../Service/music/track';
 // import { Login } from '../login/login.component';
 
 @Component({
@@ -21,14 +21,14 @@ import { Track } from '../../Service/Tracks';
 })
 export class HomeComponent implements OnInit {
   tracks: Track[] = [];
-  toptracks: Track[] = [];
+  topTracks: Track[] = [];
   token!: string | null;
   artists: Artist[] = [];
   id: string;
   getAlbumSub!: Subscription
   constructor(
     private http: HttpClient,
-    private authservice: AuthService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private musicService: MusicService
   ) {
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   handelClick() {
-    this.authservice.login();
+    this.authService.login();
   }
 
   

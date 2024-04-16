@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MusicService } from '../../Service/music/Music.service';
-import {  datatService } from '../../Service/data/Data.service';
-import { Track } from '../../Service/Tracks';
-import { Album } from '../../Service/Albums';
+import { Track } from '../../Service/music/track';
+import { Album } from '../../Service/album/album';
 import { Subscription } from 'rxjs';
+import { DataService } from '../../Service/data/data.service';
+import { MusicService } from '../../Service/music/music.service';
 
 @Component({
   selector: 'app-albums',
@@ -25,7 +25,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private route: ActivatedRoute,
     private music: MusicService,
-    private dataservice: datatService
+    private dataService: DataService
   ) {
     this.link = '';
   }
@@ -33,34 +33,32 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
-       this.getalbum(id);
-      this.gettrackalbum(id);
+       this.getAlbum(id);
+      this.getTrackAlbum(id);
     });
   }
   format(milliseconds: number): string {
-  return this.dataservice.formatMillisecondsToMinutesAndSeconds(milliseconds)
+  return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds)
   }
-  updatedata(name: string, artist: string, img: string, id: string) {
-    this.dataservice.updatedata(name, artist, img, id)
+  updateData(nameTrack: string, artistTrack: string, imgTrack: string, idTrack: string) {
+    this.dataService.updateData(nameTrack, artistTrack, imgTrack, idTrack)
   }
 
-   gettrackalbum(id: string) {
-     this.getAlbumSub = this.getTrackAlbumSub =  this.dataservice.gettrackAlbum(id)
+   getTrackAlbum(id: string) {
+     this.getAlbumSub = this.getTrackAlbumSub =  this.dataService.getTrackAlbum(id)
       .subscribe((data: any) => {
-        console.log('trackalbum', data);
         this.track = data.items;
       });
   }
 
-  getalbum(id: string) {
-   this.dataservice.getalbumdetail(id)
+  getAlbum(id: string) {
+   this.dataService.getAlbumDetail(id)
       .subscribe((data: any) => {
-        console.log('albms:', data);
         this.album = data;
       });
   }
 
-  gettrackplay(id: string) {
+  getTrackPlay(id: string) {
     this.link = id;
   }
 

@@ -17,13 +17,13 @@ export class PlaylistService {
     return this.http.get(`${this.spotifyApiUrl}/me/playlists`, { headers });
   }
 
-  getplaylist(idplaylist: string): Observable<any> {
+  getPlaylist(idPlaylist: string): Observable<any> {
     return this.http.get(
-      `https://api.spotify.com/v1/playlists/${idplaylist}/tracks`,
+      `https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`,
     );
   }
 
-  getinfoPlaylist(id: string): Observable<any> {
+  getInfoPlaylist(id: string): Observable<any> {
     return this.http.get(`https://api.spotify.com/v1/playlists/${id}`);
   }
 
@@ -34,7 +34,7 @@ export class PlaylistService {
     );
   }
 
-  getmyPlaylist(): Observable<any> {
+  getMyPlaylist(): Observable<any> {
     return this.http.get('https://api.spotify.com/v1/me/playlists ');
   }
 }
