@@ -33,10 +33,15 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit(): void {
     this.token = localStorage.getItem('token')
-     console.log(this.token);
-    this.getartist();
-    this.getTopTracks();
-    this.getalbums();
+    console.log(this.token);
+   this.musicService.gettoptrack().subscribe(data => {
+     console.log(data);
+     this.toptracks = data.items;
+     this.musicService.gettracklove().subscribe((datalove: any)=> {
+       console.log(datalove);
+       
+     })
+   })
   }
 
   handelClick() {

@@ -59,23 +59,4 @@ export class PlaylistsComponent implements OnInit {
     this.dataService.updatedata(name, artist, img, id);
   }
 
-  playmusic(trackuri: string) {
-    // console.log(1231321312321321, trackuri);
-    const body = {
-      context_uri: trackuri,
-      offset: {
-        position: 0,
-      },
-      position_ms: 0,
-    };
-    this.http
-      .put('https://api.spotify.com/v1/me/player/play', body, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      })
-      .subscribe((data) => {
-        console.log(data);
-      });
-  }
 }

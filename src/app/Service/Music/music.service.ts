@@ -49,7 +49,26 @@ export class MusicService {
       );
   }
 
+  gettoptrack():Observable<any> {
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    const params = new HttpParams()
+      .set('country', 'VN'); // Mã quốc gia của khu vực client
 
+    return this.http.get('https://api.spotify.com/v1/me/top/tracks', { headers, params });
+  }
+
+  gettracklove():Observable<any>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    const params = new HttpParams()
+    .set('seed_genres', '0JQ5DAqbMKFz6FAsUtgAab');
+
+    return this.http.get('https://api.spotify.com/v1/recommendations', { headers});
+  }
 
   
 
