@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Observer } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { MusicData } from './music.i';
 
 @Injectable({
   providedIn: 'root',
@@ -40,13 +41,11 @@ export class MusicService {
 
   getTopTrack():Observable<any> {
   
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    });
+    
     const params = new HttpParams()
       .set('country', 'VN'); 
 
-    return this.http.get('https://api.spotify.com/v1/me/top/tracks', { headers, params });
+    return this.http.get('https://api.spotify.com/v1/me/top/tracks', {params });
   }
 
   

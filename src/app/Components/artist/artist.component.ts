@@ -4,10 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../Service/auth/auth.service';
-import { DataService } from '../../Service/data/data.service';
 import { MusicService } from '../../Service/music/music.service';
 import { Artist } from '../../Service/artist/Artists';
 import { Track } from '../../Service/music/track';
+import { DataService } from '../../Service/data/data.service';
 
 @Component({
   selector: 'app-artist',

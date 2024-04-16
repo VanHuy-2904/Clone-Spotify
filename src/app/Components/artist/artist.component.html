@@ -12,13 +12,13 @@
 
   <div class="dashboard">
     <h3>Phổ biến</h3>
-    <div class="item" *ngFor="let item of listitems; let i = index">
+    <div class="item" *ngFor="let item of listItems; let i = index">
       <p>{{ i + 1 }}</p>
       <div class="img-ct">
         <img [src]="item.album.images[2].url" alt="" />
         <p
           (click)="
-            updatedata(
+            updateData(
               item.name,
               artist.name,
               item.album.images[2].url,

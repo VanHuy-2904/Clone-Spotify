@@ -1,43 +1,6 @@
 <ng-container *ngIf="token; else noToken">
-  <!-- <div class="playlist-wrapper">
-    <div class="spotify-playlists">
-      <h2>Nghệ sĩ</h2>
-      <div class="list">
-        <div class="item" *ngFor="let artist of artists">
-          <a style="text-decoration: none" [routerLink]="['artist', artist.id]">
-            <img [src]="artist.images[0].url" />
-            <div class="play">
-              <span class="bi bi-play-fill"></span>
-            </div>
-            <h4>{{ artist.name }}</h4>
-            <p
-              style="
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              "
-            >
-              {{ artist.genres }}
-            </p>
-          </a>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="spotify-playlists">
-      <h2>Danh sách phổ biến</h2>
-      <div class="list">
-        <div class="item" *ngFor="let track of tracks">
-          <a style="text-decoration: none" [routerLink]="['albums', track.id]">
-            <img [src]="track.images[0].url" />
-            <div class="play">
-              <span class="bi bi-play-fill"></span>
-            </div>
-            <h4>{{ track.name }}</h4>
-          </a>
-        </div>
-      </div>
-    </div> -->
+  <div class="playlist-wrapper">
+    
 
     <div class="spotify-playlists">
       <h2>Top bài hát phổ biến</h2>
@@ -82,7 +45,7 @@
         </div>
       </div>
     </div> 
-  <!-- </div> -->
+  </div>
 </ng-container>
 <ng-template #noToken>
   <div class="main">

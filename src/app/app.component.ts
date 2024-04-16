@@ -6,9 +6,9 @@ import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { MusicService } from './Service/music/music.service';
 // import { PlaylistService } from './Service/PlayList/playlist.service';
 import { HomeComponent } from './page/home/home.component';
-import { DataService } from './Service/data/data.service';
 // import { SearchService } from './Service/Search/search.service';
 import { AuthService } from './Service/auth/auth.service';
+import { DataService } from './Service/data/data.service';
 
 @Component({
   selector: 'app-root',

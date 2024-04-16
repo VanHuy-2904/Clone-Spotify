@@ -58,6 +58,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     // this.name = 'a'
     this.name = localStorage.getItem('nameUser');
+    console.log(localStorage.getItem('nameUser'));
+    
     this.token = localStorage.getItem('token');
   }
   login() {

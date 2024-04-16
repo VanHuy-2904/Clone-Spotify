@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
@@ -19,12 +19,13 @@ import { Track } from '../../Service/music/track';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   tracks: Track[] = [];
   topTracks: Track[] = [];
   token!: string | null;
   artists: Artist[] = [];
   id: string;
+  getTopTrack!: Subscription
   getAlbumSub!: Subscription
   constructor(
     private http: HttpClient,
@@ -37,13 +38,17 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit(): void {
     this.token = localStorage.getItem('token')
-    console.log(this.token);
-   this.musicService.getTopTrack().subscribe(data => {
-     console.log(data);
-     this.topTracks = data.items;
+   this.getTopTrack = this.musicService.getTopTrack().subscribe((data: any)=> {
+    console.log(data);
     
-   })
+      this.topTracks = data.items
+    })    
   }
+
+    ngOnDestroy(): void {
+        this.getTopTrack.unsubscribe()
+    }
+  
 
   handelClick() {
     this.authService.login();

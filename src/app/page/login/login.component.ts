@@ -6,7 +6,7 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../Service/auth/Auth.service';
+import { AuthService } from '../../Service/auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -23,17 +23,17 @@ export class LoginComponent {
   scope = 'user-read-private user-read-email';
   state = '123';
   accessToken: any;
-  constructor(private Authservice: AuthService) {
+  constructor(private authService: AuthService) {
     this.accessToken = '';
   }
 
   Login() {
-    this.Authservice.login();
+    this.authService.login();
   }
 }
 // loginObj: Login;
 
-// constructor(private authservice: AuthService) {
+// constructor(private authService: AuthService) {
 //   this.loginObj = new Login();
 // }
 
