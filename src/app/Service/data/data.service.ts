@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MusicService } from '../musics/music.service';
+import { MusicService } from '../music/music.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { SearchComponent } from './Components/searchs/search.component';
+import { SearchComponent } from './Components/search/search.component';
 import { AlbumsComponent } from './Components/albums/albums.component';
 import { ArtistComponent } from './Components/artist/artist.component';
 import { PlaylistsComponent } from './Components/play-list-detail/playlists.component';
 import { DefaultLayoutComponent } from './Layout/default-layout/default-layout.component';
-import { authGuard } from './Service/auths/auth.guard';
+import { authGuard } from './Service/auth/auth.guard';
 import { HomeComponent } from './page/home/home.component';
 import { LoginComponent } from './page/login/login.component';
 import { SignupComponent } from './page/signup/signup.component';

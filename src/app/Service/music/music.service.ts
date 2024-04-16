@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
-import { AuthService } from '../auths/auth.service';
+import { AuthService } from '../auth/auth.service';
 import { MusicData } from './music.i';
 
 @Injectable({

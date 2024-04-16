@@ -6,10 +6,10 @@ import { SidebarComponent } from './Components/sidebar/sidebar.component';
 
 // import { PlaylistService } from './Service/PlayList/playlist.service';
 import { HomeComponent } from './page/home/home.component';
-import { DataService } from './Service/datas/data.service';
+import { DataService } from './Service/data/data.service';
 // import { SearchService } from './Service/Search/search.service';
-import { AuthService } from './Service/auths/auth.service';
-import { MusicService } from './Service/musics/music.service';
+import { AuthService } from './Service/auth/auth.service';
+import { MusicService } from './Service/music/music.service';
 
 @Component({
   selector: 'app-root',

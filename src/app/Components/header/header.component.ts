@@ -8,8 +8,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable, Subscription, map } from 'rxjs';
-import { AuthService } from '../../Service/auths/auth.service';
-import { SearchService } from '../../Service/searchs/search.service';
+import { AuthService } from '../../Service/auth/auth.service';
+import { SearchService } from '../../Service/search/search.service';
 
 @Component({
   selector: 'app-header',
