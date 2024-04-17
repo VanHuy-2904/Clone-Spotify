@@ -12,6 +12,7 @@ import { Track } from '../../Service/music/track';
 import { DataService } from '../../Service/data/data.service';
 import { Album } from '../../Service/album/album';
 import { MusicService } from '../../Service/music/music.service';
+import { AlbumService } from '../../Service/album/album.service';
 // import { Login } from '../login/login.component';
 
 @Component({
@@ -27,34 +28,38 @@ export class HomeComponent implements OnInit, OnDestroy {
   token!: string | null;
   artists: Artist[] = [];
   id: string;
-  getTopTrack!: Subscription
-  getAlbumSub!: Subscription
+  albumNew: Album[] = [];
+  getTopTrack!: Subscription;
+  getAlbumSub!: Subscription;
   constructor(
-    private http: HttpClient,
+    private albumService: AlbumService,
     private authService: AuthService,
-    private route: ActivatedRoute,
-    private musicService: MusicService
+
+    private musicService: MusicService,
   ) {
     this.tracks = [];
     this.id = '';
   }
   ngOnInit(): void {
-    this.token = localStorage.getItem('token')
-   this.getTopTrack = this.musicService.getTopTrack().subscribe((data: any)=> {
-    console.log(data);
-    
-      this.topTracks = data.items
-    })    
+    this.token = localStorage.getItem('token');
+    this.getTopTrack = this.musicService
+      .getTopTrack()
+      .subscribe((data: any) => {
+        this.topTracks = data.items;
+        this.getAlbumSub = this.albumService
+          .getAlbumNew()
+          .subscribe((data: any) => {
+            this.albumNew = data.albums.items;
+          });
+      });
   }
 
-    ngOnDestroy(): void {
-        this.getTopTrack.unsubscribe()
-    }
-  
+  ngOnDestroy(): void {
+    this.getTopTrack.unsubscribe();
+    this.getAlbumSub.unsubscribe()
+  }
 
   handelClick() {
     this.authService.login();
   }
-
-  
 }

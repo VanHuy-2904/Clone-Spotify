@@ -40,6 +40,7 @@ export class MusicService {
   }
 
   getTopTrack():Observable<any> {
-    return this.http.get('https://api.spotify.com/v1/me/top/tracks')
+   const params = new HttpParams().set('country', 'VN');
+    return this.http.get('https://api.spotify.com/v1/me/top/tracks', {params})
   }
 }
