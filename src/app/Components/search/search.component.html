@@ -1,0 +1,58 @@
+<div class="main">
+  <!-- <ng-container *ngIf="!searchValue"> -->
+  <ng-container *ngIf="!searchValue; else Search">
+    <h2>Duyệt tìm</h2>
+    <div class="dashboard">
+      <div class="item" *ngFor="let item of data">
+        <a [routerLink]="['/playlist', item.id]">
+          <div>
+            <img [src]="item.images[0].url" alt="" />
+            <p>{{ item.name }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #Search>
+    <!-- <a [routerLink]="['/artist', item.id]">
+        <div>
+          <img [src]="item.images[0].url" alt="" />
+          <p>{{ item.name }}</p>
+        </div>
+      </a> -->
+    <div class="main-res">
+      <div class="playlist-contanier">
+        <h3>Kết quả hàng đầu</h3>
+        <div class="playlist">
+          <img [src]="dataPlaylist[0].images[0].url" alt="" />
+          <p>{{ dataPlaylist[0].name }}</p>
+        </div>
+      </div>
+      <div class="track">
+        <h3>Bài hát</h3>
+        <div class="itemat" *ngFor="let item of dataTrack.slice(0, 4)">
+          <div class="img-at">
+            <img [src]="item.album.images[2].url" alt="" />
+          </div>
+          <div class="ct">
+            <p>{{ item.name }}</p>
+            <p>{{ dataPlaylist[0].name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h4>Album</h4>
+    <div class="album">
+      <div class="itemal" *ngFor="let item of dataAlbum.slice(0, 5)">
+        <div class="img-alb"><img [src]="item.images[1].url" alt="" /></div>
+        <div class="ct-alb">
+          <p>{{ item.name }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!-- </ng-container> -->
+  <!-- <ng-container *ngIf="searchValue">
+        <div>Search Result</div>
+    </ng-container> -->
+</div>

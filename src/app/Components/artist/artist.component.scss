@@ -5,7 +5,6 @@
   width: 100%;
 }
 
-
 .banner-img img {
   width: 100%;
   object-fit: cover;
@@ -21,13 +20,12 @@
   font-weight: bold;
 }
 
-.dashboard p:hover{
+.dashboard p:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
 .main {
-  // max-height: calc(100vh - 95px); /* Đặt chiều cao tối đa cho phần tử này, trừ đi chiều cao của topbar */
   // overflow: auto;
   // margin-top: 320px;
   // max-height: 100vh;
@@ -48,22 +46,21 @@
   font-size: 30px;
 }
 
-.play i bi{
+.play i bi {
   background-color: #000;
 }
-  .dashboard {
+.dashboard {
   padding: 20px;
+}
 
-  }
+.dashboard img {
+  height: 40px;
+  width: 40px;
+}
 
-  .dashboard img {
-    height: 40px;
-    width: 40px;
-  }
-
-  .dashboard p {
-    font-size: 10px;
-  }
+.dashboard p {
+  font-size: 10px;
+}
 .dashboard h3 {
   color: white;
   font-weight: bold;
@@ -74,10 +71,9 @@
   border-radius: 10px;
 }
 
-.item
-{
+.item {
   transition: all ease 0.2s;
-  
+
   display: flex;
   padding: 5px;
   justify-content: space-between;
@@ -101,7 +97,7 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
-::-webkit-scrollbar-thumb { 
-      border-radius: 4px;
-      background: lighten( rgb(40, 40, 40), 6% );
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: lighten(rgb(40, 40, 40), 6%);
 }

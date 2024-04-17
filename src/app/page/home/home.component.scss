@@ -21,8 +21,8 @@
     overflow: hidden;
   }
   .spotify-playlists .list .item {
-    min-width: 140px;
-    width: calc((100% - 60px)/4);
+    min-width: 120px;
+    width: calc((100% - 80px)/5);
     padding: 15px;
     background-color: #181818;
     border-radius: 6px;
@@ -104,4 +104,34 @@
 
 .footer-icon i {
     margin-right: 8px;
+}
+
+.main  {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px);
+ 
+}
+
+.main button {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: white;
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.main a {
+  text-decoration: none;
+  color: gray;
+  font-weight: bold;
+}
+
+.footer p {
+  color: gray;
 }

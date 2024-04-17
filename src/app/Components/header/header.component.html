@@ -1,33 +1,47 @@
-
 <div class="main-container">
-  
-    <!-- <input type="text" [ngClass] = 'countTest' name="" id=""> -->
+  <!-- <input type="text" [ngClass] = 'countTest' name="" id=""> -->
+  <ng-container *ngIf="token">
+    <div class="topbar">
+      <div class="prev-next-buttons">
+        <button><i class="bi bi-arrow-left-short"></i></button>
 
+        <button type="button" class="bi bi-arrow-right-short"></button>
+        <div class="search-icon-container">
+          <i class="bi bi-search"></i>
+          <input
+            [(ngModel)]="searchValue"
+            (input)="onInputChange($event)"
+            type="text"
+            placeholder="Tìm kiếm nghệ sĩ"
+          />
+        </div>
+      </div>
 
-    <div  class="topbar">
-        <div class="prev-next-buttons">
-          <button><i class="bi bi-arrow-left-short"></i></button>
-            
-          <button type="button" class="bi bi-arrow-right-short"></button>
-          <div class="search-icon-container">
-            <i class="bi bi-search"></i>
-            <input [(ngModel)]="searchvalue" (input)="onInputChange($event)" type="text" placeholder="Bạn muốn tìm kiếm nội dung gì"/>
+      <div class="navbar">
+        <ng-container *ngIf="name">
+          <div (click)="handleClick()" class="account">
+            <img
+              class="account"
+              src="https://cdn.pixabay.com/photo/2021/07/25/08/03/account-6491185_1280.png"
+              alt=""
+            />
+
+            <p>{{ name }}</p>
           </div>
-    
-        </div>
-     
-        <div class="navbar">
-          <ng-container *ngIf="name; else NoName">
-            <a href="">{{name}}</a>
-            <a href=""><button (click) = "logout()" type="button">Đăng xuất</button></a>
-          </ng-container>
-        
-          <ng-template #NoName>
-            <a href="/signup">Đăng ký</a>     
-            <a href="/login"><button type="button">Đăng nhập</button></a>
-          </ng-template>
-      
-        </div>
-      </div> 
-   
+        </ng-container>
+
+        <!-- <ng-template #NoName>
+          <a href="/signup">Đăng ký</a>
+          <a href="/login"><button type="button">Đăng nhập</button></a>
+        </ng-template> -->
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="acc-ct" *ngIf="showCt">
+  <a href="">
+    <div class="ct">
+      <button (click)="logout()" type="button">Đăng xuất</button>
+    </div>
+  </a>
 </div>

@@ -1,80 +1,74 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../Service/auth.service';
-import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import {
+  Component,
+  OnInit,
+  Renderer2
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchSerive } from '../../Service/Search/search.service';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { Observable, Subscription, map } from 'rxjs';
+import { AuthService } from '../../Service/auth/auth.service';
+import { SearchService } from '../../Service/search/search.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterOutlet, CommonModule, FormsModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   name: string | null;
-  accessToken: any
-  searchvalue = ''
-  name$!: Observable<string>
-  constructor(private authservice: AuthService, private route: ActivatedRoute, private http: HttpClient, private renderer: Renderer2, private searchservice: SearchSerive
-    ) {
-   this.name = ""
-   this.accessToken = ""
-   this.name$ = this.authservice.userName$.pipe(map(oldName => `test ${oldName}`));
+  accessToken: any;
+  searchValue = '';
+  name$!: Observable<string>;
+  token: any;
+  showCt: boolean = false;
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private renderer: Renderer2,
+    private searchService: SearchService,
+  ) {
+    this.name = '';
+    this.accessToken = '';
+    this.name$ = this.authService.userName$.pipe(
+      map((oldName) => `test ${oldName}`),
+    );
   }
+  data: any[] = [];
 
   test = 1;
   test2 = 2;
+  exchangeCodeSub!: Subscription;
+  handleClick() {
+    this.showCt = !this.showCt;
+  }
 
   countTest() {
-    console.log("aaaaa")
-    return this.test + this.test2
+    console.log('aaaaa');
+    return this.test + this.test2;
+  }
+  onInputChange(event: any) {
+    this.searchService.setInputValue(this.searchValue);
   }
 
   ngOnInit(): void {
-    this.onInputChange(this.searchvalue)
-    this.exchangcode();
-    // this.checkScroll();
-    this.authservice.getuserinfo(localStorage.getItem('token')).subscribe((data:any) => {
-  
-      this.name = data.display_name
- 
-      
-      localStorage.setItem('nameuser', data.display_name)
-    })
-
-   
-
+    // this.name = 'a'
+    this.name = localStorage.getItem('nameUser');
+    console.log(localStorage.getItem('nameUser'));
     
-}
-
-exchangcode() {
-  this.route.queryParams.subscribe(params => {
-    const code = params['code'];
-    if(code) {
-      this.authservice.exchangecode(code).subscribe((data: any)=> {
-        
-        this.authservice.accessToken = data.access_token
-        console.log(123);
-        this.authservice.accessToken = data.access_token
-        localStorage.setItem('token', data.access_token)
-        localStorage.setItem('refresh_token', data.refresh_token)
-        
-        // this.refresh_token = data.refresh_token
-      })
-      console.log(this.authservice.accessToken);
-      
-    }
-  });
-}
-
+    this.token = localStorage.getItem('token');
+  }
+  login() {
+    this.authService.login();
+  }
   logout() {
-    this.authservice.logout()
+    this.authService.logout();
   }
-  onInputChange(event: any) {
-   this.searchservice.setinputvalue(this.searchvalue)
-  }
+  // onInputChange(event: any) {
+  //   this.searchService.setInputValue(this.searchValue);
+  // }
 }

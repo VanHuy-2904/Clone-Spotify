@@ -1,52 +1,57 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="logo">
-            <a href=""><img src="../../../assets/img/spo-logo.png" alt=""></a>
-        </div>
+      <div class="logo">
+        <a href=""><img src="../../../assets/img/spo-logo.png" alt="" /></a>
+      </div>
     </header>
 
     <section>
-        <div class="main">
-            <h1>Login to Spotify</h1>
-          
-            <div class="account-connect">
-                <button class="a-c-btn" id="g"><img src="../../../assets/img/google.png"/><span>Đăng nhập bằng google</span></button>
-                <button class="a-c-btn" id="g"><img src="../../../assets/img/facebook.png"/><span>Đăng nhập bằng acebook</span></button>
-              
-            </div>
-            <hr>
-             <div class="log-in">
-                <form action="">
-                    <label>Email or username</label>
-                    <input type="text"  name="email" placeholder="Email or username">
+      <div class="main">
+        <h1>Login to Spotify</h1>
 
-                    <label>Password</label>
-                    <input type="password"  name="password" placeholder="Email or username">
-                    
-                    <!-- [(ngModel)] = "loginObj.email" -->
-
-                    <button (click) = "Login()">Login</button>
-                    <a href="">Forgot your Password</a>
-                </form>
-             </div>
-             <hr>
-             <div class="last">
-                <span>Don't you have an account?</span>
-                <a href="/signup">Sign Up</a>
-             </div>
+        <div class="account-connect">
+          <button class="a-c-btn" id="g">
+            <img src="../../../assets/img/google.png" /><span
+              >Đăng nhập bằng google</span
+            >
+          </button>
+          <button class="a-c-btn" id="g">
+            <img src="../../../assets/img/facebook.png" /><span
+              >Đăng nhập bằng acebook</span
+            >
+          </button>
         </div>
+        <hr />
+        <div class="log-in">
+          <form action="">
+            <label>Email or username</label>
+            <input type="text" name="email" placeholder="Email or username" />
+
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Email or username"
+            />
+
+            <!-- [(ngModel)] = "loginObj.email" -->
+
+            <button (click)="Login()">Login</button>
+            <a href="">Forgot your Password</a>
+          </form>
+        </div>
+        <hr />
+        <div class="last">
+          <span>Don't you have an account?</span>
+          <a href="/signup">Sign Up</a>
+        </div>
+      </div>
     </section>
-
-
-</body>
+  </body>
 </html>
-
-
-
-
