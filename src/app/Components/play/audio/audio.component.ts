@@ -46,27 +46,22 @@ export class AudioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getTrackSub.unsubscribe();
+    
   }
 
   handleClick() {
     if (!this.play) {
-      console.log(this.currentTrack.progress_ms);
-
       this.musicService
         .playTrack(this.dataTrack, this.currentTrack.progress_ms)
         .subscribe(() => {
-          console.log('Run');
         });
     } else {
       this.musicService.getCurrentPlaying().subscribe((data) => {
-        console.log(data);
         this.currentTrack = data;
       });
       this.musicService.pauseTrack().subscribe(() => {
-        console.log('pause');
       });
     }
-    console.log(this.play);
     this.play = !this.play;
   }
 }
