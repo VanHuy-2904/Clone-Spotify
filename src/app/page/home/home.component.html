@@ -3,7 +3,7 @@
     <div class="spotify-playlists">
       <h2>Top bài hát phổ biến</h2>
       <div class="list">
-        <div class="item" *ngFor="let topTrack of topTracks">
+        <div  (click)="updateData(topTrack); playTrack(topTrack)" class="item" *ngFor="let topTrack of topTracks">
           <a style="text-decoration: none" [routerLink]="">
             <img [src]="topTrack.album.images[1].url" />
             <div class="play">
@@ -16,6 +16,7 @@
       <h2 style="margin-top: 10px;">Album mới phát hành</h2>
       <div class="list">
         <div class="item" *ngFor="let newAlbum of albumNew">
+          <a [routerLink]="['albums', newAlbum.id]">
           <a style="text-decoration: none" [routerLink]="">
             <img [src]="newAlbum.images[0].url" />
             <div class="play">
@@ -23,6 +24,7 @@
             </div>
             <h4>{{ newAlbum.name }}</h4>
           </a>
+        </a>
         </div>
       </div>
 

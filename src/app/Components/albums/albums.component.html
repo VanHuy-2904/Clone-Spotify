@@ -18,6 +18,7 @@
       <div class="img-ct">
         <p
           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+          (click) = "updateData(item); playTrack(item)"
         >
           {{ item.name }}
         </p>

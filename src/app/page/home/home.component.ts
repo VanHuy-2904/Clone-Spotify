@@ -45,11 +45,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getTopTrack = this.musicService
       .getTopTrack()
       .subscribe((data: any) => {
-        this.topTracks = data.items;
+        this.topTracks = data.items.map((item: any)=>({
+          name: item.name,
+          id: item.id,
+          artist: item.artists,
+          duration_ms: item.duration_ms,
+          album: item.album,
+          uri: item.uri
+        }))
+
         this.getAlbumSub = this.albumService
           .getAlbumNew()
-          .subscribe((data: any) => {
-            this.albumNew = data.albums.items;
+          .subscribe((data: any) => {            
+            this.albumNew = data.albums.items.map((item: any) => ({
+              id: item.id,
+              name: item.name,
+              images: item.images,
+              artists: item.artists,
+              uri: item.uri
+            }));
           });
       });
   }
@@ -58,6 +72,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getTopTrack.unsubscribe();
     this.getAlbumSub.unsubscribe()
   }
+
+  playTrack(track: Track) {
+    this.musicService.getCurrentPlaying();
+    this.musicService.playTrack(track, 0).subscribe((data) => {
+    });
+  }
+
+  updateData(currentTrack: Track) {
+    
+    this.musicService.updateData(currentTrack);
+  }
+
+
 
   handelClick() {
     this.authService.login();

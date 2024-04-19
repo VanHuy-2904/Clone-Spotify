@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MusicService } from '../music/music.service';
+import { Track } from '../music/track';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,9 @@ export class DataService {
     private http: HttpClient,
     private music: MusicService,
   ) {}
-  updateData(
-    nameTrack: string,
-    artistTrack: string,
-    imgTrack: string,
-    idTrack: string,
-  ) {
-    const newData = { nameTrack, artistTrack, imgTrack, idTrack };
-
+  updateData(track: Track) {
+    
+    const newData = track;
     this.music.updateData(newData);
   }
 

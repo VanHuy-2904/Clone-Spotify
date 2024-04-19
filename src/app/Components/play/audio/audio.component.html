@@ -2,13 +2,14 @@
   <div class="song-bar">
     <div class="song-infos">
       <div class="image-container">
-        <img [src]="data[0].img" alt="" />
+        <img [src]="dataTrack.album.images[0].url" alt="" />
       </div>
       <div class="song-description">
         <p class="title">
-          {{ data[0].name }}
+          {{ dataTrack.name }}
         </p>
-        <p class="artist">{{ data[0].artist }}</p>
+        
+        <p class="artist">{{ dataTrack.artists[0].name }}</p>
       </div>
     </div>
     <div class="icons">
@@ -42,7 +43,7 @@
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
-      <span>3:15</span>
+      <span>{{ format(dataTrack.duration_ms) }}</span>
     </div>
   </div>
   <div class="other-features">

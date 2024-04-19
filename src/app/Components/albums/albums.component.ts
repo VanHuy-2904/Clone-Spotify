@@ -19,13 +19,13 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   track: Track[] = [];
   album!: Album;
   link: string;
-  getAlbumSub!: Subscription
-  getTrackAlbumSub!: Subscription
+  getAlbumSub!: Subscription;
+  getTrackAlbumSub!: Subscription;
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private music: MusicService,
-    private dataService: DataService
+    private musicService: MusicService,
+    private dataService: DataService,
   ) {
     this.link = '';
   }
@@ -33,37 +33,44 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
-       this.getAlbum(id);
+      this.getAlbum(id);
       this.getTrackAlbum(id);
     });
   }
   format(milliseconds: number): string {
-  return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds)
+    return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds);
   }
-  updateData(nameTrack: string, artistTrack: string, imgTrack: string, idTrack: string) {
-    this.dataService.updateData(nameTrack, artistTrack, imgTrack, idTrack)
+  updateData(currentTrack: Track) {
+    this.musicService.updateData(currentTrack);
   }
 
-   getTrackAlbum(id: string) {
-     this.getAlbumSub = this.getTrackAlbumSub =  this.dataService.getTrackAlbum(id)
+  getTrackAlbum(id: string) {
+    this.getAlbumSub = this.getTrackAlbumSub = this.dataService
+      .getTrackAlbum(id)
       .subscribe((data: any) => {
+        console.log(data);
+
         this.track = data.items;
       });
   }
 
   getAlbum(id: string) {
-   this.dataService.getAlbumDetail(id)
-      .subscribe((data: any) => {
-        this.album = data;
-      });
+    this.dataService.getAlbumDetail(id).subscribe((data: any) => {
+      this.album = data;
+    });
   }
 
   getTrackPlay(id: string) {
     this.link = id;
   }
 
+  playTrack(track: Track) {
+    console.log(track.uri);
+    this.musicService.getCurrentPlaying();
+    this.musicService.playTrack(track, 0).subscribe((data) => {});
+  }
   ngOnDestroy(): void {
-      this.getTrackAlbumSub.unsubscribe()
-      this.getAlbumSub.unsubscribe()
+    this.getTrackAlbumSub.unsubscribe();
+    this.getAlbumSub.unsubscribe();
   }
 }
