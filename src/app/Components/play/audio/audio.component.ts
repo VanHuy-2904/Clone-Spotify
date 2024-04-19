@@ -26,15 +26,26 @@ export class AudioComponent implements OnInit, OnDestroy {
     private musicService: MusicService,
   ) {}
   currentTrack: any;
-  progressTime!: Observable<number>;
+  progressPercent: number = 0
+  progressTime!: number;
   play: boolean = false;
   ngOnInit(): void {
+    setInterval(() => {
+      if (this.play) {
+        this.musicService.getCurrentPlaying().subscribe((data: any) => {
+          this.progressPercent = Math.floor(
+            (data.progress_ms / data.item.duration_ms) * 100,
+          );
+          this.progressTime = data.progress_ms
+        });
+      }
+    }, 1000);
+
     this.musicService.dataSubject.subscribe((data: any) => {
       this.getTrackSub = this.musicService
         .getTrack(data.id)
         .subscribe((trackInfo: any) => {
           this.dataTrack = trackInfo;
-          console.log(this.dataTrack.duration_ms);
           this.play = true;
         });
     });
@@ -46,21 +57,18 @@ export class AudioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getTrackSub.unsubscribe();
-    
   }
 
   handleClick() {
     if (!this.play) {
       this.musicService
         .playTrack(this.dataTrack, this.currentTrack.progress_ms)
-        .subscribe(() => {
-        });
+        .subscribe(() => {});
     } else {
       this.musicService.getCurrentPlaying().subscribe((data) => {
         this.currentTrack = data;
       });
-      this.musicService.pauseTrack().subscribe(() => {
-      });
+      this.musicService.pauseTrack().subscribe(() => {});
     }
     this.play = !this.play;
   }
