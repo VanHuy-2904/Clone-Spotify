@@ -1,5 +1,6 @@
 <div class="music-player">
   <div class="song-bar">
+    <ng-container *ngIf="data.length >0">
     <div class="song-infos">
       <div class="image-container">
         <img [src]="data[0].img" alt="" />
@@ -11,6 +12,7 @@
         <p class="artist">{{ data[0].artist }}</p>
       </div>
     </div>
+  </ng-container>
     <div class="icons">
       <i class="far fa-heart"></i>
       <i class="fas fa-compress"></i>

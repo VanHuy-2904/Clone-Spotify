@@ -28,9 +28,9 @@ export class CallbackComponent implements OnInit {
     this.authService.exchangeCode(code).subscribe({
       next: (data: any) => {
         this.authService.setToken(data.access_token);
-        this.authService
+        this.authService  
           .getUserinfo(data.access_token)
-          .subscribe((dataUser) => {
+          .subscribe((dataUser: any) => {
             localStorage.setItem('nameUser', dataUser.display_name);
             this.router.navigate(['/']);
           });

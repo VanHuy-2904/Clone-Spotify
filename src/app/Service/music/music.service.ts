@@ -25,15 +25,18 @@ export class MusicService {
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
   playMusic() {
-    this.http
-      .get(environment.apiConfig + '/tracks/11dFghVXANMlKmJXsNCbNl')
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    if(localStorage.getItem('token')) {
+
+      this.http
+        .get(environment.apiConfig + '/tracks/11dFghVXANMlKmJXsNCbNl')
+        .subscribe({
+          next: (res) => {
+         
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
   }
 }

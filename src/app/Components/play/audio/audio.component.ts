@@ -25,19 +25,20 @@ export class AudioComponent implements OnInit {
 
   play: boolean = false;
   ngOnInit(): void {
-    console.log(localStorage.getItem('token'));
+    if(localStorage.getItem('token')) {
 
-    this.musicService.playMusic();
-    this.getCurrentPlaying().subscribe((data) => {
-      console.log(data);
-    });
-
-    this.dataSubscription = this.musicService
-      .getData()
-      .subscribe((data: any) => {
-        this.data = data;
-        console.log('name music:', data);
+      this.musicService.playMusic(); 
+      this.getCurrentPlaying().subscribe((data) => {
+     
       });
+  
+      this.dataSubscription = this.musicService
+        .getData()
+        .subscribe((data: any) => {
+          this.data = data;
+        
+        });
+    }
   }
   
 
