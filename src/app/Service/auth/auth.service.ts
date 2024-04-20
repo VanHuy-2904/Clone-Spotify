@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment.development';
 })
 export class AuthService {
   accessToken: any;
-  refresh_token: any;
+  refreshToken: any;
   userNameSubject$ = new BehaviorSubject('');
   userName$ = this.userNameSubject$.asObservable();
   nameUser: string;
@@ -19,7 +19,7 @@ export class AuthService {
     private route: ActivatedRoute,
   ) {
     this.accessToken = '';
-    this.refresh_token = '';
+    this.refreshToken = '';
     this.nameUser = '';
   }
   setToken(token: string) {
