@@ -23,12 +23,12 @@ export class LoginComponent {
   scope = 'user-read-private user-read-email';
   state = '123';
   accessToken: any;
-  constructor(private Authservice: AuthService) {
+  constructor(private AuthService: AuthService) {
     this.accessToken = '';
   }
 
   Login() {
-    this.Authservice.login();
+    this.AuthService.login();
   }
 }
 // loginObj: Login;

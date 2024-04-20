@@ -40,6 +40,10 @@ export class HomeComponent implements OnInit {
 
   }
 
+  login() {
+    this.authService.login()
+  }
+
   handelClick() {
     this.authService.login();
   }
