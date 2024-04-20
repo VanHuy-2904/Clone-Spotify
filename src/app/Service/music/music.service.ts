@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { MusicData } from './music.i';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -24,18 +25,15 @@ export class MusicService {
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
   playMusic() {
-    console.log(localStorage.getItem('token'));
-
-    // Make a GET request to Spotify API to play the track
     this.http
-      .get('https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl')
-      .subscribe(
-        (response) => {
-          console.log('Track is now playing:', response);
+      .get(environment.apiConfig + '/tracks/11dFghVXANMlKmJXsNCbNl')
+      .subscribe({
+        next: (res) => {
+          console.log(res);
         },
-        (error) => {
-          console.error('Error playing track:', error);
+        error: (err) => {
+          console.log(err);
         },
-      );
+      });
   }
 }

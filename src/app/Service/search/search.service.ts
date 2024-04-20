@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class SearchService {
 
   getFeature(): Observable<any> {
     return this.http.get(
-      `https://api.spotify.com/v1/browse/featured-playlists?locale=VN`,
+      environment.apiConfig + `/browse/featured-playlists?locale=VN`,
     );
   }
 
@@ -37,15 +38,15 @@ export class SearchService {
 
   getArtistRS(input: string): Observable<any> {
     return this.http.get(
-      `https://api.spotify.com/v1/search?q=${input}&type=artist`,
+      environment.apiConfig + `/search?q=${input}&type=artist`,
     );
   }
 
   getTrackRS(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
+    return this.http.get(environment.apiConfig + `/artists/${id}/top-tracks`);
   }
 
   getAlbumRS(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}/albums`);
+    return this.http.get(environment.apiConfig + `/artists/${id}/albums`);
   }
 }

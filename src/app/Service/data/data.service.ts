@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MusicService } from '../music/music.service';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class DataService {
   }
 
   getAlbum(id: string) {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
+    return this.http.get(environment.apiConfig + `/artists/${id}/top-tracks`);
   }
 
   formatMillisecondsToMinutesAndSeconds(milliseconds: number): string {
@@ -36,14 +37,14 @@ export class DataService {
   }
 
   getArtist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}`);
+    return this.http.get(environment.apiConfig + `/artists/${id}`);
   }
 
   getTrackAlbum(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/albums/${id}/tracks`);
+    return this.http.get(environment.apiConfig + `/albums/${id}/tracks`);
   }
 
   getAlbumDetail(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/albums/${id}`);
+    return this.http.get(environment.apiConfig + `/albums/${id}`);
   }
 }
