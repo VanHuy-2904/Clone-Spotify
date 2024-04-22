@@ -1,0 +1,14 @@
+@startuml
+actor User
+participant "Client" as Client
+participant "Spotify API" as Spotify
+
+User -> Client: Bắt đầu quá trình đăng nhập
+Client -> Spotify: Yêu cầu đăng nhập
+Spotify -> Client: Trả về URL đăng nhập
+Client -> User: Hiển thị trang đăng nhập Spotify
+User -> Client: Điền thông tin đăng nhập và nhấn nút đăng nhập
+Client -> Spotify: Gửi thông tin đăng nhập
+Spotify -> Client: Xác thực thông tin đăng nhập và tạo token
+Client -> User: Đăng nhập thành công
+@enduml
