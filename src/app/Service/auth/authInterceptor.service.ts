@@ -1,9 +1,7 @@
 import {
-  HTTP_INTERCEPTORS,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpInterceptorFn,
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -24,7 +22,6 @@ export class authInterceptor implements HttpInterceptor {
       headers: request.headers.set(
         'Authorization',
         `Bearer ${localStorage.getItem('token')}`,
-        
       ),
     });
 

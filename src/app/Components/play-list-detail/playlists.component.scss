@@ -89,8 +89,7 @@ p {
         display: flex;
         justify-content: space-between;
         .ct-name {
-          width: calc(100% / 3)
-          p {
+          width: calc(100% / 3) p {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -106,7 +105,7 @@ p {
         }
         .ct-dur {
           p {
-           color: #b3b3b3
+            color: #b3b3b3;
           }
         }
       }
@@ -115,8 +114,6 @@ p {
         font-size: 10px;
         padding: 0;
       }
-
-      
     }
   }
 }

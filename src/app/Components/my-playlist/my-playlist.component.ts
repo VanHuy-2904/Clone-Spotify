@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-my-playlist',
@@ -7,10 +7,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './my-playlist.component.html',
   styleUrl: './my-playlist.component.scss',
 })
-export class MyPlaylistComponent implements OnInit {
+export class MyPlaylistComponent {
   constructor() {}
-
-  ngOnInit(): void {
- 
-  }
 }

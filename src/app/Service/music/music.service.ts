@@ -1,15 +1,15 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Observer } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
-import { MusicData } from './music.i';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import { AuthService } from '../auth/auth.service';
+import { Track } from './track';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MusicService {
-  private dataSubject = new BehaviorSubject<any[]>([]);
+  private dataSubject = new BehaviorSubject<Track[]>([]);
   data$ = this.dataSubject.asObservable();
 
   constructor(
@@ -20,19 +20,16 @@ export class MusicService {
     return this.data$;
   }
 
-  updateData(data: MusicData) {
+  updateData(data: Track) {
     this.dataSubject.next([]);
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
   playMusic() {
-    if(localStorage.getItem('token')) {
-
+    if (localStorage.getItem('token')) {
       this.http
         .get(environment.apiConfig + '/tracks/11dFghVXANMlKmJXsNCbNl')
         .subscribe({
-          next: (res) => {
-         
-          },
+          next: () => {},
           error: (err) => {
             console.log(err);
           },

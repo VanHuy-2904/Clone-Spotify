@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../Service/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { ArtistComponent } from '../../Components/artist/artist.component';
-import { MusicService } from '../../Service/music/music.service';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ArtistComponent } from '../../Components/artist/artist.component';
 import { Artist } from '../../Service/artist/Artists';
+import { AuthService } from '../../Service/auth/auth.service';
+import { MusicService } from '../../Service/music/music.service';
 import { Track } from '../../Service/music/track';
-// import { Login } from '../login/login.component';
 
 @Component({
   selector: 'app-home',
@@ -25,28 +22,25 @@ export class HomeComponent implements OnInit {
   token!: string | null;
   artists: Artist[] = [];
   id: string;
-  getAlbumSub!: Subscription
+  getAlbumSub!: Subscription;
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private musicService: MusicService
+    private musicService: MusicService,
   ) {
     this.tracks = [];
     this.id = '';
   }
   ngOnInit(): void {
-    this.token = localStorage.getItem('token')
-
+    this.token = localStorage.getItem('token');
   }
 
   login() {
-    this.authService.login()
+    this.authService.login();
   }
 
   handelClick() {
     this.authService.login();
   }
-
-  
 }

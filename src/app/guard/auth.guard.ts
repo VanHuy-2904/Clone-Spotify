@@ -1,18 +1,14 @@
-import { state } from "@angular/animations";
-import { inject } from "@angular/core";
-import { CanActivateFn, Router } from "@angular/router";
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 
+export const authGuard: CanActivateFn = () => {
+  const router = inject(Router);
 
-
-export const authGuard: CanActivateFn = (route, state) => {
-    const router =  inject(Router);
-
-    const localData = localStorage.getItem('token');
-    if(localData!=null){
-        return true
-    }
-    else{
-        router.navigateByUrl('/login')
-        return false
-    }
-}
+  const localData = localStorage.getItem('token');
+  if (localData != null) {
+    return true;
+  } else {
+    router.navigateByUrl('/login');
+    return false;
+  }
+};

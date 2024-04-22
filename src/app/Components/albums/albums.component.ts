@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Track } from '../../Service/music/track';
-import { Album } from '../../Service/album/album';
 import { Subscription } from 'rxjs';
+import { Album } from '../../Service/album/album';
 import { DataService } from '../../Service/data/data.service';
 import { MusicService } from '../../Service/music/music.service';
+import { Track } from '../../Service/music/track';
 
 @Component({
   selector: 'app-albums',
@@ -19,13 +18,12 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   track: Track[] = [];
   album!: Album;
   link: string;
-  getAlbumSub!: Subscription
-  getTrackAlbumSub!: Subscription
+  getAlbumSub!: Subscription;
+  getTrackAlbumSub!: Subscription;
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
     private music: MusicService,
-    private dataService: DataService
+    private dataService: DataService,
   ) {
     this.link = '';
   }
@@ -33,29 +31,29 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
-       this.getAlbum(id);
+      this.getAlbum(id);
       this.getTrackAlbum(id);
     });
   }
   format(milliseconds: number): string {
-  return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds)
+    return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds);
   }
-  updateData(nameTrack: string, artistTrack: string, imgTrack: string, idTrack: string) {
-    this.dataService.updateData(nameTrack, artistTrack, imgTrack, idTrack)
+  updateData(track: Track) {
+    this.dataService.updateData(track);
   }
 
-   getTrackAlbum(id: string) {
-     this.getAlbumSub = this.getTrackAlbumSub =  this.dataService.getTrackAlbum(id)
-      .subscribe((data: any) => {
+  getTrackAlbum(id: string) {
+    this.getAlbumSub = this.getTrackAlbumSub = this.dataService
+      .getTrackAlbum(id)
+      .subscribe((data: { items: Track[] }) => {
         this.track = data.items;
       });
   }
 
   getAlbum(id: string) {
-   this.dataService.getAlbumDetail(id)
-      .subscribe((data: any) => {
-        this.album = data;
-      });
+    this.dataService.getAlbumDetail(id).subscribe((data: Album) => {
+      this.album = data;
+    });
   }
 
   getTrackPlay(id: string) {
@@ -63,7 +61,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.getTrackAlbumSub.unsubscribe()
-      this.getAlbumSub.unsubscribe()
+    this.getTrackAlbumSub.unsubscribe();
+    this.getAlbumSub.unsubscribe();
   }
 }

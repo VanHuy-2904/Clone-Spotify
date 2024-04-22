@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Artist } from '../../Service/artist/Artists';
 import { AuthService } from '../../Service/auth/auth.service';
 import { DataService } from '../../Service/data/data.service';
 import { MusicService } from '../../Service/music/music.service';
-import { Artist } from '../../Service/artist/Artists';
 import { Track } from '../../Service/music/track';
 
 @Component({
@@ -17,8 +17,8 @@ import { Track } from '../../Service/music/track';
   styleUrl: './artist.component.scss',
 })
 export class ArtistComponent implements OnInit {
-  token: any;
-  getArtistSubscription!: Subscription
+  token: string = '';
+  getArtistSubscription!: Subscription;
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -37,13 +37,13 @@ export class ArtistComponent implements OnInit {
     });
   }
 
-  updateData(name: string, artist: string, img: string, id: string) {
-    this.artistService.updateData(name, artist, img, id);
+  updateData(track: Track) {
+    this.artistService.updateData(track);
   }
 
   getAlbum(id: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.artistService.getAlbum(id).subscribe((data: any) => {
-      console.log('data tracks: ', data);
       this.listItems = data.tracks;
     });
   }
@@ -55,8 +55,11 @@ export class ArtistComponent implements OnInit {
   }
 
   getArtist(id: string) {
- this.getArtistSubscription =   this.artistService.getArtist(id).subscribe((data: any) => {
-      this.artist = data;
-    });
+    this.getArtistSubscription = this.artistService
+      .getArtist(id)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .subscribe((data: any) => {
+        this.artist = data;
+      });
   }
 }
