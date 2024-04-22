@@ -5,7 +5,7 @@
       <div class="prev-next-buttons">
         <button><i class="bi bi-arrow-left-short"></i></button>
 
-        <button type="button" class="bi bi-arrow-right-short"></button>
+        <button type="button"><i class="bi bi-arrow-right-short"></i></button>
         <div class="search-icon-container">
           <i class="bi bi-search"></i>
           <input
@@ -14,11 +14,14 @@
             type="text"
             placeholder="Tìm kiếm nghệ sĩ"
           />
-        </div>  
+        </div>
       </div>
 
       <div class="navbar">
         <ng-container *ngIf="name">
+      
+        <!-- eslint-disable -->
+         
           <div (click)="handleClick()" class="account">
             <img
               class="account"
@@ -28,9 +31,8 @@
 
             <p>{{ name }}</p>
           </div>
+         <!-- eslint-disable -->
         </ng-container>
-
-      
       </div>
     </div>
   </ng-container>

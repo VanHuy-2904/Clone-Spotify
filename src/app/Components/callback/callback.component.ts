@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../Service/auth/auth.service';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-callback',
@@ -17,7 +16,7 @@ export class CallbackComponent implements OnInit {
     private router: Router,
   ) {}
   ngOnInit(): void {
-    this.route.queryParams.subscribe((codes: any) => {
+    this.route.queryParams.subscribe((codes: { [key: string]: string }) => {
       const code = codes['code'];
       if (code) {
         this.handleCodeExchange(code);
@@ -26,16 +25,16 @@ export class CallbackComponent implements OnInit {
   }
   handleCodeExchange(code: string): void {
     this.authService.exchangeCode(code).subscribe({
-      next: (data: any) => {
+      next: (data: { access_token: string }) => {
         this.authService.setToken(data.access_token);
-        this.authService  
-          .getUserinfo(data.access_token)
-          .subscribe((dataUser: any) => {
+        this.authService
+          .getUserinfo()
+          .subscribe((dataUser: { display_name: string }) => {
             localStorage.setItem('nameUser', dataUser.display_name);
             this.router.navigate(['/']);
           });
       },
-      error: (err: any) => {
+      error: (err: Error) => {
         console.log(err);
       },
     });

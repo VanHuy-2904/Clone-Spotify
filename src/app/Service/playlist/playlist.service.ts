@@ -11,6 +11,7 @@ export class PlaylistService {
 
   constructor(private http: HttpClient) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPlaylists(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -18,12 +19,14 @@ export class PlaylistService {
     return this.http.get(`${environment.apiConfig}/me/playlists`, { headers });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPlaylist(idPlaylist: string): Observable<any> {
     return this.http.get(
       environment.apiConfig + `/playlists/${idPlaylist}/tracks`,
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getInfoPlaylist(id: string): Observable<any> {
     return this.http.get(environment.apiConfig + `playlists/${id}`);
   }
@@ -32,6 +35,7 @@ export class PlaylistService {
     return this.http.get(environment.apiConfig + `/playlists/${id}/images`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getMyPlaylist(): Observable<any> {
     return this.http.get(environment.apiConfig + '/me/playlists ');
   }
