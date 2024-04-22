@@ -14,7 +14,6 @@
   </div>
 
   <div class="dashboard">
-  
     <div class="item" *ngFor="let item of data; let i = index">
       <div>
         <p>{{ i + 1 }}</p>
@@ -22,31 +21,18 @@
 
       <img [src]="item.track.album.images[2].url" alt="" />
       <div class="content-track">
-        <div style="width: calc(100% / 3)">
-          <p
-            style="
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            "
-         
-          >
+        <div class="ct-name">
+          <p>
             {{ item.track.name }}
           </p>
         </div>
-        <div style="width: calc(100% / 3); color: #b3b3b3">
-          <p
-            style="
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            "
-          >
+        <div class="ct-alb">
+          <p>
             {{ item.track.album.name }}
           </p>
         </div>
-        <div>
-          <p style="color: #b3b3b3">{{ Format(item.track.duration_ms) }}</p>
+        <div class="ct-dur">
+          <p>{{ format(item.track.duration_ms) }}</p>
         </div>
       </div>
     </div>

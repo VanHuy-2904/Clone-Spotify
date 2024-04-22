@@ -1,31 +1,124 @@
 p {
   font-size: 1px;
 }
+.main {
+  .banner-img {
+    position: relative;
+    display: flex;
 
-.banner-img {
-  position: relative;
-  display: flex;
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    height: 230px;
+    width: 100%;
+    .content {
+      position: absolute;
+      bottom: 60px;
+      left: 10px;
 
-  background-size: cover;
-  background-position: top center;
-  background-repeat: no-repeat;
-  height: 230px;
-  width: 100%;
-}
+      color: white;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      p {
+        font-size: 50px;
+      }
+    }
+  }
+  .play {
+    padding: 20px;
 
-.content {
-  position: absolute;
-  bottom: 60px;
-  left: 10px;
+    margin: 20px;
+    background-color: green;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    i bi {
+      background-color: #000;
+    }
 
-  color: white;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-}
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
+  .dashboard {
+    padding: 20px;
+    p {
+      font-size: 13px;
+      margin-left: 10px;
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+    h3 {
+      color: white;
+      font-weight: bold;
+    }
+    img {
+      // flex: ;
+      height: 30px;
+      width: 30px;
+      margin-left: 10px;
+    }
 
-.content p {
-  font-size: 50px;
+    .item {
+      height: auto;
+      display: flex;
+
+      width: 100%;
+      padding: 5px;
+      // justify-content: space-between;
+      color: white;
+      &:hover {
+        background-color: #252525;
+        border-radius: 10px;
+      }
+      a:hover p:nth-child(1) {
+        text-decoration: underline;
+      }
+      .content-track {
+        width: 100%;
+        flex-wrap: wrap;
+        // gap: 100px;
+        display: flex;
+        justify-content: space-between;
+        .ct-name {
+          width: calc(100% / 3)
+          p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        .ct-alb {
+          color: #b3b3b3;
+          P {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        .ct-dur {
+          p {
+           color: #b3b3b3
+          }
+        }
+      }
+      div p {
+        // margin-right: 20px;
+        font-size: 10px;
+        padding: 0;
+      }
+
+      
+    }
+  }
 }
 
 a {
@@ -33,99 +126,14 @@ a {
   color: white;
 }
 
-// .main {
-//   max-height: calc(100vh - 95px);
-//   overflow: auto;
-//   max-height: 100vh;
-//   background-color: #121212;
-// }
-
-.play {
-  padding: 20px;
-
-  margin: 20px;
-  background-color: green;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-}
-
-.dashboard p:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.play i bi {
-  background-color: #000;
-}
-
-.play:hover {
-  cursor: pointer;
-  transform: scale(1.1);
-}
-.dashboard {
-  padding: 20px;
-}
-.dashboard p {
-  font-size: 13px;
-  margin-left: 10px;
-}
-.dashboard h3 {
-  color: white;
-  font-weight: bold;
-}
-
-.item:hover {
-  background-color: #252525;
-  border-radius: 10px;
-}
-
-.item a:hover p:nth-child(1) {
-  text-decoration: underline;
-}
-
-.item {
-  height: auto;
-  display: flex;
-
-  width: 100%;
-  padding: 5px;
-  // justify-content: space-between;
-  color: white;
-}
-
-.content-track {
-  width: 100%;
-  flex-wrap: wrap;
-  // gap: 100px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.item div p {
-  // margin-right: 20px;
-  font-size: 10px;
-  padding: 0;
-}
-
 p {
   padding: 0;
   margin: 0;
 }
 
-.dashboard img {
-  // flex: ;
-  height: 30px;
-  width: 30px;
-  margin-left: 10px;
-}
-
-.tieude {
-  display: flex;
-}
+// .tieu-de {
+//   display: flex;
+// }
 
 ::-webkit-scrollbar {
   width: 8px;

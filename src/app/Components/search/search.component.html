@@ -30,7 +30,7 @@
       </div>
       <div class="track">
         <h3>Bài hát</h3>
-        <div class="itemat" *ngFor="let item of dataTrack.slice(0, 4)">
+        <div class="item-at" *ngFor="let item of dataTrack.slice(0, 4)">
           <div class="img-at">
             <img [src]="item.album.images[2].url" alt="" />
           </div>
@@ -43,7 +43,7 @@
     </div>
     <h4>Album</h4>
     <div class="album">
-      <div class="itemal" *ngFor="let item of dataAlbum.slice(0, 5)">
+      <div class="item-al" *ngFor="let item of dataAlbum.slice(0, 5)">
         <div class="img-alb"><img [src]="item.images[1].url" alt="" /></div>
         <div class="ct-alb">
           <p>{{ item.name }}</p>

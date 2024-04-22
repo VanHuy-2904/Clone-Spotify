@@ -38,7 +38,7 @@ export class PlaylistsComponent implements OnInit {
       }
     });
   }
-  Format(milliseconds: number): string {
+  format(milliseconds: number): string {
     return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds);
   }
 
@@ -59,23 +59,5 @@ export class PlaylistsComponent implements OnInit {
     this.dataService.updateData(nameTrack, artistTrack, imgTrack, idTrack);
   }
 
-  playMusic(trackUri: string) {
-    // console.log(1231321312321321, trackUri);
-    const body = {
-      context_uri: trackUri,
-      offset: {
-        position: 0,
-      },
-      position_ms: 0,
-    };
-    this.http
-      .put('https://api.spotify.com/v1/me/player/play', body, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      })
-      .subscribe((data) => {
-        console.log(data);
-      });
-  }
+ 
 }
