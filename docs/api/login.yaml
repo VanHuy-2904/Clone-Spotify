@@ -45,5 +45,28 @@ paths:
       responses:
         '200': 
           description: OK
+          content:
+            application/json:
+             schema:
+               type: object
+               properties:
+                access_token: 
+                  type: string
+                  description: An access token that can be provided in subsequent calls, for example to Spotify Web API services.
+                token_type:
+                  type: string
+                  description: How the access token may be used always "Bearer".
+                scope:
+                  type: string
+                  description: A space-separated list of scopes which have been granted for this access_token
+                expires_in:
+                  type: integer
+                  description: The time period (in seconds) for which the access token is valid.
+                refresh_token:
+                  type: string
+                  description: See refreshing tokens.
+
+
+                 
 
 
