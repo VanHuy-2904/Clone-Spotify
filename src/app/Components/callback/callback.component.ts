@@ -25,14 +25,15 @@ export class CallbackComponent implements OnInit {
   }
   handleCodeExchange(code: string): void {
     this.authService.exchangeCode(code).subscribe({
-      next: (data: { access_token: string }) => {
+      next: (data: {
+        access_token: string;
+        refresh_token: string;
+        expires_in: string;
+      }) => {
         this.authService.setToken(data.access_token);
-        this.authService
-          .getUserinfo()
-          .subscribe((dataUser: { display_name: string }) => {
-            localStorage.setItem('nameUser', dataUser.display_name);
-            this.router.navigate(['/']);
-          });
+        localStorage.setItem('refreshToken', data.refresh_token);
+        localStorage.setItem('expiresIn', data.expires_in);
+        this.router.navigate(['/']);
       },
       error: (err: Error) => {
         console.log(err);

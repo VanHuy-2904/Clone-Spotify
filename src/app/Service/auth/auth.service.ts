@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment.development';
 })
 export class AuthService {
   accessToken: string = '';
-  refreshToken: string = '';
   userNameSubject$ = new BehaviorSubject('');
   userName$ = this.userNameSubject$.asObservable();
   nameUser: string;
@@ -15,24 +14,33 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.accessToken = '';
-    this.refreshToken = '';
     this.nameUser = '';
   }
   setToken(token: string) {
     localStorage.setItem('token', token);
   }
+
+  setRefreshToken(tokenRefresh: string) {
+    localStorage.setItem('refreshToken', tokenRefresh);
+  }
   getToken() {
     return localStorage.getItem('token');
   }
   login() {
-    const authorizeUrl = `https://accounts.spotify.com/authorize?client_id=${environment.clientId}&response_type=code&redirect_uri=${environment.redirectUri}&scope=${environment.scope}&state=${environment.state}`;
+    const params = new URLSearchParams({
+      client_id: environment.clientId,
+      response_type: 'code',
+      redirect_uri: environment.redirectUri,
+      scope: environment.scope,
+      state: environment.state,
+    });
+    const authorizeUrl = `https://accounts.spotify.com/authorize?${params}, `;
     window.location.href = authorizeUrl;
     // window.location.reload();
   }
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('nameUser');
     this.http.post(this.tokenUrl, `token=${this.accessToken}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -42,8 +50,11 @@ export class AuthService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   exchangeCode(code: string): Observable<any> {
-    const body = `grant_type=authorization_code&code=${code}&redirect_uri=${environment.redirectUri}`;
-
+    const body = new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: environment.redirectUri,
+    });
     const headers = new HttpHeaders({
       Authorization:
         'Basic ' + btoa(environment.clientId + ':' + environment.clientSecret),
@@ -55,9 +66,20 @@ export class AuthService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   refreshAccessToken(): Observable<any> {
-    const body = `grant_type=refresh_token&refresh_token=${localStorage.getItem('refreshToken')}&client_id=${environment.clientId}&client_secret=${environment.clientSecret}`;
+    const refreshToken = localStorage.getItem('refreshToken');
 
-    return this.http.post(environment.apiConfig, body);
+    const body = new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken!,
+      client_id: environment.clientId,
+      client_secret: environment.clientSecret,
+    });
+
+    return this.http.post(this.tokenUrl, body, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }),
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

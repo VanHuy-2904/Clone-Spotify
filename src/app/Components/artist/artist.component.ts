@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Artist } from '../../Service/artist/Artists';
-import { AuthService } from '../../Service/auth/auth.service';
 import { DataService } from '../../Service/data/data.service';
-import { MusicService } from '../../Service/music/music.service';
 import { Track } from '../../Service/music/track';
 
 @Component({
@@ -20,10 +17,7 @@ export class ArtistComponent implements OnInit {
   token: string = '';
   getArtistSubscription!: Subscription;
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
-    private music: MusicService,
-    private authService: AuthService,
     private artistService: DataService,
   ) {}
   listItems: Track[] = [];
@@ -31,7 +25,6 @@ export class ArtistComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
-      console.log(id);
       this.getArtist(id);
       this.getAlbum(id);
     });

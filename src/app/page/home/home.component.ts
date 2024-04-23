@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ArtistComponent } from '../../Components/artist/artist.component';
 import { Artist } from '../../Service/artist/Artists';
 import { AuthService } from '../../Service/auth/auth.service';
-import { MusicService } from '../../Service/music/music.service';
 import { Track } from '../../Service/music/track';
 
 @Component({
@@ -23,16 +21,26 @@ export class HomeComponent implements OnInit {
   artists: Artist[] = [];
   id: string;
   getAlbumSub!: Subscription;
-  constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private musicService: MusicService,
-  ) {
+  constructor(private authService: AuthService) {
     this.tracks = [];
     this.id = '';
   }
   ngOnInit(): void {
+    const expiresInStr = localStorage.getItem('expiresIn');
+    const expiresIn = Number(expiresInStr);
+
+    setInterval(
+      () => {
+        this.authService
+          .refreshAccessToken()
+          .subscribe(
+            (data: { access_token: string; refresh_token: string }) => {
+              this.authService.setToken(data.access_token);
+            },
+          );
+      },
+      expiresIn * 1000 - 30000,
+    );
     this.token = localStorage.getItem('token');
   }
 

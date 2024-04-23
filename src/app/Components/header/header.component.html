@@ -10,7 +10,6 @@
           <i class="bi bi-search"></i>
           <input
             [(ngModel)]="searchValue"
-            (input)="onInputChange($event)"
             type="text"
             placeholder="Tìm kiếm nghệ sĩ"
           />
@@ -18,20 +17,27 @@
       </div>
 
       <div class="navbar">
-        <ng-container *ngIf="name">
-      
-        <!-- eslint-disable -->
-         
+        <ng-container *ngIf="data">
+          <!-- eslint-disable -->
+
           <div (click)="handleClick()" class="account">
             <img
+              *ngIf="data.images.length > 0"
+              class="account"
+              [src]="data.images[0].url"
+              alt=""
+            />
+
+            <img
+              *ngIf="data.images.length == 0"
               class="account"
               src="https://cdn.pixabay.com/photo/2021/07/25/08/03/account-6491185_1280.png"
               alt=""
             />
 
-            <p>{{ name }}</p>
+            <p>{{ data.name }}</p>
           </div>
-         <!-- eslint-disable -->
+          <!-- eslint-disable -->
         </ng-container>
       </div>
     </div>

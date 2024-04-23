@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { Track } from './track';
@@ -35,5 +35,12 @@ export class MusicService {
           },
         });
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getCurrentPlaying(): Observable<any> {
+    return this.http.get(
+      `${environment.apiConfig} + /me/player/currently-playing`,
+    );
   }
 }

@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Album } from '../../Service/album/album';
 import { DataService } from '../../Service/data/data.service';
-import { MusicService } from '../../Service/music/music.service';
 import { Track } from '../../Service/music/track';
 
 @Component({
@@ -22,7 +21,6 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   getTrackAlbumSub!: Subscription;
   constructor(
     private route: ActivatedRoute,
-    private music: MusicService,
     private dataService: DataService,
   ) {
     this.link = '';

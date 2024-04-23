@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Observable, Subscription, map } from 'rxjs';
 import { AuthService } from '../../Service/auth/auth.service';
-import { SearchService } from '../../Service/search/search.service';
+import { UserService } from '../../Service/user/user.service';
+import { User } from '../../Service/user/user.i';
 
 @Component({
   selector: 'app-header',
@@ -14,44 +15,37 @@ import { SearchService } from '../../Service/search/search.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  name: string | null;
+  data!: User;
   accessToken: string;
   searchValue = '';
   name$!: Observable<string>;
   token: string | null = null;
   showCt: boolean = false;
   constructor(
+    private userService: UserService,
     private authService: AuthService,
-    private searchService: SearchService,
   ) {
-    this.name = '';
     this.accessToken = '';
-
     this.name$ = this.authService.userName$.pipe(
       map((oldName) => `test ${oldName}`),
     );
   }
 
-  test = 1;
-  test2 = 2;
   exchangeCodeSub!: Subscription;
   handleClick() {
     this.showCt = !this.showCt;
   }
 
-  countTest() {
-    console.log('aaaaa');
-    return this.test + this.test2;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-  onInputChange(event: any) {
-    this.searchService.setInputValue(this.searchValue);
-  }
-
   ngOnInit(): void {
+    if (localStorage.getItem('token')) {
+      this.authService.getUserinfo().subscribe((dataUser: User) => {
+        this.userService.setData(dataUser);
+      });
+    }
+    this.userService.getData().subscribe((dataUser: User) => {
+      this.data = dataUser;
+    });
     this.token = localStorage.getItem('token');
-    this.name = localStorage.getItem('nameUser');
   }
   login() {
     this.authService.login();

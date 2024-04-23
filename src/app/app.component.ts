@@ -6,6 +6,7 @@ import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { AuthService } from './Service/auth/auth.service';
 import { DataService } from './Service/data/data.service';
 import { MusicService } from './Service/music/music.service';
+import { UserService } from './Service/user/user.service';
 import { HomeComponent } from './page/home/home.component';
 
 @Component({
@@ -20,9 +21,10 @@ import { HomeComponent } from './page/home/home.component';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [AuthService, MusicService, DataService],
+  providers: [AuthService, MusicService, DataService, UserService],
 })
 export class AppComponent {
   title = 'web__nhac';
-  constructor() {}
+
+  constructor(private autService: AuthService) {}
 }
