@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   getAlbumSub!: Subscription;
   constructor(private authService: AuthService) {
     this.tracks = [];
-    this.id = '';
+    this.id = ''
   }
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
