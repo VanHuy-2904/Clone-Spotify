@@ -38,8 +38,16 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
-      this.authService.getUserinfo().subscribe((dataUser: User) => {
-        this.userService.setData(dataUser);
+      this.authService.getUserinfo().subscribe({
+        next: (dataUser: User) => {
+          this.userService.setData(dataUser);
+        },
+        error: (err) => {
+          if (err.status === 401) {
+            localStorage.removeItem('token');
+            this.authService.login();
+          }
+        },
       });
     }
     this.userService.getData().subscribe((dataUser: User) => {

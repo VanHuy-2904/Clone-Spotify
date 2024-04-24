@@ -26,11 +26,11 @@ export class HomeComponent implements OnInit {
     this.id = '';
   }
   ngOnInit(): void {
-    const expiresInStr = localStorage.getItem('expiresIn');
-    const expiresIn = Number(expiresInStr);
-
-    setInterval(
-      () => {
+    this.token = localStorage.getItem('token');
+    if (this.token) {
+      const expiresInStr = localStorage.getItem('expiresIn');
+      const expiresIn = (Number(expiresInStr) - 30) * 100;
+      setInterval(() => {
         this.authService
           .refreshAccessToken()
           .subscribe(
@@ -38,10 +38,8 @@ export class HomeComponent implements OnInit {
               this.authService.setToken(data.access_token);
             },
           );
-      },
-      expiresIn * 1000 - 30000,
-    );
-    this.token = localStorage.getItem('token');
+      }, expiresIn);
+    }
   }
 
   login() {
