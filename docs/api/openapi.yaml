@@ -10,6 +10,8 @@ paths:
     get: 
       summary: Get User info
       description: ""
+      tags:
+        - "User"
       responses:
         '200': 
           description: ""
