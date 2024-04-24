@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     this.token = localStorage.getItem('token');
     if (this.token) {
       const expiresInStr = localStorage.getItem('expiresIn');
-      const expiresIn = (Number(expiresInStr) - 30) * 100;
+      const expiresIn = (Number(expiresInStr) - 30) * 1000;
       setInterval(() => {
         this.authService
           .refreshAccessToken()
