@@ -6,7 +6,8 @@
         <div class="item" *ngFor="let topTrack of topTracks">
           <a style="text-decoration: none" [routerLink]="">
             <!-- eslint-disable -->
-            <img [src]="topTrack.album.images[1].url" />
+
+            <img [src]="topTrack.images[0].url" />
             <div class="play">
               <span class="fa fa-play"></span>
             </div>

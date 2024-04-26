@@ -10,6 +10,7 @@ import { Artist } from '../../Service/artist/Artists';
 import { AuthService } from '../../Service/auth/auth.service';
 import { MusicService } from '../../Service/music/music.service';
 import { Track } from '../../Service/music/track';
+import { PlayList } from '../../Service/playlist/playlist.i';
 // import { Login } from '../login/login.component';
 
 @Component({
@@ -21,7 +22,7 @@ import { Track } from '../../Service/music/track';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   tracks: Track[] = [];
-  topTracks: Track[] = [];
+  topTracks: PlayList[] = [];
   token!: string | null;
   artists: Artist[] = [];
   id: string;
@@ -38,35 +39,26 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
-    this.getTopTrack = this.musicService
-      .getTopTrack()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .subscribe((data: any) => {
-        console.log(data);
+    if (this.token) {
+      this.getTopTrack = this.musicService
+        .getTopTrack()
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.topTracks = data.items.map((item: any) => ({
-          name: item.name,
-          id: item.id,
-          artist: item.artists,
-          duration_ms: item.duration_ms,
-          album: item.album,
-          uri: item.uri,
-        }));
-
-        this.getAlbumSub = this.albumService
-          .getAlbumNew()
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .subscribe((data: any) => {
+        .subscribe((data: any) => {
+          this.topTracks = data.playlists.items;
+          this.getAlbumSub = this.albumService
+            .getAlbumNew()
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.albumNew = data.albums.items.map((item: any) => ({
-              id: item.id,
-              name: item.name,
-              images: item.images,
-              artists: item.artists,
-              uri: item.uri,
-            }));
-          });
-      });
+            .subscribe((data: any) => {
+              this.albumNew = data.albums.items.map((item: Album) => ({
+                id: item.id,
+                name: item.name,
+                images: item.images,
+                artists: item.artists,
+                uri: item.uri,
+              }));
+            });
+        });
+    }
   }
 
   ngOnDestroy(): void {

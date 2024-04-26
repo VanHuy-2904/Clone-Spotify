@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
@@ -46,9 +46,13 @@ export class MusicService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTopTrack(): Observable<any> {
-    const params = new HttpParams().set('country', 'VN');
-    return this.http.get('https://api.spotify.com/v1/me/top/tracks', {
-      params,
+    // const params = new HttpParams().set('country', 'VN');
+    const params = new URLSearchParams({
+      locale: 'VN',
+      limit: '10',
     });
+    return this.http.get(
+      `${environment.apiConfig}/browse/featured-playlists?${params}`,
+    );
   }
 }
