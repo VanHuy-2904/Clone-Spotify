@@ -1,50 +1,45 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './page/login/login.component';
-import { SignupComponent } from './page/signup/signup.component';
-import { HomeComponent } from './page/home/home.component';
+
 import { AlbumsComponent } from './Components/albums/albums.component';
-import { SearchComponent } from './Components/Search/search.component';
-import { DefaultLayoutComponent } from './Layout/default-layout/default-layout.component';
 import { ArtistComponent } from './Components/artist/artist.component';
-import { PlaylistsComponent } from './Components/playlists/playlists.component';
+
+import { DefaultLayoutComponent } from './Layout/default-layout/default-layout.component';
+import { authGuard } from './guard/auth.guard';
+import { HomeComponent } from './page/home/home.component';
+
+import { CallbackComponent } from './Components/callback/callback.component';
+import { MyPlaylistComponent } from './Components/my-playlist/my-playlist.component';
 
 export const routes: Routes = [
-    {
-        path: 'signup',
-        component: SignupComponent
-    },
-    {
-        path: 'login',
-        component:LoginComponent
-    },
- 
-    {
+  {
+    path: 'callback',
+    component: CallbackComponent,
+  },
+
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+
+    children: [
+      {
+        path: 'artist/:id',
+        component: ArtistComponent,
+      },
+      {
+        path: 'albums/:id',
+        component: AlbumsComponent,
+      },
+
+      {
+        path: 'MyPlaylist',
+        component: MyPlaylistComponent,
+        canActivate: [authGuard],
+      },
+      {
         path: '',
-        component:DefaultLayoutComponent,
-        children: [
-            {
-                path: 'artist/:id',
-                component:ArtistComponent
-            },
-            {
-                path: 'albums/:id',
-                component:AlbumsComponent
-            },
-            {
-                path: 'playlist/:id',
-                component:PlaylistsComponent
-            },
-            {
-                path: 'search',
-                component:SearchComponent
-            },
-            {
-                path: '',
-            
-                component:HomeComponent
-            },
-        ]
-    },
-    
-  
+
+        component: HomeComponent,
+      },
+    ],
+  },
 ];

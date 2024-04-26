@@ -1,0 +1,40 @@
+<div class="main">
+  <div
+    class="banner-img"
+    [ngStyle]="{ 'background-image': 'url(' + imgUrl + ')' }"
+  >
+    <div class="content">
+      <p>{{ infoPlaylist.name }}</p>
+      <!-- <p>{{album.artists[0].name}}</p> -->
+    </div>
+  </div>
+
+  <div class="play">
+    <i class="bi bi-play-fill"></i>
+  </div>
+
+  <div class="dashboard">
+    <div class="item" *ngFor="let item of data; let i = index">
+      <div>
+        <p>{{ i + 1 }}</p>
+      </div>
+
+      <img [src]="item.track.album.images[2].url" alt="" />
+      <div class="content-track">
+        <div class="ct-name">
+          <p>
+            {{ item.track.name }}
+          </p>
+        </div>
+        <div class="ct-alb">
+          <p>
+            {{ item.track.album.name }}
+          </p>
+        </div>
+        <div class="ct-dur">
+          <p>{{ format(item.track.duration_ms) }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
