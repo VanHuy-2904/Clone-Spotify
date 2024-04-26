@@ -93,8 +93,8 @@ a {
 }
 
 .item:hover {
-  background-color: #252525;
-  border-radius: 10px;
+  background-color: hsla(0, 0%, 100%, .1);
+  border-radius: 7px;
 }
 
 .item a:hover p:nth-child(1) {
@@ -104,7 +104,7 @@ a {
 .item {
   height: auto;
   display: flex;
-  padding: 5px;
+  padding: 10px;
   justify-content: space-between;
   color: white;
 }

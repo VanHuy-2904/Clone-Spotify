@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   updateData(currentTrack: Track) {
     
-    this.musicService.updateData(currentTrack);
+    this.musicService.updateData();
   }
 
 

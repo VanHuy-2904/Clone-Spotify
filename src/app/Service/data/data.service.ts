@@ -15,7 +15,7 @@ export class DataService {
   updateData(track: Track) {
     
     const newData = track;
-    this.music.updateData(newData);
+    this.music.updateData();
   }
 
   getAlbum(id: string) {

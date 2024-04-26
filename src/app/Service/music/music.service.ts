@@ -9,9 +9,9 @@ import { Track } from './track';
   providedIn: 'root',
 })
 export class MusicService {
-   dataSubject = new BehaviorSubject<Track | null>(null);
-    data$ = this.dataSubject.asObservable();
-
+  dataSubject = new BehaviorSubject<Track | null>(null);
+  data$ = this.dataSubject.asObservable();
+  playSubject = new BehaviorSubject<boolean>(false);
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -19,21 +19,30 @@ export class MusicService {
   // getData() {
   //   return this.data$;
   // }
+  getData(): Observable<any> {
+    this.updateData();
+    return this.data$;
+  }
 
-  updateData(data: Track) {
-    this.dataSubject.next(data);
+  updateData() {
+    const storedDataString = localStorage.getItem('trackCurrent');
+
+    if (storedDataString !== null) {
+      const storedData: Track = JSON.parse(storedDataString!);
+      if (storedData) this.dataSubject.next(storedData);
+    }
   }
 
   playTrack(track: Track, progress_ms: number): Observable<any> {
     return this.http.put('https://api.spotify.com/v1/me/player/play', {
       // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
       uris: [track.uri],
-      "position_ms": progress_ms
+      position_ms: progress_ms,
     });
   }
 
-  pauseTrack():Observable<any> {
-    return this.http.put('https://api.spotify.com/v1/me/player/pause', {})
+  pauseTrack(): Observable<any> {
+    return this.http.put('https://api.spotify.com/v1/me/player/pause', {});
   }
 
   getTopTrack(): Observable<any> {
@@ -49,7 +58,7 @@ export class MusicService {
     );
   }
 
-  getTrack(id:string):Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/tracks/${id}`)
+  getTrack(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/tracks/${id}`);
   }
 }

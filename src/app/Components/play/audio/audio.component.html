@@ -1,7 +1,7 @@
 <div class="music-player">
   <div class="song-bar">
-    <div class="song-infos">
-      <div class="image-container">
+    <div class="song-infos" *ngIf="dataTrack">
+      <div class="image-container" >
         <img [src]="dataTrack.album.images[0].url" alt="" />
       </div>
       <div class="song-description">
@@ -39,11 +39,11 @@
       <i class="bi bi-undo-alt"></i>
     </div>
     <div class="progress-container">
-      <span>{{format(progressTime)}}</span>
+      <span *ngIf="progressTime">{{format(progressTime)}}</span>
       <div class="progress-bar">
         <div class="progress" [style.--progressPercent]="progressPercent + '%'" ></div>
       </div>
-      <span>{{ format(dataTrack.duration_ms) }}</span>
+      <span *ngIf="dataTrack">{{ format(dataTrack.duration_ms) }}</span>
     </div>
   </div>
   <div class="other-features">

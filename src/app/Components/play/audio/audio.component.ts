@@ -17,7 +17,7 @@ import { DataService } from '../../../Service/data/data.service';
   styleUrl: './audio.component.scss',
 })
 export class AudioComponent implements OnInit, OnDestroy {
-  dataTrack = new Track();
+  dataTrack!: Track;
   getTrackSub!: Subscription;
   private dataSubscription!: Subscription;
   constructor(
@@ -25,35 +25,27 @@ export class AudioComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private musicService: MusicService,
   ) {}
-  currentTrack: any;
+  currentTrack!: any;
   progressPercent: number = 0;
   progressTime!: number;
-  play: boolean = false;
+  playTrue: boolean = true;
+  play!: boolean;
   getCurrentTrackSub!: Subscription;
   intervalId: any;
+
   ngOnInit(): void {
-    this.musicService.dataSubject.subscribe((data: any) => {
-      this.getTrackSub = this.musicService
-        .getTrack(data.id)
-        .subscribe((trackInfo: any) => {
-          this.dataTrack = trackInfo;
-          this.play = true;
-          if (this.play) {
-            setInterval(() => {
-              if (this.play) {
-                this.getCurrentTrackSub = this.musicService
-                  .getCurrentPlaying()
-                  .subscribe((data: any) => {
-                    this.progressPercent = Math.floor(
-                      (data.progress_ms / data.item.duration_ms) * 100,
-                    );
-                    this.progressTime = data.progress_ms;
-                  });
-              }
-            }, 1000);
-          }
-        });
+    if (localStorage.getItem('currentPlay') === 'true') {
+      this.musicService.pauseTrack().subscribe();
+      localStorage.setItem('currentPlay', 'false');
+    }
+    setInterval(() => {
+      this.progressTime = Number(localStorage.getItem('test'));
+    }, 1000);
+
+    this.musicService.playSubject.subscribe((data: boolean) => {
+      this.play = data;
     });
+    this.playMusic();
   }
 
   format(duration_ms: number) {
@@ -68,14 +60,44 @@ export class AudioComponent implements OnInit, OnDestroy {
   handleClick() {
     if (!this.play) {
       this.musicService
-        .playTrack(this.dataTrack, this.currentTrack.progress_ms)
+        .playTrack(this.dataTrack, this.progressTime)
         .subscribe(() => {});
+      this.playMusic();
+      localStorage.setItem('currentPlay', String(!this.play));
     } else {
       this.musicService.getCurrentPlaying().subscribe((data) => {
         this.currentTrack = data;
       });
       this.musicService.pauseTrack().subscribe(() => {});
+
+      localStorage.setItem('currentPlay', 'false');
     }
     this.play = !this.play;
+  }
+
+  playMusic() {
+    this.musicService.getData().subscribe((data: any) => {
+      this.getTrackSub = this.musicService
+        .getTrack(data.id)
+        .subscribe((trackInfo: any) => {
+          this.dataTrack = trackInfo;
+          // this.play = true;
+          if (this.play) {
+            setInterval(() => {
+              if (this.play) {
+                this.getCurrentTrackSub = this.musicService
+                  .getCurrentPlaying()
+                  .subscribe((data: any) => {
+                    this.progressPercent = Math.floor(
+                      (data.progress_ms / data.item.duration_ms) * 100,
+                    );
+                    this.progressTime = data.progress_ms;
+                    localStorage.setItem('test', String(this.progressTime));
+                  });
+              }
+            }, 1000);
+          }
+        });
+    });
   }
 }

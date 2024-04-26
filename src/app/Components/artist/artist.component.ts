@@ -37,8 +37,8 @@ export class ArtistComponent implements OnInit {
     });
   }
 
-  updateData(name: string, artist: string, img: string, id: string) {
-    this.artistService.updateData(name, artist, img, id);
+  updateData(track: Track) {
+    this.artistService.updateData(track);
   }
 
   getAlbum(id: string) {

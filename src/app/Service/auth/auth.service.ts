@@ -61,7 +61,7 @@ export class AuthService {
 
   refreshAccessToken(): Observable<any> {
     const tokenUrl = 'https://accounts.spotify.com/api/token';
-    const body = `grant_type=refresh_token&refresh_token=${localStorage.getItem('refresh_token')}&client_id=${environment.client_id}&client_secret=${environment.client_secret}`;
+    const body = `grant_type=refresh_token&refresh_token=${localStorage.getItem('refresh')}&client_id=${environment.client_id}&client_secret=${environment.client_secret}`;
 
     return this.http.post(tokenUrl, body, {
       headers: new HttpHeaders({

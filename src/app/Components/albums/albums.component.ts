@@ -41,23 +41,27 @@ export class AlbumsComponent implements OnInit, OnDestroy {
     return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds);
   }
   updateData(currentTrack: Track) {
-    this.musicService.updateData(currentTrack);
+    const dataTrackCurrent = JSON.stringify(currentTrack);
+    localStorage.setItem('trackCurrent', dataTrackCurrent);
+    this.musicService.updateData();
+    this.musicService.playSubject.next(true);
+
   }
 
   getTrackAlbum(id: string) {
     this.getAlbumSub = this.getTrackAlbumSub = this.dataService
       .getTrackAlbum(id)
       .subscribe((data: any) => {
-        console.log(data);
-
         this.track = data.items;
       });
   }
 
   getAlbum(id: string) {
-    this.dataService.getAlbumDetail(id).subscribe((data: any) => {
-      this.album = data;
-    });
+    if (id) {
+      this.dataService.getAlbumDetail(id).subscribe((data: Album) => {
+        this.album = data;
+      });
+    }
   }
 
   getTrackPlay(id: string) {
@@ -65,8 +69,16 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   }
 
   playTrack(track: Track) {
-    console.log(track.uri);
-    this.musicService.getCurrentPlaying();
+    // this.musicService.getCurrentPlaying().subscribe((data: any) => {
+    //   console.log(data);
+
+    // });
+    localStorage.setItem('currentPlay', 'true')
+    
+    this.musicService.getTrack(track.id).subscribe((data: Track) => {
+      const dataString = JSON.stringify(data);
+      localStorage.setItem('trackCurrent', dataString);
+    });
     this.musicService.playTrack(track, 0).subscribe((data) => {});
   }
   ngOnDestroy(): void {
