@@ -1,0 +1,33 @@
+
+<div class="main-container">
+  
+    <!-- <input type="text" [ngClass] = 'countTest' name="" id=""> -->
+
+
+    <div  class="topbar">
+        <div class="prev-next-buttons">
+          <button><i class="bi bi-arrow-left-short"></i></button>
+            
+          <button type="button" class="bi bi-arrow-right-short"></button>
+          <div class="search-icon-container">
+            <i class="bi bi-search"></i>
+            <input [(ngModel)]="searchvalue" (input)="onInputChange($event)" type="text" placeholder="Bạn muốn tìm kiếm nội dung gì"/>
+          </div>
+    
+        </div>
+     
+        <div class="navbar">
+          <ng-container *ngIf="name; else NoName">
+            <a href="">{{name}}</a>
+            <a href=""><button (click) = "logout()" type="button">Đăng xuất</button></a>
+          </ng-container>
+        
+          <ng-template #NoName>
+            <a href="/signup">Đăng ký</a>     
+            <a href="/login"><button type="button">Đăng nhập</button></a>
+          </ng-template>
+      
+        </div>
+      </div> 
+   
+</div>

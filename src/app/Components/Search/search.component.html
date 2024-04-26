@@ -1,0 +1,20 @@
+
+<div class="main">
+    <h2>Duyệt tìm tất cả</h2>
+    <ng-container *ngIf="!searchvalue">
+    <div class="dashboard">
+        <div class="item" *ngFor = "let item of data">
+            <a [routerLink]="['/playlist', item.id]">
+            <div>
+                <img [src]="item.images[0].url" alt="">
+                <p>{{item.name}}</p>
+            </div>
+        </a>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="searchvalue">
+        <div>Search Resukt</div>
+    </ng-container>
+
+</div>

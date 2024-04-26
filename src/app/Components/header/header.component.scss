@@ -1,0 +1,96 @@
+.topbar {
+    // opacity: 0.5;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1000;
+    right: 8px;
+    left: 220px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    // padding: 14px 20px;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  .topbar .prev-next-buttons button {
+    color: #7a7a7a;
+    cursor: not-allowed;
+    width: 34px;
+    height: 34px;
+    border-radius: 100%;
+    font-size: 18px;
+    border: 0px;
+    background-color: #090909;
+    margin-right: 10px;
+  }
+  .topbar .navbar {
+    display: flex;
+    align-items: center;
+  }
+
+
+  .topbar .navbar a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .topbar .navbar a:hover,
+  .topbar .navbar a:active,
+  .topbar .navbar a:focus {
+    color: #ffffff;
+    font-size: 15px;
+  }
+
+  .topbar .navbar button {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 8px 20px;
+    border: 0px;
+    border-radius: 40px;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  .topbar .navbar button:hover,
+  .topbar .navbar button:active,
+  .topbar .navbar button:focus {
+    background-color: #f2f2f2;
+  }
+
+  .prev-next-buttons {
+//    position: absolute;
+    display: flex;
+    padding: 10px;
+   
+ 
+  }
+
+  .search-icon-container{
+    // margin-top: 10px;
+    position: relative;
+  }
+
+  .search-icon-container i {
+    position: absolute;
+     top: 10px;
+     left: 10px;
+     font-size: 10px;
+
+  }
+  
+
+  .search-icon-container input {
+    // height: 100%;
+    outline: none    ;
+    width: 200px;
+    height: 100%;
+    border-radius: 30px;
+    padding-left: 25px;
+    font-size: 8px;
+   border: none;
+  }
