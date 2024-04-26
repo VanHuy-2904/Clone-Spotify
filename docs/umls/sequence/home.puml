@@ -1,0 +1,15 @@
+@startuml
+actor User
+participant "Client" as Client
+participant "Spotify API" as Spotify
+participant "Service" as Service
+
+
+User -> Client: Truy cập vào giao diện trang chủ
+Client -> Spotify: Yêu cầu dữ liệu
+Spotify -> Service: Gửi yêu cầu
+Service -> Spotify: Truy xuất dữ liệu
+Spotify -> Client: Trả về dữ liệu top track và new album
+Client -> User: Hiển thị dữ liệu
+
+@enduml
