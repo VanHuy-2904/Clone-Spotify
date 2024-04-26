@@ -1,88 +1,89 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  accessToken: any;
-  refresh_token: any;
+  accessToken: string = '';
   userNameSubject$ = new BehaviorSubject('');
   userName$ = this.userNameSubject$.asObservable();
   nameUser: string;
+  tokenUrl = 'https://accounts.spotify.com/api/token';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor(private http: HttpClient) {
     this.accessToken = '';
-    this.refresh_token = '';
     this.nameUser = '';
   }
   setToken(token: string) {
     localStorage.setItem('token', token);
   }
+
+  setRefreshToken(tokenRefresh: string) {
+    localStorage.setItem('refreshToken', tokenRefresh);
+  }
   getToken() {
     return localStorage.getItem('token');
   }
   login() {
-    const authorizeUrl = `https://accounts.spotify.com/authorize?client_id=${environment.client_id}&response_type=code&redirect_uri=${environment.redirect_uri}&scope=${environment.scope}&state=${environment.state}`;
+    const params = new URLSearchParams({
+      client_id: environment.clientId,
+      response_type: 'code',
+      redirect_uri: environment.redirectUri,
+      scope: environment.scope,
+      state: environment.state,
+    });
+    const authorizeUrl = `https://accounts.spotify.com/authorize?${params}, `;
     window.location.href = authorizeUrl;
     // window.location.reload();
   }
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('nameUser');
-    const tokenUrl = 'https://accounts.spotify.com/api/token';
-    this.http.post(tokenUrl, `token=${this.accessToken}`, {
+    this.http.post(this.tokenUrl, `token=${this.accessToken}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
       }),
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   exchangeCode(code: string): Observable<any> {
-    const tokenUrl = 'https://accounts.spotify.com/api/token';
-    const body = `grant_type=authorization_code&code=${code}&redirect_uri=${environment.redirect_uri}`;
-
+    const body = new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: environment.redirectUri,
+    });
     const headers = new HttpHeaders({
       Authorization:
-        'Basic ' +
-        btoa(environment.client_id + ':' + environment.client_secret),
+        'Basic ' + btoa(environment.clientId + ':' + environment.clientSecret),
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http.post(tokenUrl, body, { headers });
+    return this.http.post(this.tokenUrl, body, { headers });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   refreshAccessToken(): Observable<any> {
-    const tokenUrl = 'https://accounts.spotify.com/api/token';
-    const body = `grant_type=refresh_token&refresh_token=${localStorage.getItem('refresh_token')}&client_id=${environment.client_id}&client_secret=${environment.client_secret}`;
+    const refreshToken = localStorage.getItem('refreshToken');
 
-    return this.http.post(tokenUrl, body, {
+    const body = new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken!,
+      client_id: environment.clientId,
+      client_secret: environment.clientSecret,
+    });
+
+    return this.http.post(this.tokenUrl, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
       }),
     });
   }
 
-  getUserinfo(token: any): Observable<any> {
-    return this.http.get('https://api.spotify.com/v1/me', {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${token}`,
-      }),
-    });
-  }
-
-  getUser(): Observable<any> {
-    return this.http.get('https://api.spotify.com/v1/me', {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      }),
-    });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getUserinfo(): Observable<any> {
+    return this.http.get(environment.apiConfig + '/me');
   }
 }

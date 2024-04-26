@@ -1,14 +1,15 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Observer } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
-import { MusicData } from './music.i';
+import { Track } from './track';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MusicService {
-  private dataSubject = new BehaviorSubject<any[]>([]);
+  private dataSubject = new BehaviorSubject<Track[]>([]);
   data$ = this.dataSubject.asObservable();
 
   constructor(
@@ -19,28 +20,35 @@ export class MusicService {
     return this.data$;
   }
 
-  updateData(data: MusicData) {
+  updateData(data: Track) {
     this.dataSubject.next([]);
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
   playMusic() {
-    console.log(localStorage.getItem('token'));
-
-    // Make a GET request to Spotify API to play the track
-    this.http
-      .get('https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl')
-      .subscribe(
-        (response) => {
-          console.log('Track is now playing:', response);
-        },
-        (error) => {
-          console.error('Error playing track:', error);
-        },
-      );
+    if (localStorage.getItem('token')) {
+      this.http
+        .get(environment.apiConfig + '/tracks/11dFghVXANMlKmJXsNCbNl')
+        .subscribe({
+          next: () => {},
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
   }
 
-  getTopTrack():Observable<any> {
-   const params = new HttpParams().set('country', 'VN');
-    return this.http.get('https://api.spotify.com/v1/me/top/tracks', {params})
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getCurrentPlaying(): Observable<any> {
+    return this.http.get(
+      `${environment.apiConfig} + /me/player/currently-playing`,
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getTopTrack(): Observable<any> {
+    const params = new HttpParams().set('country', 'VN');
+    return this.http.get('https://api.spotify.com/v1/me/top/tracks', {
+      params,
+    });
   }
 }

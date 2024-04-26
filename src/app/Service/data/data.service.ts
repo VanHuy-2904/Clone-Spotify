@@ -1,7 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { MusicService } from '../music/music.service';
+import { Track } from '../music/track';
 
 @Injectable({
   providedIn: 'root',
@@ -11,19 +13,14 @@ export class DataService {
     private http: HttpClient,
     private music: MusicService,
   ) {}
-  updateData(
-    nameTrack: string,
-    artistTrack: string,
-    imgTrack: string,
-    idTrack: string,
-  ) {
-    const newData = { nameTrack, artistTrack, imgTrack, idTrack };
+  updateData(track: Track) {
+    const newData = track;
 
     this.music.updateData(newData);
   }
 
   getAlbum(id: string) {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
+    return this.http.get(environment.apiConfig + `/artists/${id}/top-tracks`);
   }
 
   formatMillisecondsToMinutesAndSeconds(milliseconds: number): string {
@@ -35,15 +32,18 @@ export class DataService {
     return formattedTime;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getArtist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}`);
+    return this.http.get(environment.apiConfig + `/artists/${id}`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTrackAlbum(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/albums/${id}/tracks`);
+    return this.http.get(environment.apiConfig + `/albums/${id}/tracks`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAlbumDetail(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/albums/${id}`);
+    return this.http.get(environment.apiConfig + `/albums/${id}`);
   }
 }

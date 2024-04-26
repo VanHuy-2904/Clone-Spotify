@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Spotify API
+  description: API for authorizing Spotify access
+  version: 1.0.0
+servers:
+  - url: https://api.spotify.com/v1/
+paths:
+  /me:
+    get: 
+      summary: Get User info
+      description: ""
+      tags:
+        - "User"
+      responses:
+        '200': 
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  country: 
+                    type: string
+                    description: The country of the user
+                  display_name: 
+                    type: string
+                    description: The name displayed on the user's profile
+                  email:
+                    type: string
+                    description: The user's email address
+                  explicit_content:
+                    type: object
+                    properties:
+                      filter_enabled:
+                        type: boolean
+                        default: false
+                        description: "When true, indicates that explicit content should not be played"
+                      filter_locked:
+                        type: boolean
+                        default: false
+                        description: "When true, indicates that the explicit content setting is locked and can't be changed by the user."
+                  external_urls:
+                    type: object
+                    properties:
+                      spotify: 
+                        type: string
+                        description: The Spotify URL for the object.
+                  followers:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        description: "A link to the Web API endpoint for this user."
+                      total:
+                        type: integer
+                        description: 'The total number of followers.'
+                  images: 
+                    type: array
+                    required:
+                      - "url"
+                      - "height"
+                      - "width"
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          description: "The source URL of the image."
+                        height:
+                          type: integer
+                          description: The image height in pixels.
+                        width:
+                         
+                          type: integer
+                          description: The image width in pixels.
+                  product: 
+                    type: string
+                    description: The user's Spotify subscription level
+                  type:
+                    type: string
+                    description: The object type
+                  uri:
+                    type: string
+                    description: The Spotify URI for the user.
+        '401':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: ""
+                    example: '400'
+                  message:
+                    type: string
+                    description: ""
+                    example: 'Bad or expired token.'
+        '403':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: ""
+                    example: '403'
+                  message:
+                    type: string
+                    description: ""
+                    example: 'Bad OAuth request'
+        '429':
+          description: Errror response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: number
+                    description: ""
+                    example: "429"
+                  message: 
+                    type: string
+                    description: ''
+                    example: "The app has exceeded its rate limits."

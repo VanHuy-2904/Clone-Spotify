@@ -1,18 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../Service/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { ArtistComponent } from '../../Components/artist/artist.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Artist } from '../../Service/artist/Artists';
-import { Track } from '../../Service/music/track';
-import { DataService } from '../../Service/data/data.service';
+import { ArtistComponent } from '../../Components/artist/artist.component';
 import { Album } from '../../Service/album/album';
-import { MusicService } from '../../Service/music/music.service';
 import { AlbumService } from '../../Service/album/album.service';
+import { Artist } from '../../Service/artist/Artists';
+import { AuthService } from '../../Service/auth/auth.service';
+import { MusicService } from '../../Service/music/music.service';
+import { Track } from '../../Service/music/track';
 // import { Login } from '../login/login.component';
 
 @Component({
@@ -34,7 +31,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private albumService: AlbumService,
     private authService: AuthService,
-
     private musicService: MusicService,
   ) {
     this.tracks = [];
@@ -44,27 +40,30 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.token = localStorage.getItem('token');
     this.getTopTrack = this.musicService
       .getTopTrack()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .subscribe((data: any) => {
         console.log(data);
-        
-        this.topTracks = data.items.map((item: any)=>({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        this.topTracks = data.items.map((item: any) => ({
           name: item.name,
           id: item.id,
           artist: item.artists,
           duration_ms: item.duration_ms,
           album: item.album,
-          uri: item.uri
-        }))
-        
+          uri: item.uri,
+        }));
+
         this.getAlbumSub = this.albumService
           .getAlbumNew()
-          .subscribe((data: any) => {            
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .subscribe((data: any) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.albumNew = data.albums.items.map((item: any) => ({
               id: item.id,
               name: item.name,
               images: item.images,
               artists: item.artists,
-              uri: item.uri
+              uri: item.uri,
             }));
           });
       });
@@ -72,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getTopTrack.unsubscribe();
-    this.getAlbumSub.unsubscribe()
+    this.getAlbumSub.unsubscribe();
   }
 
   handelClick() {

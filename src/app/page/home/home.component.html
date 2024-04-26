@@ -5,6 +5,7 @@
       <div class="list">
         <div class="item" *ngFor="let topTrack of topTracks">
           <a style="text-decoration: none" [routerLink]="">
+            <!-- eslint-disable -->
             <img [src]="topTrack.album.images[1].url" />
             <div class="play">
               <span class="fa fa-play"></span>
@@ -13,7 +14,7 @@
           </a>
         </div>
       </div>
-      <h2 style="margin-top: 10px;">Album mới phát hành</h2>
+      <h2 style="margin-top: 10px">Album mới phát hành</h2>
       <div class="list">
         <div class="item" *ngFor="let newAlbum of albumNew">
           <a style="text-decoration: none" [routerLink]="">
