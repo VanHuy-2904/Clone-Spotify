@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Album } from './album';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AlbumService {
 
   getAlbumNew(): Observable<Album> {
     return this.http.get<Album>(
-      'https://api.spotify.com/v1/browse/new-releases',
+      environment.apiConfig + environment.apiPaths.getNewAlbum,
     );
   }
 }

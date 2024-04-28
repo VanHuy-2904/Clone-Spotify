@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Album } from '../../Service/album/album';
+import { AlbumDetail } from '../../Service/album/album-detail.i';
 import { DataService } from '../../Service/data/data.service';
 import { Track } from '../../Service/music/track';
 
@@ -15,7 +15,7 @@ import { Track } from '../../Service/music/track';
 })
 export class AlbumsComponent implements OnInit, OnDestroy {
   track: Track[] = [];
-  album!: Album;
+  album!: AlbumDetail;
   link: string;
   getAlbumSub!: Subscription;
   getTrackAlbumSub!: Subscription;
@@ -49,7 +49,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   }
 
   getAlbum(id: string) {
-    this.dataService.getAlbumDetail(id).subscribe((data: Album) => {
+    this.dataService.getAlbumDetail(id).subscribe((data: AlbumDetail) => {
       this.album = data;
     });
   }

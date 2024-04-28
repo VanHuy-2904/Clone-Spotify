@@ -10,7 +10,8 @@ import { Artist } from '../../Service/artist/Artists';
 import { AuthService } from '../../Service/auth/auth.service';
 import { MusicService } from '../../Service/music/music.service';
 import { Track } from '../../Service/music/track';
-import { PlayList } from '../../Service/playlist/playlist.i';
+import { Playlist } from '../../Service/playlist/playlist.i';
+import { PlaylistService } from '../../Service/playlist/playlist.service';
 // import { Login } from '../login/login.component';
 
 @Component({
@@ -22,17 +23,18 @@ import { PlayList } from '../../Service/playlist/playlist.i';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   tracks: Track[] = [];
-  topTracks: PlayList[] = [];
+  topTracks!: Playlist;
   token!: string | null;
   artists: Artist[] = [];
   id: string;
-  albumNew: Album[] = [];
+  albumNew!: Album;
   getTopTrack!: Subscription;
   getAlbumSub!: Subscription;
   constructor(
     private albumService: AlbumService,
     private authService: AuthService,
     private musicService: MusicService,
+    private playlistService: PlaylistService,
   ) {
     this.tracks = [];
     this.id = '';
@@ -42,20 +44,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.token) {
       this.getTopTrack = this.musicService
         .getTopTrack()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((data: any) => {
-          this.topTracks = data.playlists.items;
+        .subscribe((data: Playlist) => {
+          this.topTracks = data;
           this.getAlbumSub = this.albumService
             .getAlbumNew()
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .subscribe((data: any) => {
-              this.albumNew = data.albums.items.map((item: Album) => ({
-                id: item.id,
-                name: item.name,
-                images: item.images,
-                artists: item.artists,
-                uri: item.uri,
-              }));
+            .subscribe((data: Album) => {
+              if (data) this.albumNew = data;
             });
         });
     }
