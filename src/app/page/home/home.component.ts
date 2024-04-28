@@ -66,6 +66,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getAlbumSub.unsubscribe();
   }
 
+  login() {
+    this.authService.login();
+  }
+
   handelClick() {
     this.authService.login();
   }
