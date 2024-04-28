@@ -158,4 +158,25 @@
   }
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  button {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    background-color: white;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  a {
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+  }
+}
 
