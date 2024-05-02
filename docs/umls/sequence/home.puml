@@ -2,17 +2,17 @@
 actor User
 participant "Client" as Client
 participant "Spotify API" as Spotify
-participant "Service" as Service
+
 
 
 User -> Client: Truy cập vào giao diện trang chủ
 Client -> Spotify: Yêu cầu dữ liệu của api https://api.spotify.com/v1/browse/featured-playlists
-Spotify -> Service: Gửi yêu cầu 
-Service -> Spotify: Truy xuất dữ liệu
+
+
 Spotify -> Client: Trả về dữ liệu top playlist
 Client -> Spotify: Yêu cầu dữ liệu của api https://api.spotify.com/v1/browse/new-releases
-Spotify -> Service: Gửi yêu cầu
-Service -> Spotify: Truy xuất dữ liệu
+
+
 Spotify -> Client: Trả về dư liệu new Album 
 Client -> User: Hiển thị dữ liệu
 
