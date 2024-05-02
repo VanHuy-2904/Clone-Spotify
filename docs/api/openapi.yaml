@@ -8,6 +8,8 @@ servers:
 paths:
   /me:
     get: 
+      security:
+       - BearerAuth: []
       summary: Get User info
       description: ""
       tags:
@@ -57,12 +59,13 @@ paths:
                         description: 'The total number of followers.'
                   images: 
                     type: array
-                    required:
-                      - "url"
-                      - "height"
-                      - "width"
+                   
                     items:
                       type: object
+                      required:
+                        - "url"
+                        - "height"
+                        - "width"
                       properties:
                         url:
                           type: string
@@ -84,54 +87,19 @@ paths:
                     type: string
                     description: The Spotify URI for the user.
         '401':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: ""
-                    example: '400'
-                  message:
-                    type: string
-                    description: ""
-                    example: 'Bad or expired token.'
+            $ref: '#/components/responses/err401'
+                
         '403':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: ""
-                    example: '403'
-                  message:
-                    type: string
-                    description: ""
-                    example: 'Bad OAuth request'
+            $ref: '#/components/responses/err403'
         '429':
-          description: Errror response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status: 
-                    type: number
-                    description: ""
-                    example: "429"
-                  message: 
-                    type: string
-                    description: ''
-                    example: "The app has exceeded its rate limits."
+            $ref: '#/components/responses/err429'
+
   /browse/featured-playlists:
     get:
       summary: Get top Playlist 
       description: ""
+      security:
+        - BearerAuth: []
       tags:
         - "Playlist"
       parameters:
@@ -157,7 +125,14 @@ paths:
             application/json:
               schema:
                 type: object
-              
+                required:
+                  - "href"
+                  - "limit"
+                  - "next"
+                  - "offset"
+                  - "previous"
+                  - "total"
+                  - "items"
                 properties:
                   
                  href:
@@ -184,7 +159,7 @@ paths:
                   type: integer
                   description: The total number of items available to return.
                   example: 4
-                 item:
+                 items:
                   type: array
                   items:
                     type: object
@@ -212,6 +187,10 @@ paths:
                         type: array
                         items:
                           type: object
+                          required:
+                            - "url"
+                            - "width"
+                            - "height"
                           properties:
                             url: 
                              type: string
@@ -282,54 +261,19 @@ paths:
                         type: string
                         description: The Spotify URI for the playlist.               
         '401':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: ""
-                    example: '400'
-                  message:
-                    type: string
-                    description: ""
-                    example: 'Bad or expired token.'
+            $ref: '#/components/responses/err401'
         '403':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: ""
-                    example: '403'
-                  message:
-                    type: string
-                    description: ""
-                    example: 'Bad OAuth request'
+            $ref: '#/components/responses/err403'
+
         '429':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status: 
-                    type: number
-                    description: ""
-                    example: "429"
-                  message: 
-                    type: string
-                    description: ''
-                    example: "The app has exceeded its rate limits."
+            $ref: '#/components/responses/err429'
+               
   /browse/new-releases:
     get:
       summary: Get Top Tracks
       description: ""
+      security:
+        - BearerAuth: []
       tags:
         - "Track"
       responses:
@@ -343,12 +287,13 @@ paths:
                   albums:
                     type: object
                     required:
-                     - "href"
-                     - "limit"
-                     - "next"
-                     - "offset"
-                     - "previous"
-                     - "total"
+                      - "href"
+                      - "limit"
+                      - "next"
+                      - "offset"
+                      - "previous"
+                      - "total"
+                      - "items"
                     properties:
                       href:
                         type: string
@@ -374,7 +319,7 @@ paths:
                         type: string
                         description: The total number of items available to return.
                         example: 4
-                      item:
+                      items:
                         type: array
                         items: 
                           type: object
@@ -481,49 +426,65 @@ paths:
                                     uri: 
                                       type: string     
         '401':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: ""
-                    example: '400'
-                  message:
-                    type: string
-                    description: ""
-                    example: 'Bad or expired token.'
+            $ref: '#/components/responses/err401'
         '403':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: ""
-                    example: '403'
-                  message:
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'
+                
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer 
+  responses:
+    err401: 
+      description: " Error response for 401 status code"
+      content:
+        application/json:
+          schema:
+             type: object
+             properties:
+              status:
+                  type: integer
+                  description: ""
+                  example: '400'
+              message:
+                  type: string
+                  description: ""
+                  example: 'Bad or expired token.'
+    err403:
+      description: "Error Response"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+                status:
+                  type: integer
+                  description: ""
+                  example: '403'
+                message:
                     type: string
                     description: ""
                     example: 'Bad OAuth request'
-        '429':
-          description: Error response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status: 
-                    type: number
-                    description: ""
-                    example: "429"
-                  message: 
-                    type: string
-                    description: ''
-                    example: "The app has exceeded its rate limits."         
-                                        
+    err429:
+      description: "Error Response"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status: 
+                  type: number
+                  description: ""
+                  example: "429"
+              message: 
+                  type: string
+                  description: ''
+                  example: "The app has exceeded its rate limits."      
+          
+
+    
 
