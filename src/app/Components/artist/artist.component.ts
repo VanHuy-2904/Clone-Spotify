@@ -42,8 +42,7 @@ export class ArtistComponent implements OnInit {
   getArtist(id: string) {
     this.getArtistSubscription = this.artistService
       .getArtist(id)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .subscribe((data: any) => {
+      .subscribe((data: Artist) => {
         this.artist = data;
       });
   }

@@ -10,14 +10,12 @@ import { Playlist } from './playlist.i';
 export class PlaylistService {
   constructor(private http: HttpClient) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPlaylist(idPlaylist: string): Observable<Playlist> {
     return this.http.get<Playlist>(
       environment.apiConfig + environment.apiPaths.getPlaylist(idPlaylist),
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getInfoPlaylist(id: string): Observable<Playlist> {
     return this.http.get<Playlist>(
       environment.apiConfig + environment.apiPaths.infoPlaylist(id),
@@ -30,7 +28,6 @@ export class PlaylistService {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getMyPlaylist(): Observable<Playlist> {
     return this.http.get<Playlist>(
       environment.apiConfig + environment.apiPaths.mePlaylist,

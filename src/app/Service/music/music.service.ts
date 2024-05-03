@@ -26,7 +26,6 @@ export class MusicService {
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTopTrack(): Observable<Playlist> {
     // const params = new HttpParams().set('country', 'VN');
     const params = new URLSearchParams({
