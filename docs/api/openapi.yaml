@@ -447,6 +447,7 @@ paths:
             $ref: '#/components/responses/err403'            
         '429':
             $ref: '#/components/responses/err429'
+             
                 
 
 components:
@@ -461,27 +462,44 @@ components:
         application/json:
           schema:
              type: object
+             required:
+               - "error"
              properties:
-              status:
-                  type: integer
-                  description: ""
-                  example: '400'
-              message:
-                  type: string
-                  description: ""
-                  example: 'Bad or expired token.'
+              error: 
+                type: object
+                required:
+                  - "status"
+                  - "message"
+                properties:
+                  status:
+                    type: integer
+                    description: ""
+                    example: '400'
+                  message:
+                    type: string
+                    description: ""
+                    example: 'Bad or expired token.'
     err403:
       description: "Error Response"
       content:
         application/json:
           schema:
             type: object
+            required:
+              - "error"
             properties:
-                status:
-                  type: integer
-                  description: ""
-                  example: '403'
-                message:
+              error:
+                type: object
+                required:
+                  - "status"
+                  - "message"
+                properties:
+                  
+                  status:
+                    type: integer
+                    description: ""
+                    example: '403'
+                  message:
                     type: string
                     description: ""
                     example: 'Bad OAuth request'
@@ -491,16 +509,25 @@ components:
         application/json:
           schema:
             type: object
+            required:
+              - "error"
             properties:
-              status: 
-                  type: number
-                  description: ""
-                  example: "429"
-              message: 
-                  type: string
-                  description: ''
-                  example: "The app has exceeded its rate limits."      
-          
+              error:
+                type: object
+                required:
+                  - "status"
+                  - "message"
+                properties:
+                  
+                  status: 
+                      type: number
+                      description: ""
+                      example: "429"
+                  message: 
+                      type: string
+                      description: ''
+                      example: "The app has exceeded its rate limits."      
+  
 
     
 
