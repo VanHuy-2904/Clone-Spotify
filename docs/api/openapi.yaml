@@ -275,7 +275,7 @@ paths:
       security:
         - BearerAuth: []
       tags:
-        - "Track"
+        - "Playlist"
       responses:
         '200': 
           description: ""
