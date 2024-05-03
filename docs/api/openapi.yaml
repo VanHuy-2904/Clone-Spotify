@@ -270,7 +270,7 @@ paths:
                
   /browse/new-releases:
     get:
-      summary: Get Top Tracks
+      summary: Get New Album
       description: ""
       security:
         - BearerAuth: []
@@ -283,6 +283,8 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - "albums"
                 properties:
                   albums:
                     type: object
@@ -323,6 +325,20 @@ paths:
                         type: array
                         items: 
                           type: object
+                          required:
+                            - "album_type"
+                            - "total_tracks"
+                            - "available_markets"
+                            - "external_urls"
+                            - "href"
+                            - "id"
+                            - "images"
+                            - "name"
+                            - "release_date"
+                            - "release_date_precision"
+                            - "type"
+                            - "uri"
+                            - "artists"
                           properties:
                             album_type:
                               type: string
