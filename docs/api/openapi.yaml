@@ -272,6 +272,23 @@ paths:
     get:
       summary: Get New Album
       description: ""
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+            description: The maximum number of items to return. Default 20. Minimum 1. Maximum 50.
+            default: 20
+            minimum: 0
+            maximum: 50
+            example: 10
+        - name: offset
+          in: query
+          schema:
+            type: string
+            description: The index of the first item to return. Default 0 (the first item). Use with limit to get the next set of items.
+            default: 0
+            example: 5
       security:
         - BearerAuth: []
       tags:
