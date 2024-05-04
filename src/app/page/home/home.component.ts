@@ -1,11 +1,18 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ArtistComponent } from '../../Components/artist/artist.component';
+import { Album } from '../../Service/album/album';
+import { AlbumService } from '../../Service/album/album.service';
 import { Artist } from '../../Service/artist/Artists';
 import { AuthService } from '../../Service/auth/auth.service';
+import { MusicService } from '../../Service/music/music.service';
 import { Track } from '../../Service/music/track';
+import { Playlist } from '../../Service/playlist/playlist.i';
+import { PlaylistService } from '../../Service/playlist/playlist.service';
+// import { Login } from '../login/login.component';
 
 @Component({
   selector: 'app-home',
@@ -14,32 +21,43 @@ import { Track } from '../../Service/music/track';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   tracks: Track[] = [];
-  topTracks: Track[] = [];
+  topTracks!: Playlist;
   token!: string | null;
   artists: Artist[] = [];
   id: string;
+  albumNew!: Album;
+  getTopTrack!: Subscription;
   getAlbumSub!: Subscription;
-  constructor(private authService: AuthService) {
+  constructor(
+    private albumService: AlbumService,
+    private authService: AuthService,
+    private musicService: MusicService,
+    private playlistService: PlaylistService,
+  ) {
     this.tracks = [];
     this.id = '';
   }
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
     if (this.token) {
-      const expiresInStr = localStorage.getItem('expiresIn');
-      const expiresIn = (Number(expiresInStr) - 30) * 1000;
-      setInterval(() => {
-        this.authService
-          .refreshAccessToken()
-          .subscribe(
-            (data: { access_token: string; refresh_token: string }) => {
-              this.authService.setToken(data.access_token);
-            },
-          );
-      }, expiresIn);
+      this.getTopTrack = this.musicService
+        .getTopTrack()
+        .subscribe((data: Playlist) => {
+          this.topTracks = data;
+          this.getAlbumSub = this.albumService
+            .getAlbumNew()
+            .subscribe((data: Album) => {
+              if (data) this.albumNew = data;
+            });
+        });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.getTopTrack.unsubscribe();
+    this.getAlbumSub.unsubscribe();
   }
 
   login() {

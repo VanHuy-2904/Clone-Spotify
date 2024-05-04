@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { Track } from './track';
+import { Playlist } from '../playlist/playlist.i';
 
 @Injectable({
   providedIn: 'root',
@@ -24,23 +25,15 @@ export class MusicService {
     this.dataSubject.next([]);
     this.dataSubject.next([...this.dataSubject.getValue(), data]);
   }
-  playMusic() {
-    if (localStorage.getItem('token')) {
-      this.http
-        .get(environment.apiConfig + '/tracks/11dFghVXANMlKmJXsNCbNl')
-        .subscribe({
-          next: () => {},
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    }
-  }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getCurrentPlaying(): Observable<any> {
-    return this.http.get(
-      `${environment.apiConfig} + /me/player/currently-playing`,
+  getTopTrack(): Observable<Playlist> {
+    // const params = new HttpParams().set('country', 'VN');
+    const params = new URLSearchParams({
+      locale: 'VN',
+      limit: '10',
+    });
+    return this.http.get<Playlist>(
+      environment.apiConfig + environment.apiPaths.topTrack + `?${params}`,
     );
   }
 }

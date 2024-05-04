@@ -1,11 +1,21 @@
 import { Artist } from '../artist/Artists';
 
-export class Album {
-  id!: string;
-  name!: string;
-  images!: images[];
-  artists!: Artist[];
-  uri!: string;
+export interface Album {
+  albums: Data;
+}
+
+export interface Data {
+  href: string;
+  items: Item[];
+}
+
+export interface Item {
+  href: string;
+  id: string;
+  images: images[];
+  name: string;
+  uri: string;
+  artists: Artist[];
 }
 
 export class images {

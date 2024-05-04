@@ -19,10 +19,6 @@ export class DataService {
     this.music.updateData(newData);
   }
 
-  getAlbum(id: string) {
-    return this.http.get(environment.apiConfig + `/artists/${id}/top-tracks`);
-  }
-
   formatMillisecondsToMinutesAndSeconds(milliseconds: number): string {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(totalSeconds / 60);
@@ -34,16 +30,22 @@ export class DataService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getArtist(id: string): Observable<any> {
-    return this.http.get(environment.apiConfig + `/artists/${id}`);
+    return this.http.get(
+      environment.apiConfig + environment.apiPaths.getArtist(id),
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTrackAlbum(id: string): Observable<any> {
-    return this.http.get(environment.apiConfig + `/albums/${id}/tracks`);
+    return this.http.get(
+      environment.apiConfig + environment.apiPaths.getTrackAlbum(id),
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAlbumDetail(id: string): Observable<any> {
-    return this.http.get(environment.apiConfig + `/albums/${id}`);
+    return this.http.get(
+      environment.apiConfig + environment.apiPaths.getAlbumDetail(id),
+    );
   }
 }

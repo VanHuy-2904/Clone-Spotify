@@ -1,4 +1,4 @@
-import { Album } from '../album/album';
+import { AlbumDetail } from '../album/album-detail.i';
 import { Artist } from '../artist/Artists';
 
 export class Track {
@@ -8,5 +8,5 @@ export class Track {
   uri!: string;
   popularity!: number;
   duration_ms!: number;
-  album!: Album;
+  album!: AlbumDetail;
 }

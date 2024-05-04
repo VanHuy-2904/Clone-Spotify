@@ -8,6 +8,8 @@ servers:
 paths:
   /me:
     get: 
+      security:
+       - BearerAuth: []
       summary: Get User info
       description: ""
       tags:
@@ -57,12 +59,13 @@ paths:
                         description: 'The total number of followers.'
                   images: 
                     type: array
-                    required:
-                      - "url"
-                      - "height"
-                      - "width"
+                   
                     items:
                       type: object
+                      required:
+                        - "url"
+                        - "height"
+                        - "width"
                       properties:
                         url:
                           type: string
@@ -84,11 +87,406 @@ paths:
                     type: string
                     description: The Spotify URI for the user.
         '401':
-          description: Error response
+            $ref: '#/components/responses/err401'
+                
+        '403':
+            $ref: '#/components/responses/err403'
+        '429':
+            $ref: '#/components/responses/err429'
+
+  /browse/featured-playlists:
+    get:
+      summary: Get top Playlist 
+      description: ""
+      security:
+        - BearerAuth: []
+      tags:
+        - "Playlist"
+      parameters:
+       - name: locale
+         in: query
+         description: The Client ID generated after registering your application.
+         schema:
+          type: string
+       - name: limit
+         in: query
+         description: The maximum number of items to return. Default 20. Minimum 1. Maximum 50
+         schema:
+          type: integer
+       - name: offer
+         in: query
+         description: The index of the first item to return. Default 0 (the first item). Use with limit to get the next set of items.
+         schema:
+          type: integer     
+      responses:
+        '200': 
+          description: ""
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - "href"
+                  - "limit"
+                  - "next"
+                  - "offset"
+                  - "previous"
+                  - "total"
+                  - "items"
+                properties:
+                  
+                 href:
+                  type: string
+                  description: A link to the Web API endpoint returning the full result of the request
+                  example: https://api.spotify.com/v1/me/shows?offset=0&limit=20
+                 limit: 
+                  type: integer
+                  description: The maximum number of items in the response (as set in the query or by default).
+                  example: 10
+                 next:
+                  type: string
+                  description: URL to the next page of items. ( null if none)
+                  example: https://api.spotify.com/v1/me/shows?offset=1&limit=1
+                 offset:
+                  type: string
+                  description: The offset of the items returned (as set in the query or by default)
+                  example: 0
+                 previous:
+                  type: string
+                  description: URL to the previous page of items. ( null if none)
+                  example: https://api.spotify.com/v1/me/shows?offset=1&limit=1
+                 total:
+                  type: integer
+                  description: The total number of items available to return.
+                  example: 4
+                 items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      collaborative:
+                        type: boolean
+                        description: true if the owner allows other users to modify the playlist.
+                      description:
+                        type: string
+                        description: The playlist description. Only returned for modified, verified playlists, otherwise null.
+                      external_urls:
+                        type: object
+                        description: Known external URLs for this playlist.
+                        properties:
+                          spotify:
+                            type: string
+                            description: The Spotify URL for the object.
+                      href:
+                        type: string
+                        description: A link to the Web API endpoint providing full details of the playlist.
+                      id:
+                        type: string
+                        description: The Spotify ID for the playlist.
+                      images:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - "url"
+                            - "width"
+                            - "height"
+                          properties:
+                            url: 
+                             type: string
+                             description: The source URL of the image.
+                             example: https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228
+                            height: 
+                             type: integer
+                             description: The image height in pixels.
+                             example: 300
+                            width:
+                             type: integer
+                             description: The image width in pixels.
+                             example: 300
+                      name:
+                        type: string
+                        description: The name of the playlist.
+                      owner:
+                        type: object
+                        description: the user who owns the playlist
+                        properties:
+                          external_urls:
+                            type: object
+                            description: Known external URLs for this playlist.
+                            properties:
+                             spotify:
+                              type: string
+                              description: The Spotify URL for the object.
+                          followers:
+                            type: object
+                            description: Information about the followers of this user.
+                            properties:
+                              href:
+                                type: string
+                              total:
+                                type: integer
+                          href:
+                            type: string
+                            description: A link to the Web API endpoint for this user.
+                          id: 
+                            type: string
+                            description: The Spotify user ID for this user.
+                          type:
+                            type: string
+                            enum:
+                              - user
+                          uri: 
+                            type: string
+                            description: The Spotify user ID for this user.
+                          display_name:
+                            type: string
+                            description: The name displayed on the user's profile. null if not available.
+                      public: 
+                        type: boolean
+                      snapshot_id:
+                        type: string
+                        description: The version identifier for the current playlist.
+                      tracks:
+                        type: object
+                        properties:
+                          href: 
+                            type: string
+                          total:
+                            type: integer
+                      type: 
+                        type: string
+                        description: The object type "playlist"
+                      uri: 
+                        type: string
+                        description: The Spotify URI for the playlist.               
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'
+
+        '429':
+            $ref: '#/components/responses/err429'
+               
+  /browse/new-releases:
+    get:
+      summary: Get New Album
+      description: ""
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+            description: The maximum number of items to return. Default 20. Minimum 1. Maximum 50.
+            default: 20
+            minimum: 0
+            maximum: 50
+            example: 10
+        - name: offset
+          in: query
+          schema:
+            type: string
+            description: The index of the first item to return. Default 0 (the first item). Use with limit to get the next set of items.
+            default: 0
+            example: 5
+      security:
+        - BearerAuth: []
+      tags:
+        - "Album"
+      responses:
+        '200': 
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - "albums"
+                properties:
+                  albums:
+                    type: object
+                    required:
+                      - "href"
+                      - "limit"
+                      - "next"
+                      - "offset"
+                      - "previous"
+                      - "total"
+                      - "items"
+                    properties:
+                      href:
+                        type: string
+                        description: A link to the Web API endpoint returning the full result of the request
+                        example: https://api.spotify.com/v1/me/shows?offset=0&limit=20
+                      limit: 
+                        type: integer
+                        description: The maximum number of items in the response (as set in the query or by default).
+                        example: 20
+                      next:
+                        type: string
+                        description: URL to the next page of items. ( null if none)
+                        example: https://api.spotify.com/v1/me/shows?offset=1&limit=1
+                      offset:
+                        type: integer
+                        description: The offset of the items returned (as set in the query or by default)
+                        example: 0
+                      previous:
+                        type: string
+                        description: URL to the previous page of items. ( null if none)
+                        example: https://api.spotify.com/v1/me/shows?offset=1&limit=1
+                      total:
+                        type: string
+                        description: The total number of items available to return.
+                        example: 4
+                      items:
+                        type: array
+                        items: 
+                          type: object
+                          required:
+                            - "album_type"
+                            - "total_tracks"
+                            - "available_markets"
+                            - "external_urls"
+                            - "href"
+                            - "id"
+                            - "images"
+                            - "name"
+                            - "release_date"
+                            - "release_date_precision"
+                            - "type"
+                            - "uri"
+                            - "artists"
+                          properties:
+                            album_type:
+                              type: string
+                              description: The type of the album.
+                              enum:
+                                - album
+                                - single
+                                - compilation
+                              example: compilation
+                            total_tracks:
+                              type: integer
+                              description: The number of tracks in the album.
+                              example: 9
+                            available_markets:
+                              type: array
+                              description: ""
+                              example: ["CA","BR","IT"]
+                            external_urls:
+                              type: object
+                              description: "Known external URLs for this album."
+                              properties:
+                                spotify:
+                                  type: string
+                            href:
+                              type: string
+                              description: A link to the Web API endpoint providing full details of the album.
+                            id: 
+                              type: string
+                              description: The Spotify ID for the album.
+                              example: 2up3OPMp9Tb4dAKM2erWXQ
+                            images:
+                              type: array
+                              items: 
+                                type: object
+                                required:
+                                  - "url"
+                                  - "height"
+                                  - "width"
+                                properties:
+                                  url:
+                                    type: string
+                                    description: The source URL of the image.
+                                    example: https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228
+                                  height:
+                                    type: integer
+                                    description: The image height in pixels.
+                                    example: 300
+                                  width:
+                                    type: integer
+                                    description: The image width in pixels.
+                                    example: 300
+                            name: 
+                              type: string
+                              description: The name of the album. In case of an album takedown, the value may be an empty string.
+                            release_date:
+                              type: string
+                              description: The date the album was first released.
+                              example: 1981-12
+                            release_date_precision:
+                              type: string
+                              description: The precision with which release_date value is known.
+                              enum:
+                                - year
+                                - month
+                                - day
+                              example: year
+                            restrictions: 
+                              type: object
+                              properties:
+                                reason:
+                                  type: string
+                            type: 
+                              type: string
+                              description: The object type.
+                              example: album
+                            uri:
+                              type: string
+                              description: The Spotify URI for the album.
+                              example: spotify:album:2up3OPMp9Tb4dAKM2erWXQ
+                            artists:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                    external_urls:
+                                      type: object
+                                      properties:
+                                        spotify: 
+                                          type: string
+                                          description: The Spotify URL for the object.
+                                    href:
+                                      type: string
+                                    id:
+                                      type: string
+                                    name:
+                                      type: string
+                                    type:
+                                      type: string
+                                      enum:
+                                        - artist
+                                    uri: 
+                                      type: string     
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'
+             
+                
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer 
+  responses:
+    err401: 
+      description: " Error response for 401 status code"
+      content:
+        application/json:
+          schema:
+             type: object
+             required:
+               - "error"
+             properties:
+              error: 
+                type: object
+                required:
+                  - "status"
+                  - "message"
                 properties:
                   status:
                     type: integer
@@ -98,13 +496,22 @@ paths:
                     type: string
                     description: ""
                     example: 'Bad or expired token.'
-        '403':
-          description: Error response
-          content:
-            application/json:
-              schema:
+    err403:
+      description: "Error Response"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - "error"
+            properties:
+              error:
                 type: object
+                required:
+                  - "status"
+                  - "message"
                 properties:
+                  
                   status:
                     type: integer
                     description: ""
@@ -113,18 +520,31 @@ paths:
                     type: string
                     description: ""
                     example: 'Bad OAuth request'
-        '429':
-          description: Errror response
-          content:
-            application/json:
-              schema:
+    err429:
+      description: "Error Response"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - "error"
+            properties:
+              error:
                 type: object
+                required:
+                  - "status"
+                  - "message"
                 properties:
+                  
                   status: 
-                    type: number
-                    description: ""
-                    example: "429"
+                      type: number
+                      description: ""
+                      example: "429"
                   message: 
-                    type: string
-                    description: ''
-                    example: "The app has exceeded its rate limits."
+                      type: string
+                      description: ''
+                      example: "The app has exceeded its rate limits."      
+  
+
+    
+

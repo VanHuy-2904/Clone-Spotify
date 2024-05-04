@@ -26,19 +26,11 @@ export class ArtistComponent implements OnInit {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       this.getArtist(id);
-      this.getAlbum(id);
     });
   }
 
   updateData(track: Track) {
     this.artistService.updateData(track);
-  }
-
-  getAlbum(id: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.artistService.getAlbum(id).subscribe((data: any) => {
-      this.listItems = data.tracks;
-    });
   }
 
   format(milliseconds: number) {
@@ -50,8 +42,7 @@ export class ArtistComponent implements OnInit {
   getArtist(id: string) {
     this.getArtistSubscription = this.artistService
       .getArtist(id)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .subscribe((data: any) => {
+      .subscribe((data: Artist) => {
         this.artist = data;
       });
   }
