@@ -11,23 +11,27 @@
   <div class="play">
     <i class="bi bi-play-fill"></i>
   </div>
-
-  <div class="dashboard">
-    <div class="item" *ngFor="let item of track; let i = index">
-      <p>{{ i + 1 }}</p>
+  <div class="dashboard" *ngIf="track">
+    <div class="item" *ngFor="let item of track.items; let i = index">
       <div class="img-ct">
-        <p
-          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
-          (click) = "updateData(item); playTrack(item)"
+        <div class="stt">
+        <p>{{ i + 1 }}</p>
+        <i class="bi bi-play-fill"></i>
+      </div>
+        <div class="artist-ct">
+        <p class="name-artist"
+        
+          (click) = "updateData(item); playTrack(item.id, item.uri)"
         >
           {{ item.name }}
-        </p>
-        <a href="#">
+        </p >
+        <a href="#"  class= "album-name">
           <p>{{ album.artists[0].name }}</p>
         </a>
       </div>
+    </div>
       <div>
-        <p>{{ item.popularity }}</p>
+        <!-- <p>{{ item.popularity }}</p> -->
       </div>
       <div>
         <p style="color: #b3b3b3">

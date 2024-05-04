@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { Artist } from '../../Service/artist/Artists';
 import { Track } from '../../Service/music/track';
 import { DataService } from '../../Service/data/data.service';
-import { Album } from '../../Service/album/album';
+import { AlbumDetail } from '../../Service/album/album';
 import { MusicService } from '../../Service/music/music.service';
 import { AlbumService } from '../../Service/album/album.service';
 // import { Login } from '../login/login.component';
@@ -22,71 +22,71 @@ import { AlbumService } from '../../Service/album/album.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  tracks: Track[] = [];
-  topTracks: Track[] = [];
+export class HomeComponent implements OnInit {
+  // tracks: Track[] = [];
+  // topTracks: Track[] = [];
   token!: string | null;
-  artists: Artist[] = [];
-  id: string;
-  albumNew: Album[] = [];
-  getTopTrack!: Subscription;
-  getAlbumSub!: Subscription;
-  constructor(
-    private albumService: AlbumService,
-    private authService: AuthService,
+  // artists: Artist[] = [];
+  // id: string;
+  // albumNew: Album[] = [];
+  // getTopTrack!: Subscription;
+  // getAlbumSub!: Subscription;
+  // constructor(
+  //   private albumService: AlbumService,
+  //   private authService: AuthService,
 
-    private musicService: MusicService,
-  ) {
-    this.tracks = [];
-    this.id = '';
-  }
+  //   private musicService: MusicService,
+  // ) {
+  //   this.tracks = [];
+  //   this.id = '';
+  // }
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
-    this.getTopTrack = this.musicService
-      .getTopTrack()
-      .subscribe((data: any) => {
-        this.topTracks = data.items.map((item: any)=>({
-          name: item.name,
-          id: item.id,
-          artist: item.artists,
-          duration_ms: item.duration_ms,
-          album: item.album,
-          uri: item.uri
-        }))
+  //   this.getTopTrack = this.musicService
+  //     .getTopTrack()
+  //     .subscribe((data: any) => {
+  //       this.topTracks = data.items.map((item: any)=>({
+  //         name: item.name,
+  //         id: item.id,
+  //         artist: item.artists,
+  //         duration_ms: item.duration_ms,
+  //         album: item.album,
+  //         uri: item.uri
+  //       }))
 
-        this.getAlbumSub = this.albumService
-          .getAlbumNew()
-          .subscribe((data: any) => {            
-            this.albumNew = data.albums.items.map((item: any) => ({
-              id: item.id,
-              name: item.name,
-              images: item.images,
-              artists: item.artists,
-              uri: item.uri
-            }));
-          });
-      });
+  //       this.getAlbumSub = this.albumService
+  //         .getAlbumNew()
+  //         .subscribe((data: any) => {            
+  //           this.albumNew = data.albums.items.map((item: any) => ({
+  //             id: item.id,
+  //             name: item.name,
+  //             images: item.images,
+  //             artists: item.artists,
+  //             uri: item.uri
+  //           }));
+  //         });
+  //     });
   }
 
-  ngOnDestroy(): void {
-    this.getTopTrack.unsubscribe();
-    this.getAlbumSub.unsubscribe()
-  }
+  // ngOnDestroy(): void {
+  //   this.getTopTrack.unsubscribe();
+  //   this.getAlbumSub.unsubscribe()
+  // }
 
-  playTrack(track: Track) {
-    this.musicService.getCurrentPlaying();
-    this.musicService.playTrack(track, 0).subscribe((data) => {
-    });
-  }
+  // playTrack(track: Track) {
+  //   this.musicService.getCurrentPlaying();
+  //   this.musicService.playTrack(track, 0).subscribe((data) => {
+  //   });
+  // }
 
-  updateData(currentTrack: Track) {
+  // updateData(currentTrack: Track) {
     
-    this.musicService.updateData();
-  }
+  //   this.musicService.updateData();
+  // }
 
 
 
-  handelClick() {
-    this.authService.login();
-  }
+  // handelClick() {
+  //   this.authService.login();
+  // }
 }

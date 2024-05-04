@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { MusicData } from './music.i';
+// import { MusicData } from './music.i';
 import { Track } from './track';
 
 @Injectable({
@@ -33,10 +33,10 @@ export class MusicService {
     }
   }
 
-  playTrack(track: Track, progress_ms: number): Observable<any> {
+  playTrack(uri: string, progress_ms: number): Observable<any> {
     return this.http.put('https://api.spotify.com/v1/me/player/play', {
       // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
-      uris: [track.uri],
+      uris: [uri],
       position_ms: progress_ms,
     });
   }

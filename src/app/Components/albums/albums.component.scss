@@ -1,14 +1,15 @@
 .main {
   height: calc(100vh - 80px);
-  background: linear-gradient(to bottom, rgba(128, 0, 128, 1), rgba(0, 0, 0, 1));
-
+  
 }
 
 .banner-img {
+  background: linear-gradient(to bottom, rgba(128, 0, 128, 1), rgba(0, 0, 0, 1));
+
   position: relative;
   display: flex;
   // background-color: green;
-  height: 200px;
+  height: 300px;
   width: 100%;
 }
 
@@ -95,6 +96,16 @@ a {
 .item:hover {
   background-color: hsla(0, 0%, 100%, .1);
   border-radius: 7px;
+  .stt {
+    p {
+      display: none;
+    }
+    
+        i {
+          display: block;
+        }
+  }
+
 }
 
 .item a:hover p:nth-child(1) {
@@ -104,14 +115,35 @@ a {
 .item {
   height: auto;
   display: flex;
-  padding: 10px;
+  padding: 5px 10px;
   justify-content: space-between;
   color: white;
+  .img-ct {
+    .stt {
+      width: 3%;
+     
+    }
+  }
 }
 .item p {
-  font-size: 10px;
+  font-size: 15px;
+  // font-weight: bold;
   // margin-right: 20px;
   padding: 0;
+}
+
+.artist-ct .name-artist {
+  font-weight: bold;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+}
+
+ .album-name {
+  color: gray;
+  font-weight: 600;
+}
+
+.artist-ct p:nth-child(2){
+  color: gray;
 }
 
 p {
@@ -121,11 +153,18 @@ p {
 
 .item .img-ct {
   display: flex;
-  flex-direction: column;
-  // justify-content: space-between;
+  align-items: center;
   width: 700px;
 }
 
+.artist-ct {
+  display: flex;
+  flex-direction: column;
+}
+
+.stt i {
+  display: none;
+}
 ::-webkit-scrollbar {
   width: 8px;
 }

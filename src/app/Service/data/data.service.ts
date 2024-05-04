@@ -18,7 +18,7 @@ export class DataService {
     this.music.updateData();
   }
 
-  getAlbum(id: string) {
+  getAlbum(id: string):Observable<any> {
     return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
   }
 
@@ -35,8 +35,8 @@ export class DataService {
     return this.http.get(`https://api.spotify.com/v1/artists/${id}`);
   }
 
-  getTrackAlbum(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/albums/${id}/tracks`);
+  getTrackAlbum(id: string): Observable<Track> {
+    return this.http.get<Track>(`https://api.spotify.com/v1/albums/${id}/tracks`);
   }
 
   getAlbumDetail(id: string): Observable<any> {

@@ -16,7 +16,7 @@
     --secondary-color: #999;
     --green-color: #2d5;
     --padding: 1em;
-    background-color: #111;
+    // background-color: #111;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,13 +27,13 @@
     width: 100%;
     height: 56px;
     padding: var(--padding);
-    color: var(--primary-color);
+    color: #ddd;
 }
 i{
-    color: var(--secondary-color);
+    color: #999;
 }
 i:hover{
-    color: var(--primary-color);
+    color: #ddd;
 }
 .song-bar {
     position: absolute;
@@ -61,10 +61,11 @@ i:hover{
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 5px;
 }
 .song-description p {
     margin: 0.2em;
-    font-size: 10px;
+    font-size: 13px;
 }
 .title,
 .artist {
@@ -78,7 +79,7 @@ i:hover{
     text-decoration: underline;
 }
 .artist{
-    color: var(--secondary-color);
+    color: #999;
 }
 .icons{
     display: flex;
@@ -91,7 +92,7 @@ i:hover{
     flex-direction: column;
     align-items: center;
 
-    color: var(--secondary-color);
+    color: #999;
 }
 .control-buttons{
     display: flex;
@@ -103,7 +104,7 @@ i:hover{
     justify-content: center;
     align-items: center;
     // padding: 1em;
-    background-color: var(--primary-color);
+    background-color: #ddd;
     color: #111;
     width: 30px;
     height: 30px;
@@ -123,7 +124,7 @@ i:hover{
 }
 
 .progress-container span {
-    font-size: 10px;
+    font-size: 12px;
 }
 .progress-bar{
     height: 4px;
@@ -136,7 +137,7 @@ i:hover{
     height: 100%;
     width: var(--progressPercent);
     border-radius: 10px;
-    background-color: var(--secondary-color);
+    background-color: #999;
 }
 .progress-bar:hover .progress{
     background-color: var(--green-color);
@@ -149,7 +150,7 @@ i:hover{
     height: var(--size);
     right: 0;
     border-radius: 50%;
-    background-color: var(--primary-color);
+    background-color: #ddd;
     transform: translate(50%, calc(2px - 50%));
 }
 .other-features{

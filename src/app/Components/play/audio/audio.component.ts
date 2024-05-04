@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgxSliderModule, Options, SliderComponent } from 'ngx-slider-v2';
-import { AuthService } from '../../../Service/auth/auth.service';
-import { MusicService } from '../../../Service/music/music.service';
-import { Observable, Subscription } from 'rxjs';
-import { Track } from '../../../Service/music/track';
+import { NgxSliderModule } from 'ngx-slider-v2';
+import { Subscription } from 'rxjs';
 import { DataService } from '../../../Service/data/data.service';
+import { MusicService } from '../../../Service/music/music.service';
+import { TrackDetail } from '../../../Service/music/track-detail.i';
 
 @Component({
   selector: 'app-audio',
@@ -17,7 +16,7 @@ import { DataService } from '../../../Service/data/data.service';
   styleUrl: './audio.component.scss',
 })
 export class AudioComponent implements OnInit, OnDestroy {
-  dataTrack!: Track;
+  dataTrack!: TrackDetail;
   getTrackSub!: Subscription;
   private dataSubscription!: Subscription;
   constructor(
@@ -60,14 +59,12 @@ export class AudioComponent implements OnInit, OnDestroy {
   handleClick() {
     if (!this.play) {
       this.musicService
-        .playTrack(this.dataTrack, this.progressTime)
+        .playTrack(this.dataTrack.uri, this.progressTime)
         .subscribe(() => {});
       this.playMusic();
       localStorage.setItem('currentPlay', String(!this.play));
     } else {
-      this.musicService.getCurrentPlaying().subscribe((data) => {
-        this.currentTrack = data;
-      });
+     
       this.musicService.pauseTrack().subscribe(() => {});
 
       localStorage.setItem('currentPlay', 'false');
@@ -76,10 +73,10 @@ export class AudioComponent implements OnInit, OnDestroy {
   }
 
   playMusic() {
-    this.musicService.getData().subscribe((data: any) => {
+    this.musicService.getData().subscribe((data) => {      
       this.getTrackSub = this.musicService
         .getTrack(data.id)
-        .subscribe((trackInfo: any) => {
+        .subscribe((trackInfo: TrackDetail) => {          
           this.dataTrack = trackInfo;
           // this.play = true;
           if (this.play) {

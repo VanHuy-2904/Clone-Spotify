@@ -6,8 +6,9 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../Service/auth/auth.service';
 import { MusicService } from '../../Service/music/music.service';
 import { Artist } from '../../Service/artist/Artists';
-import { Track } from '../../Service/music/track';
+import { Item, Track } from '../../Service/music/track';
 import { DataService } from '../../Service/data/data.service';
+import { TrackDetail } from '../../Service/music/track-detail.i';
 
 @Component({
   selector: 'app-artist',
@@ -23,27 +24,28 @@ export class ArtistComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private music: MusicService,
-    private authService: AuthService,
+    private musicService: MusicService,
     private artistService: DataService,
   ) {}
-  listItems: Track[] = [];
+  listItems!: TrackDetail[];
   artist!: Artist;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
-      console.log(id);
       this.getArtist(id);
       this.getAlbum(id);
     });
   }
 
-  updateData(track: Track) {
-    this.artistService.updateData(track);
+updateData(currentTrack: TrackDetail) {
+    const dataTrackCurrent = JSON.stringify(currentTrack);
+    localStorage.setItem('trackCurrent', dataTrackCurrent);
+    this.musicService.updateData();
+    this.musicService.playSubject.next(true);
   }
 
   getAlbum(id: string) {
-    this.artistService.getAlbum(id).subscribe((data: any) => {
-      console.log('data tracks: ', data);
+    this.artistService.getAlbum(id).subscribe((data) => {
       this.listItems = data.tracks;
     });
   }
@@ -55,8 +57,18 @@ export class ArtistComponent implements OnInit {
   }
 
   getArtist(id: string) {
- this.getArtistSubscription =   this.artistService.getArtist(id).subscribe((data: any) => {
+ this.getArtistSubscription =   this.artistService.getArtist(id).subscribe((data: Artist) => {
       this.artist = data;
     });
+  }
+
+  playTrack(id: string, uri: string) {
+    localStorage.setItem('currentPlay', 'true')
+    
+    this.musicService.getTrack(id).subscribe((data: Track) => {
+      const dataString = JSON.stringify(data);
+      localStorage.setItem('trackCurrent', dataString);
+    });
+    this.musicService.playTrack(uri, 0).subscribe((data) => {});
   }
 }

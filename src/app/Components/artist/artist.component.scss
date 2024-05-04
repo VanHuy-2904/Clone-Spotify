@@ -28,7 +28,7 @@
 .main {
   // overflow: auto;
   // margin-top: 320px;
-  // max-height: 100vh;
+  height: calc(100vh - 80px);
   background-color: #121212;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .dashboard p {
-  font-size: 10px;
+  font-size: 15px;
 }
 .dashboard h3 {
   color: white;
@@ -68,14 +68,25 @@
 
 .item:hover {
   background-color: #252525;
-  border-radius: 10px;
+  border-radius: 5px;
+  .stt {
+    width: 3%;
+  align-items: center;
+
+    p {
+      display: none;
+      
+    }
+    i {
+      display: block;
+    }
+  }
 }
 
 .item {
   transition: all ease 0.2s;
-
   display: flex;
-  padding: 5px;
+  padding: 5px 10px;
   justify-content: space-between;
   color: white;
 }
@@ -85,15 +96,26 @@
 
 .item .img-ct img {
   margin-right: 20px;
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
 }
 .item .img-ct {
+  align-items: center;
+
   display: flex;
-  // justify-content: space-between;
   width: 700px;
+  .stt {
+    // align-items: center;
+    width: 3%;
+  }
 }
 
+  .img-ct i {
+    display: none;
+  }
+ p{
+  margin-bottom: 0;
+ }
 ::-webkit-scrollbar {
   width: 8px;
 }

@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Track } from '../../Service/music/track';
-import { Album } from '../../Service/album/album';
+import { Item, Track } from '../../Service/music/track';
+import { AlbumDetail } from '../../Service/album/album';
 import { Subscription } from 'rxjs';
 import { MusicService } from '../../Service/music/music.service';
 import { DataService } from '../../Service/data/data.service';
@@ -16,8 +16,8 @@ import { DataService } from '../../Service/data/data.service';
   styleUrl: './albums.component.scss',
 })
 export class AlbumsComponent implements OnInit, OnDestroy {
-  track: Track[] = [];
-  album!: Album;
+  track!: Track;
+  album!: AlbumDetail;
   link: string;
   getAlbumSub!: Subscription;
   getTrackAlbumSub!: Subscription;
@@ -40,7 +40,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   format(milliseconds: number): string {
     return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds);
   }
-  updateData(currentTrack: Track) {
+  updateData(currentTrack: Item) {
     const dataTrackCurrent = JSON.stringify(currentTrack);
     localStorage.setItem('trackCurrent', dataTrackCurrent);
     this.musicService.updateData();
@@ -51,14 +51,16 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   getTrackAlbum(id: string) {
     this.getAlbumSub = this.getTrackAlbumSub = this.dataService
       .getTrackAlbum(id)
-      .subscribe((data: any) => {
-        this.track = data.items;
+      .subscribe((data: Track) => {        
+        this.track= data;
       });
+      
+      
   }
 
   getAlbum(id: string) {
     if (id) {
-      this.dataService.getAlbumDetail(id).subscribe((data: Album) => {
+      this.dataService.getAlbumDetail(id).subscribe((data: AlbumDetail) => {
         this.album = data;
       });
     }
@@ -68,18 +70,18 @@ export class AlbumsComponent implements OnInit, OnDestroy {
     this.link = id;
   }
 
-  playTrack(track: Track) {
+  playTrack(id: string, uri: string) {
     // this.musicService.getCurrentPlaying().subscribe((data: any) => {
     //   console.log(data);
 
     // });
     localStorage.setItem('currentPlay', 'true')
     
-    this.musicService.getTrack(track.id).subscribe((data: Track) => {
+    this.musicService.getTrack(id).subscribe((data: Track) => {
       const dataString = JSON.stringify(data);
       localStorage.setItem('trackCurrent', dataString);
     });
-    this.musicService.playTrack(track, 0).subscribe((data) => {});
+    this.musicService.playTrack(uri, 0).subscribe((data) => {});
   }
   ngOnDestroy(): void {
     this.getTrackAlbumSub.unsubscribe();
