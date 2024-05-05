@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 // import { PlaylistService } from '../../Service/PlayList/playlist.service';
 import { RouterLink } from '@angular/router';
 
@@ -9,10 +9,6 @@ import { RouterLink } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
   constructor() {}
-  ngOnInit() {
-    
-  }
-  
 }

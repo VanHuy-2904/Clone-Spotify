@@ -1,27 +1,25 @@
-import { Artist } from "../artist/Artists";
-import { Track } from "../music/track";
+import { Artist } from '../artist/Artists';
 
-export interface AlbumDetail {
-  album_type:             string;
-  href:                   string;
-  id:                     string;
-  images:                 images[];
-  name:                   string;
-  uri:                    string;
-  artists:                Artist[];
-  tracks:                 Track;
+export interface Album {
+  albums: Data;
 }
 
+export interface Data {
+  href: string;
+  items: Item[];
+}
 
 export interface Item {
-  artists:           Artist[];
-  href:              string;
-  id:                string;
-  name:              string;
-  type:              string;
-  uri:               string;
+  href: string;
+  id: string;
+  images: images[];
+  name: string;
+  uri: string;
+  artists: Artist[];
 }
 
 export class images {
   url!: string;
+  height!: number;
+  width!: number;
 }

@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Item, Track } from '../../Service/music/track';
-import { AlbumDetail } from '../../Service/album/album';
 import { Subscription } from 'rxjs';
-import { MusicService } from '../../Service/music/music.service';
+import { AlbumDetail } from '../../Service/album/album-detail.i';
 import { DataService } from '../../Service/data/data.service';
+import { MusicService } from '../../Service/music/music.service';
+import { TrackDetail } from '../../Service/music/track-detail.i';
 
 @Component({
   selector: 'app-albums',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './albums.component.html',
   styleUrl: './albums.component.scss',
 })
@@ -22,7 +22,6 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   getAlbumSub!: Subscription;
   getTrackAlbumSub!: Subscription;
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
     private musicService: MusicService,
     private dataService: DataService,
@@ -45,19 +44,15 @@ export class AlbumsComponent implements OnInit, OnDestroy {
     localStorage.setItem('trackCurrent', dataTrackCurrent);
     this.musicService.updateData();
     this.musicService.playSubject.next(true);
-
   }
 
   getTrackAlbum(id: string) {
     this.getAlbumSub = this.getTrackAlbumSub = this.dataService
       .getTrackAlbum(id)
-      .subscribe((data: Track) => {        
-        this.track= data;
+      .subscribe((data: Track) => {
+        this.track = data;
       });
-      
-      
   }
-
   getAlbum(id: string) {
     if (id) {
       this.dataService.getAlbumDetail(id).subscribe((data: AlbumDetail) => {
@@ -65,23 +60,18 @@ export class AlbumsComponent implements OnInit, OnDestroy {
       });
     }
   }
-
   getTrackPlay(id: string) {
     this.link = id;
   }
 
   playTrack(id: string, uri: string) {
-    // this.musicService.getCurrentPlaying().subscribe((data: any) => {
-    //   console.log(data);
+    localStorage.setItem('currentPlay', 'true');
 
-    // });
-    localStorage.setItem('currentPlay', 'true')
-    
-    this.musicService.getTrack(id).subscribe((data: Track) => {
+    this.musicService.getTrack(id).subscribe((data: TrackDetail) => {
       const dataString = JSON.stringify(data);
       localStorage.setItem('trackCurrent', dataString);
     });
-    this.musicService.playTrack(uri, 0).subscribe((data) => {});
+    this.musicService.playTrack(uri, 0).subscribe(() => {});
   }
   ngOnDestroy(): void {
     this.getTrackAlbumSub.unsubscribe();

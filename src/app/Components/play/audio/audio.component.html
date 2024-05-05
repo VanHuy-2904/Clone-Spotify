@@ -1,14 +1,13 @@
 <div class="music-player">
   <div class="song-bar">
     <div class="song-infos" *ngIf="dataTrack">
-      <div class="image-container" >
+      <div class="image-container">
         <img [src]="dataTrack.album.images[0].url" alt="" />
       </div>
       <div class="song-description">
         <p class="title">
           {{ dataTrack.name }}
         </p>
-        
         <p class="artist">{{ dataTrack.artists[0].name }}</p>
       </div>
     </div>
@@ -21,6 +20,7 @@
     <div class="control-buttons">
       <i class="fas fa-random"></i>
       <!-- <i class="bi bi-skip-start-fill"></i> -->
+      <!-- eslint-disable -->
       <div
         class="play"
         [ngClass]="{ show: !play, hide: play }"
@@ -39,21 +39,14 @@
       <!-- <i class="bi bi-undo-alt"></i> -->
     </div>
     <div class="progress-container">
-      <span *ngIf="progressTime">{{format(progressTime)}}</span>
+      <span *ngIf="progressTime">{{ format(progressTime) }}</span>
       <div class="progress-bar">
-        <div class="progress" [style.--progressPercent]="progressPercent + '%'" ></div>
+        <div
+          class="progress"
+          [style.--progressPercent]="progressPercent + '%'"
+        ></div>
       </div>
       <span *ngIf="dataTrack">{{ format(dataTrack.duration_ms) }}</span>
     </div>
   </div>
-  <!-- <div class="other-features">
-    <i class="bi bi-list-ul"></i>
-    <i class="bi bi-desktop"></i>
-    <div class="volume-bar">
-      <i class="bi bi-volume-down"></i>
-      <div class="progress-bar">
-        <div class="progress"></div>
-      </div>
-    </div>
-  </div> -->
 </div>

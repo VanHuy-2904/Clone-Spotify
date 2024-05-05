@@ -24,13 +24,11 @@ export class AudioComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private musicService: MusicService,
   ) {}
-  currentTrack!: any;
   progressPercent: number = 0;
   progressTime!: number;
   playTrue: boolean = true;
   play!: boolean;
   getCurrentTrackSub!: Subscription;
-  intervalId: any;
 
   ngOnInit(): void {
     if (localStorage.getItem('currentPlay') === 'true') {
@@ -64,37 +62,37 @@ export class AudioComponent implements OnInit, OnDestroy {
       this.playMusic();
       localStorage.setItem('currentPlay', String(!this.play));
     } else {
-     
       this.musicService.pauseTrack().subscribe(() => {});
-
       localStorage.setItem('currentPlay', 'false');
     }
     this.play = !this.play;
   }
 
   playMusic() {
-    this.musicService.getData().subscribe((data) => {      
-      this.getTrackSub = this.musicService
-        .getTrack(data.id)
-        .subscribe((trackInfo: TrackDetail) => {          
-          this.dataTrack = trackInfo;
-          // this.play = true;
-          if (this.play) {
-            setInterval(() => {
-              if (this.play) {
-                this.getCurrentTrackSub = this.musicService
-                  .getCurrentPlaying()
-                  .subscribe((data: any) => {
-                    this.progressPercent = Math.floor(
-                      (data.progress_ms / data.item.duration_ms) * 100,
-                    );
-                    this.progressTime = data.progress_ms;
-                    localStorage.setItem('test', String(this.progressTime));
-                  });
-              }
-            }, 1000);
-          }
-        });
+    this.musicService.getData().subscribe((data) => {
+      if (data) {
+        this.getTrackSub = this.musicService
+          .getTrack(data.id)
+          .subscribe((trackInfo: TrackDetail) => {
+            this.dataTrack = trackInfo;
+            // this.play = true;
+            if (this.play) {
+              setInterval(() => {
+                if (this.play) {
+                  this.getCurrentTrackSub = this.musicService
+                    .getCurrentPlaying()
+                    .subscribe((data) => {
+                      this.progressPercent = Math.floor(
+                        (data.progress_ms / data.item.duration_ms) * 100,
+                      );
+                      this.progressTime = data.progress_ms;
+                      localStorage.setItem('test', String(this.progressTime));
+                    });
+                }
+              }, 1000);
+            }
+          });
+      }
     });
   }
 }

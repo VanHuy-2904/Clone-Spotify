@@ -1,16 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { AudioComponent } from '../../Components/play/audio/audio.component';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../../Components/header/header.component';
-import { AuthService } from '../../Service/auth/auth.service';
-import { Subscription } from 'rxjs';
+import { AudioComponent } from '../../Components/play/audio/audio.component';
+import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-default-layout',
@@ -19,6 +11,4 @@ import { Subscription } from 'rxjs';
   templateUrl: './default-layout.component.html',
   styleUrl: './default-layout.component.scss',
 })
-export class DefaultLayoutComponent{
-  
-}
+export class DefaultLayoutComponent {}
