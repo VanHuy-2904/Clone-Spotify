@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { Playlist } from './playlist.i';
 import { PlaylistDetail, PlaylistInfo } from './playlist-detail.i';
+import { images } from '../album/album';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class PlaylistService {
   }
 
   getPicture(id: string) {
-    return this.http.get<Playlist>(
+    return this.http.get<images[]>(
       environment.apiConfig + environment.apiPaths.picturePlaylist(id),
     );
   }

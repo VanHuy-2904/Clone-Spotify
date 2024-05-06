@@ -1,8 +1,5 @@
 <div class="main">
-  <div
-    class="banner-img"
-    [ngStyle]="{ 'background-image': 'url(' + imgUrl + ')' }"
-  >
+  <div class="banner-img" [style.--backgroundImg]="'url(' + imgUrl + ')'">
     <div class="content" *ngIf="infoPlaylist">
       <p>{{ infoPlaylist.name }}</p>
       <!-- <p>{{album.artists[0].name}}</p> -->
@@ -34,13 +31,18 @@
           </div>
           <img [src]="item.track.album.images[2].url" alt="" />
           <!-- eslint-disable -->
-          <p
-            (click)="
-              updateData(item.track); playTrack(item.track.id, item.track.uri)
-            "
-          >
-            {{ item.track.name }}
-          </p>
+          <div class="name">
+            <p
+              (click)="
+                updateData(item.track); playTrack(item.track.id, item.track.uri)
+              "
+            >
+              {{ item.track.name }}
+            </p>
+            <a [routerLink]="['/artist', item.track.artists[0].id]">
+              <p>{{ item.track.artists[0].name }}</p>
+            </a>
+          </div>
         </div>
         <div class="ct-alb">
           <p [routerLink]="['/albums', item.track.album.id]">

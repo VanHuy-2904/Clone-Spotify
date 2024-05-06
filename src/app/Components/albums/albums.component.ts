@@ -7,6 +7,7 @@ import { AlbumDetail } from '../../Service/album/album-detail.i';
 import { DataService } from '../../Service/data/data.service';
 import { MusicService } from '../../Service/music/music.service';
 import { TrackDetail } from '../../Service/music/track-detail.i';
+import { Device } from '../../Service/music/device.i';
 
 @Component({
   selector: 'app-albums',
@@ -71,7 +72,11 @@ export class AlbumsComponent implements OnInit, OnDestroy {
       const dataString = JSON.stringify(data);
       localStorage.setItem('trackCurrent', dataString);
     });
-    this.musicService.playTrack(uri, 0).subscribe(() => {});
+    this.musicService.getDevice().subscribe((data: Device) => {
+      this.musicService
+        .playTrack(uri, 0, data.devices[0].id)
+        .subscribe(() => {});
+    });
   }
   ngOnDestroy(): void {
     this.getTrackAlbumSub.unsubscribe();

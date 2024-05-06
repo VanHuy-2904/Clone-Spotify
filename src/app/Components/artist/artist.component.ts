@@ -67,6 +67,10 @@ export class ArtistComponent implements OnInit {
       const dataString = JSON.stringify(data);
       localStorage.setItem('trackCurrent', dataString);
     });
-    this.musicService.playTrack(uri, 0).subscribe(() => {});
+    this.musicService.getDevice().subscribe((data) => {
+      this.musicService
+        .playTrack(uri, 0, data.devices[0].id)
+        .subscribe(() => {});
+    });
   }
 }

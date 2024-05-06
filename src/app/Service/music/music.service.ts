@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { Playlist } from '../playlist/playlist.i';
 import { TrackDetail } from './track-detail.i';
+import { Device } from './device.i';
 
 @Injectable({
   providedIn: 'root',
@@ -34,9 +35,16 @@ export class MusicService {
     }
   }
 
-  playTrack(uri: string, progress_ms: number): Observable<object> {
+  playTrack(
+    uri: string,
+    progress_ms: number,
+    devicesId: string,
+  ): Observable<object> {
+    const params = new URLSearchParams({
+      device_id: devicesId,
+    });
     return this.http.put(
-      environment.apiConfig + environment.apiPaths.playMusic,
+      environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
       {
         // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
         uris: [uri],
@@ -65,6 +73,12 @@ export class MusicService {
   getCurrentPlaying(): Observable<any> {
     return this.http.get(
       environment.apiConfig + environment.apiPaths.currentPlay,
+    );
+  }
+
+  getDevice(): Observable<Device> {
+    return this.http.get<Device>(
+      environment.apiConfig + environment.apiPaths.getDevice,
     );
   }
 

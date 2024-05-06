@@ -2481,12 +2481,148 @@ paths:
                       uri:
                         type: string
                         description: The Spotify URI for the playlist.
+                      
         '401':
             $ref: '#/components/responses/err401'
         '403':
             $ref: '#/components/responses/err403'            
         '429':
-            $ref: '#/components/responses/err429'         
+            $ref: '#/components/responses/err429'    
+  /artists/{id}:
+    get:
+      summary: Get Artist
+      description: "Start a new context or resume current playback on the user's active device"
+      parameters:
+        - name: id
+          required: true
+          in: query
+          description: "The Spotify ID of the artist."
+          schema:
+            type: string
+      security:
+        - BearerAuth: []
+      tags:
+        - "Artist"
+      responses:
+        '200': 
+          description: ""
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                   external_urls:
+                    type: object
+                    properties:
+                      spotify: 
+                        type: string
+                        description: The Spotify URL for the object.
+                   followers:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        description: "A link to the Web API endpoint for this user."
+                      total:
+                        type: integer
+                        description: 'The total number of followers.'
+                   genres:
+                    type: array
+                    description: A list of the genres the album is associated with. If not yet classified, the array is empty.
+                    example: ["Prog rock","Grunge"]
+                   href:
+                    type: string
+                    description: A link to the Web API endpoint providing full details of the artist."
+                   id:
+                    type: string
+                    description: The Spotify ID for the artist.
+                   images: 
+                    type: array
+                   
+                    items:
+                      type: object
+                      required:
+                        - "url"
+                        - "height"
+                        - "width"
+                      properties:
+                        url:
+                          type: string
+                          description: "The source URL of the image."
+                        height:
+                          type: integer
+                          description: The image height in pixels.
+                        width:
+                         
+                          type: integer
+                          description: The image width in pixels.
+                   name:  
+                    type: string
+                    description: The name of the artist.
+                   popularity:
+                    type: integer
+                    description: The popularity of the artist.
+                   type:
+                    type: string
+                    enum:
+                      - artist
+                    description: The object type.
+                   uri: 
+                    type: string
+                    description: The Spotify URI for the artist.
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'    
+  /playlists/{playlist_id}/images:
+    get:
+      summary: Get Playlist Cover Image
+      description: "Start a new context or resume current playback on the user's active device"
+      parameters:
+        - name: playlist_id
+          required: true
+          in: query
+          description: "The Spotify ID of the playlist."
+          schema:
+            type: string
+      security:
+        - BearerAuth: []
+      tags:
+        - "Playlist"
+      responses:
+        '200': 
+          description: ""
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                        - "url"
+                        - "height"
+                        - "width"
+                    properties:
+                        url:
+                          type: string
+                          description: "The source URL of the image."
+                          example: https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228
+                        height:
+                          type: integer
+                          description: The image height in pixels.
+                        width:
+                         
+                          type: integer
+                          description: The image width in pixels.
+                  
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'       
 components:
   securitySchemes:
     BearerAuth:

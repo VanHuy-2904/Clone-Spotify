@@ -11,6 +11,8 @@ import {
 import { PlaylistService } from '../../Service/playlist/playlist.service';
 import { Item } from '../../Service/music/track';
 import { TrackDetail } from '../../Service/music/track-detail.i';
+import { Device } from '../../Service/music/device.i';
+import { images } from '../../Service/album/album';
 
 @Component({
   selector: 'app-playlists',
@@ -49,7 +51,9 @@ export class PlaylistsComponent implements OnInit {
   getInfoPlaylist(id: string) {
     this.playlistService.getInfoPlaylist(id).subscribe((data: PlaylistInfo) => {
       this.infoPlaylist = data;
-      this.imgUrl = this.infoPlaylist.images[0].url;
+      this.playlistService.getPicture(id).subscribe((data: images[]) => {
+        this.imgUrl = data[0].url;
+      });
     });
   }
 
@@ -67,6 +71,10 @@ export class PlaylistsComponent implements OnInit {
       const dataString = JSON.stringify(data);
       localStorage.setItem('trackCurrent', dataString);
     });
-    this.musicService.playTrack(uri, 0).subscribe(() => {});
+    this.musicService.getDevice().subscribe((data: Device) => {
+      this.musicService
+        .playTrack(uri, 0, data.devices[0].id)
+        .subscribe(() => {});
+    });
   }
 }

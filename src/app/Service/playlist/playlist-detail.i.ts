@@ -19,7 +19,7 @@ export interface Item {
 
 interface Data {
   album: AlbumDetail;
-  artist: Artist[];
+  artists: Artist[];
   duration_ms: number;
   href: string;
   id: string;

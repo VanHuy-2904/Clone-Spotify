@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { DataService } from '../../../Service/data/data.service';
 import { MusicService } from '../../../Service/music/music.service';
 import { TrackDetail } from '../../../Service/music/track-detail.i';
+import { Device } from '../../../Service/music/device.i';
 
 @Component({
   selector: 'app-audio',
@@ -18,6 +19,7 @@ import { TrackDetail } from '../../../Service/music/track-detail.i';
 export class AudioComponent implements OnInit, OnDestroy {
   dataTrack!: TrackDetail;
   getTrackSub!: Subscription;
+  device!: Device;
   private dataSubscription!: Subscription;
   constructor(
     private http: HttpClient,
@@ -31,18 +33,20 @@ export class AudioComponent implements OnInit, OnDestroy {
   getCurrentTrackSub!: Subscription;
 
   ngOnInit(): void {
-    if (localStorage.getItem('currentPlay') === 'true') {
-      this.musicService.pauseTrack().subscribe();
-      localStorage.setItem('currentPlay', 'false');
-    }
-    setInterval(() => {
-      this.progressTime = Number(localStorage.getItem('test'));
-    }, 1000);
+    if (localStorage.getItem('token')) {
+      if (localStorage.getItem('currentPlay') === 'true') {
+        this.musicService.pauseTrack().subscribe();
+        localStorage.setItem('currentPlay', 'false');
+      }
+      setInterval(() => {
+        this.progressTime = Number(localStorage.getItem('test'));
+      }, 1000);
 
-    this.musicService.playSubject.subscribe((data: boolean) => {
-      this.play = data;
-    });
-    this.playMusic();
+      this.musicService.playSubject.subscribe((data: boolean) => {
+        this.play = data;
+      });
+      this.playMusic();
+    }
   }
 
   format(duration_ms: number) {
@@ -56,8 +60,16 @@ export class AudioComponent implements OnInit, OnDestroy {
 
   handleClick() {
     if (!this.play) {
+      this.musicService.getDevice().subscribe((data) => {
+        console.log(data);
+        this.device = data;
+      });
       this.musicService
-        .playTrack(this.dataTrack.uri, this.progressTime)
+        .playTrack(
+          this.dataTrack.uri,
+          this.progressTime,
+          this.device.devices[0].id,
+        )
         .subscribe(() => {});
       this.playMusic();
       localStorage.setItem('currentPlay', String(!this.play));
@@ -82,11 +94,13 @@ export class AudioComponent implements OnInit, OnDestroy {
                   this.getCurrentTrackSub = this.musicService
                     .getCurrentPlaying()
                     .subscribe((data) => {
-                      this.progressPercent = Math.floor(
-                        (data.progress_ms / data.item.duration_ms) * 100,
-                      );
-                      this.progressTime = data.progress_ms;
-                      localStorage.setItem('test', String(this.progressTime));
+                      if (data && data.item && data.item.duration_ms != null) {
+                        this.progressPercent = Math.floor(
+                          (data.progress_ms / data.item.duration_ms) * 100,
+                        );
+                        this.progressTime = data.progress_ms;
+                        localStorage.setItem('test', String(this.progressTime));
+                      }
                     });
                 }
               }, 1000);

@@ -1,21 +1,23 @@
 p {
   font-size: 1px;
 }
+
 .main {
+  height: calc(100vh - 80px);
   .banner-img {
     position: relative;
     display: flex;
-
+    background-position: 10% 20% ;
+    background-image: var(--backgroundImg);
     background-size: cover;
-    background-position: top center;
+    object-fit: cover;
     background-repeat: no-repeat;
-    height: 450px;
+    height: 50%;
     width: 100%;
     .content {
       position: absolute;
       bottom: 60px;
       left: 10px;
-
       color: white;
       font-weight: bold;
       display: flex;
@@ -94,12 +96,13 @@ p {
         flex-wrap: wrap;
         display: flex;
         .ct-name {
+
           align-items: center;
           width: 50%;
           display: flex;
           .stt {
             align-items: center;
-            width: 10%;
+            width: 5%;
 
             i {
               display: none;
@@ -113,6 +116,15 @@ p {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+          }
+          .name {
+            a {
+
+              p {
+                color: gray;
+                font-size: 14px;
+              }
+            }
           }
         }
         .ct-alb {
@@ -147,21 +159,21 @@ p {
           color: gray;
           font-size: 13px;
         }
-        width: 5%;
+        width: 3%;
       }
       .tieu-de {
         p {
           color: gray;
           font-size: 17px;
         }
-        width: 45%;
+        width: 47%;
       }
       .album {
         p {
           color: gray;
           font-size: 17px;
         }
-        width: 40%;
+        width: 41%;
       }
       .time {
         font-size: 17px;
