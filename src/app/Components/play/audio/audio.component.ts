@@ -61,16 +61,15 @@ export class AudioComponent implements OnInit, OnDestroy {
   handleClick() {
     if (!this.play) {
       this.musicService.getDevice().subscribe((data) => {
-        console.log(data);
         this.device = data;
+        this.musicService
+          .playTrack(
+            this.dataTrack.uri,
+            this.progressTime,
+            this.device.devices[0].id,
+          )
+          .subscribe(() => {});
       });
-      this.musicService
-        .playTrack(
-          this.dataTrack.uri,
-          this.progressTime,
-          this.device.devices[0].id,
-        )
-        .subscribe(() => {});
       this.playMusic();
       localStorage.setItem('currentPlay', String(!this.play));
     } else {
