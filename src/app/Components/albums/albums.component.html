@@ -33,7 +33,7 @@
           <!-- eslint-disable -->
           <p
             class="name-artist"
-            (click)="updateData(item); playTrack(item.id, item.uri)"
+            (click)="updateData(item); playTrack(item.id, this.album.uri, i)"
           >
             {{ item.name }}
           </p>

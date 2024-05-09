@@ -13,7 +13,9 @@ import { Device } from './device.i';
 export class MusicService {
   dataSubject = new BehaviorSubject<TrackDetail | null>(null);
   data$ = this.dataSubject.asObservable();
+
   playSubject = new BehaviorSubject<boolean>(false);
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -28,7 +30,6 @@ export class MusicService {
 
   updateData() {
     const storedDataString = localStorage.getItem('trackCurrent');
-
     if (storedDataString !== null) {
       const storedData: TrackDetail = JSON.parse(storedDataString!);
       if (storedData) this.dataSubject.next(storedData);
@@ -47,7 +48,29 @@ export class MusicService {
       environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
       {
         // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
-        uris: [uri],
+        // uris: [uri],
+        // position_ms: progress_ms,
+      },
+    );
+  }
+
+  playList(
+    uri: string,
+    progress_ms: number,
+    devicesId: string,
+    position: number,
+  ): Observable<object> {
+    const params = new URLSearchParams({
+      device_id: devicesId,
+    });
+    return this.http.put(
+      environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
+      {
+        // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
+        context_uri: uri,
+        offset: {
+          position: position,
+        },
         position_ms: progress_ms,
       },
     );
@@ -82,6 +105,21 @@ export class MusicService {
     );
   }
 
+  nextMusic(device_id: string): Observable<object> {
+    return this.http.post<object>(
+      `
+    https://api.spotify.com/v1/me/player/next?${device_id}`,
+      {},
+    );
+  }
+
+  preMusic(device_id: string): Observable<object> {
+    return this.http.post<object>(
+      `
+    https://api.spotify.com/v1/me/player/previous?${device_id}`,
+      {},
+    );
+  }
   getTrack(id: string): Observable<TrackDetail> {
     return this.http.get<TrackDetail>(
       environment.apiConfig + environment.apiPaths.getTrack(id),

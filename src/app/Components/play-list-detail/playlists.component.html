@@ -33,7 +33,8 @@
         <div class="name">
           <p
             (click)="
-              updateData(item.track); playTrack(item.track.id, item.track.uri)
+              updateData(item.track);
+              playTrack(item.track.id, infoPlaylist.uri, i)
             "
           >
             {{ item.track.name }}

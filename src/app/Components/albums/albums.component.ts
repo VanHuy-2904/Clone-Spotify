@@ -65,7 +65,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
     this.link = id;
   }
 
-  playTrack(id: string, uri: string) {
+  playTrack(id: string, uri: string, i: number) {
     localStorage.setItem('currentPlay', 'true');
 
     this.musicService.getTrack(id).subscribe((data: TrackDetail) => {
@@ -74,7 +74,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
     });
     this.musicService.getDevice().subscribe((data: Device) => {
       this.musicService
-        .playTrack(uri, 0, data.devices[0].id)
+        .playList(uri, 0, data.devices[0].id, i)
         .subscribe(() => {});
     });
   }

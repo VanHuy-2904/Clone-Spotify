@@ -64,8 +64,9 @@ export class PlaylistsComponent implements OnInit {
     this.musicService.playSubject.next(true);
   }
 
-  playTrack(id: string, uri: string) {
+  playTrack(id: string, uri: string, i: number) {
     localStorage.setItem('currentPlay', 'true');
+    // localStorage.removeItem('test');
 
     this.musicService.getTrack(id).subscribe((data: TrackDetail) => {
       const dataString = JSON.stringify(data);
@@ -73,7 +74,7 @@ export class PlaylistsComponent implements OnInit {
     });
     this.musicService.getDevice().subscribe((data: Device) => {
       this.musicService
-        .playTrack(uri, 0, data.devices[0].id)
+        .playList(uri, 0, data.devices[0].id, i)
         .subscribe(() => {});
     });
   }

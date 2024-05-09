@@ -35,6 +35,7 @@ export interface PlaylistInfo {
   name: string;
   owner: owner;
   tracks: PlaylistDetail;
+  uri: string;
 }
 
 interface owner {

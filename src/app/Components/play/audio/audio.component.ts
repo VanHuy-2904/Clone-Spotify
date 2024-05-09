@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxSliderModule } from 'ngx-slider-v2';
-import { Subscription } from 'rxjs';
+import { Subscription, delay, interval, switchMap, takeWhile } from 'rxjs';
 import { DataService } from '../../../Service/data/data.service';
-import { MusicService } from '../../../Service/music/music.service';
-import { TrackDetail } from '../../../Service/music/track-detail.i';
 import { Device } from '../../../Service/music/device.i';
+import { MusicService } from '../../../Service/music/music.service';
+import { Item } from '../../../Service/music/track';
+import { TrackDetail } from '../../../Service/music/track-detail.i';
 
 @Component({
   selector: 'app-audio',
@@ -31,9 +32,16 @@ export class AudioComponent implements OnInit, OnDestroy {
   playTrue: boolean = true;
   play!: boolean;
   getCurrentTrackSub!: Subscription;
-
+  intervalSub!: Subscription;
+  numberC: number = 0;
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
+      this.musicService.getDevice().subscribe((data) => {
+        this.device = data;
+      });
+      // this.musicService.getCurrentPlaying().subscribe((data) => {
+      //   if (data.progress_ms > 1000) this.numberC = data.progress_ms;
+      // });
       if (localStorage.getItem('currentPlay') === 'true') {
         this.musicService.pauseTrack().subscribe();
         localStorage.setItem('currentPlay', 'false');
@@ -60,6 +68,7 @@ export class AudioComponent implements OnInit, OnDestroy {
 
   handleClick() {
     if (!this.play) {
+      this.musicService.playSubject.next(true);
       this.musicService.getDevice().subscribe((data) => {
         this.device = data;
         this.musicService
@@ -71,7 +80,7 @@ export class AudioComponent implements OnInit, OnDestroy {
           .subscribe(() => {});
       });
       this.playMusic();
-      localStorage.setItem('currentPlay', String(!this.play));
+      localStorage.setItem('currentPlay', 'true');
     } else {
       this.musicService.pauseTrack().subscribe(() => {});
       localStorage.setItem('currentPlay', 'false');
@@ -79,33 +88,86 @@ export class AudioComponent implements OnInit, OnDestroy {
     this.play = !this.play;
   }
 
+  updateCurrent(currentTrack: Item) {
+    const dataTrackCurrent = JSON.stringify(currentTrack);
+    localStorage.setItem('trackCurrent', dataTrackCurrent);
+    this.musicService.updateData();
+  }
   playMusic() {
-    this.musicService.getData().subscribe((data) => {
-      if (data) {
-        this.getTrackSub = this.musicService
-          .getTrack(data.id)
-          .subscribe((trackInfo: TrackDetail) => {
-            this.dataTrack = trackInfo;
-            // this.play = true;
+    this.musicService.getCurrentPlaying().subscribe((dataC) => {
+      this.updateCurrent(dataC.item);
+      this.musicService.getData().subscribe((dataS) => {
+        if (dataS) {
+          this.getTrackSub = this.musicService
+            .getTrack(dataS.id)
+            .subscribe((trackInfo: TrackDetail) => {
+              this.dataTrack = trackInfo;
+            });
+        }
+
+        if (dataC.progress_ms > 1000) {
+          this.numberC = dataC.progress_ms;
+          dataC.progress_ms = 0;
+        } else {
+          this.numberC = 0;
+        }
+        if (dataS) {
+          this.dataTrack = dataS;
+          this.musicService.playSubject.subscribe((data: boolean) => {
+            this.play = data;
             if (this.play) {
-              setInterval(() => {
-                if (this.play) {
-                  this.getCurrentTrackSub = this.musicService
-                    .getCurrentPlaying()
-                    .subscribe((data) => {
-                      if (data && data.item && data.item.duration_ms != null) {
-                        this.progressPercent = Math.floor(
-                          (data.progress_ms / data.item.duration_ms) * 100,
-                        );
-                        this.progressTime = data.progress_ms;
-                        localStorage.setItem('test', String(this.progressTime));
-                      }
-                    });
-                }
-              }, 1000);
+              if (this.intervalSub) {
+                this.intervalSub.unsubscribe();
+              }
+              this.intervalSub = interval(1000)
+                .pipe(
+                  takeWhile(
+                    () => this.play && this.numberC < dataS.duration_ms,
+                  ),
+                )
+                .subscribe(() => {
+                  this.numberC += 1000;
+                  if (dataC && dataC.item && dataC.item.duration_ms != null) {
+                    this.progressPercent = Math.floor(
+                      (this.numberC / dataS.duration_ms) * 100,
+                    );
+                    this.progressTime = this.numberC;
+                    localStorage.setItem('test', String(this.progressTime));
+                  }
+                  if (this.numberC >= dataS.duration_ms) {
+                    this.playMusic();
+                  }
+                });
             }
           });
-      }
+        }
+      });
     });
+  }
+  handleClickNext() {
+    localStorage.setItem('currentPlay', 'true');
+    this.musicService.playSubject.next(true);
+    this.musicService
+      .nextMusic(this.device.devices[0].id)
+      .pipe(
+        delay(1000),
+        switchMap(() => this.musicService.getCurrentPlaying()),
+      )
+      .subscribe((data) => {
+        this.updateCurrent(data.item);
+      });
+  }
+  handleClickPre() {
+    localStorage.setItem('currentPlay', 'true');
+    this.musicService.playSubject.next(true);
+    this.musicService
+      .preMusic(this.device.devices[0].id)
+      .pipe(
+        delay(1000),
+        switchMap(() => this.musicService.getCurrentPlaying()),
+      )
+      .subscribe((data) => {
+        this.updateCurrent(data.item);
+      });
   }
 }
