@@ -69,7 +69,7 @@ export class ArtistComponent implements OnInit {
     });
     this.musicService.getDevice().subscribe((data) => {
       this.musicService
-        .playTrack(uri, 0, data.devices[0].id)
+        .playTrackA(uri, 0, data.devices[0].id)
         .subscribe(() => {});
     });
   }

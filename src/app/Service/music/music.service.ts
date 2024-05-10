@@ -54,6 +54,24 @@ export class MusicService {
     );
   }
 
+  playTrackA(
+    uri: string,
+    progress_ms: number,
+    devicesId: string,
+  ): Observable<object> {
+    const params = new URLSearchParams({
+      device_id: devicesId,
+    });
+    return this.http.put(
+      environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
+      {
+        // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
+        uris: [uri],
+        // position_ms: progress_ms,
+      },
+    );
+  }
+
   playList(
     uri: string,
     progress_ms: number,
