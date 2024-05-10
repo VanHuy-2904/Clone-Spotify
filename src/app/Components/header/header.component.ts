@@ -59,6 +59,7 @@ export class HeaderComponent implements OnInit {
     this.authService.login();
   }
   logout() {
+    localStorage.removeItem('trackCurrent');
     this.authService.logout();
   }
   // onInputChange(event: any) {

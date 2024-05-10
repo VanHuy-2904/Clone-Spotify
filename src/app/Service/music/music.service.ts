@@ -48,8 +48,8 @@ export class MusicService {
       environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
       {
         // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
-        uris: [uri],
-        position_ms: progress_ms,
+        // uris: [uri],
+        // position_ms: progress_ms,
       },
     );
   }

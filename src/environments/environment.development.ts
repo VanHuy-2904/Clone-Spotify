@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  clientId: 'ca572787d70f4c13a683297afd6a9d2c',
-  clientSecret: '3a327031f77644628a0ebdbd351ec6f7',
+  clientId: '87ac444283e74b2caa2a9be4134a8d67',
+  clientSecret: '0b8b21dbb9d84255ad0c94681ae3d56e',
   redirectUri: 'http://localhost:4200/callback',
   apiConfig: 'https://api.spotify.com/v1',
   scope:

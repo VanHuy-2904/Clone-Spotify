@@ -6,6 +6,11 @@
   display: none;
 }
 
+.active {
+  .play:hover {
+    cursor: alias;
+  }
+}
 .music-player {
   // background-color: #111;
   display: flex;
