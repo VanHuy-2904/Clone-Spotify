@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../Service/data/data.service';
+import { Track } from '../../Service/music/track';
 // import { PlaylistService } from '../../Service/PlayList/playlist.service';
 
 @Component({
@@ -55,8 +56,8 @@ export class PlaylistsComponent implements OnInit {
     //   this.imgUrl = data[0].url;
     // });
   }
-  updateData(nameTrack: string, artistTrack: string, imgTrack: string, idTrack: string) {
-    this.dataService.updateData(nameTrack, artistTrack, imgTrack, idTrack);
+  updateData(track: Track) {
+    this.dataService.updateData(track);
   }
 
   playMusic(trackUri: string) {

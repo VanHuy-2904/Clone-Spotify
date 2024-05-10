@@ -3,7 +3,7 @@ import {
   HttpClientModule,
   HttpHeaders,
 } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../Service/auth/auth.service';
@@ -30,6 +30,8 @@ export class LoginComponent {
   Login() {
     this.authService.login();
   }
+  
+
 }
 // loginObj: Login;
 

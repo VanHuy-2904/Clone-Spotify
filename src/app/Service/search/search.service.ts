@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Playlist } from '../playlist/playlist.i';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SearchService {
   private inputValue$ = new BehaviorSubject('');
   data$ = this.inputValue$.asObservable();
+
+  private searchB$ = new BehaviorSubject<boolean>(false);
+  searchB = this.searchB$.asObservable();
   constructor(private http: HttpClient) {}
 
   setInputValue(input: string) {
@@ -18,8 +22,16 @@ export class SearchService {
     return this.data$;
   }
 
-  getFeature(): Observable<any> {
-    return this.http.get(
+  setSearchB(input: boolean) {
+    this.searchB$.next(input);
+  }
+
+  getSearchB():Observable<boolean> {
+    return this.searchB;
+  }
+
+  getFeature(): Observable<Playlist> {
+    return this.http.get<Playlist>(
       `https://api.spotify.com/v1/browse/featured-playlists?locale=VN`,
     );
   }
@@ -35,9 +47,9 @@ export class SearchService {
   //   );
   // }
 
-  getArtistRS(input: string): Observable<any> {
+  searchRS(input: string, type: string): Observable<any> {
     return this.http.get(
-      `https://api.spotify.com/v1/search?q=${input}&type=artist`,
+      `https://api.spotify.com/v1/search?q=${input}&type=${type}`,
     );
   }
 
@@ -45,7 +57,14 @@ export class SearchService {
     return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
   }
 
-  getAlbumRS(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}/albums`);
+  getAlbumRS(input: string): Observable<any> {
+    return this.http.get( `https://api.spotify.com/v1/artists/${input}/albums`,);
+  }
+  getArtistRelated(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/artists/${id}/related-artists`)
+  }
+  getPlaylistArtist(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/search?q=${id}&type=playlist
+    `)
   }
 }

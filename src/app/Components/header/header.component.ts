@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
+  HostListener,
   OnInit,
   Renderer2
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Observable, Subscription, map } from 'rxjs';
 import { AuthService } from '../../Service/auth/auth.service';
 import { SearchService } from '../../Service/search/search.service';
@@ -24,13 +25,15 @@ export class HeaderComponent implements OnInit {
   searchValue = '';
   name$!: Observable<string>;
   token: any;
+  search: boolean = false
   showCt: boolean = false;
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
     private http: HttpClient,
-    private renderer: Renderer2,
     private searchService: SearchService,
+    private router: Router,
+    private renderer: Renderer2,
   ) {
     this.name = '';
     this.accessToken = '';
@@ -47,16 +50,32 @@ export class HeaderComponent implements OnInit {
     this.showCt = !this.showCt;
   }
 
-  countTest() {
-    console.log('aaaaa');
-    return this.test + this.test2;
-  }
-  onInputChange(event: any) {
+
+  onInputChange(event: Event) {
     this.searchService.setInputValue(this.searchValue);
   }
 
   ngOnInit(): void {
+  
+    this.searchService.getSearchB().subscribe((data)=> {
+      if(data) {          
+        this.search = true
+      }
+      else {
+        this.search = false
+      }
+    })
+    
+    // console.log(this.searchService.get);
+    
+      console.log(this.search);
+      
+    
     // this.name = 'a'
+    this.authService.getUser().subscribe((data: any) => {
+      console.log(data);
+      
+    })
     this.name = localStorage.getItem('nameUser');
     console.log(localStorage.getItem('nameUser'));
     
@@ -71,4 +90,18 @@ export class HeaderComponent implements OnInit {
   // onInputChange(event: any) {
   //   this.searchService.setInputValue(this.searchValue);
   // }
+
+  goBack(): void {
+    window.history.back();
+
+  }
+
+  goForward(): void {
+    window.history.forward();
+  }
+
+ 
+ 
+
+  
 }

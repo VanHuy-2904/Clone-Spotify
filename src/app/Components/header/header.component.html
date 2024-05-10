@@ -3,10 +3,11 @@
   <ng-container *ngIf="token">
     <div class="topbar">
       <div class="prev-next-buttons">
-        <button><i class="bi bi-arrow-left-short"></i></button>
+        <button (click)="goBack();"><i class="bi bi-arrow-left-short"></i></button>
 
-        <button type="button" class="bi bi-arrow-right-short"></button>
-        <div class="search-icon-container">
+        <button (click)="goForward()" type="button" class="bi bi-arrow-right-short"></button>
+        <ng-container>
+        <div class="search-icon-container" *ngIf="search">
           <i class="bi bi-search"></i>
           <input
             [(ngModel)]="searchValue"
@@ -15,6 +16,7 @@
             placeholder="Tìm kiếm nghệ sĩ"
           />
         </div>
+      </ng-container>
       </div>
 
       <div class="navbar">
@@ -38,7 +40,7 @@
     </div>
   </ng-container>
 </div>
-<div class="acc-ct" *ngIf="showCt">
+<div class="acc-ct">
   <a href="">
     <div class="ct">
       <button (click)="logout()" type="button">Đăng xuất</button>

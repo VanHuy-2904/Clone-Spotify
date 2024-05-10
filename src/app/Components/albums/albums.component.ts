@@ -65,7 +65,6 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   }
 
   playTrack(track: Track) {
-    console.log(track.uri);
     this.musicService.getCurrentPlaying();
     this.musicService.playTrack(track, 0).subscribe((data) => {});
   }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
@@ -83,10 +83,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     
     this.musicService.updateData(currentTrack);
   }
-
-
-
   handelClick() {
     this.authService.login();
   }
+
+  
+  
 }

@@ -24,12 +24,12 @@ export class ArtistComponent implements OnInit {
     private route: ActivatedRoute,
     private music: MusicService,
     private authService: AuthService,
-    private artistService: DataService,
+    private dataService: DataService,
   ) {}
   listItems: Track[] = [];
   artist!: Artist;
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe((params) => {      
       const id = params['id'];
       console.log(id);
       this.getArtist(id);
@@ -37,25 +37,25 @@ export class ArtistComponent implements OnInit {
     });
   }
 
-  updateData(name: string, artist: string, img: string, id: string) {
-    this.artistService.updateData(name, artist, img, id);
+  updateData(track: Track) {
+    this.dataService.updateData(track);
   }
 
   getAlbum(id: string) {
-    this.artistService.getAlbum(id).subscribe((data: any) => {
+    this.dataService.getAlbum(id).subscribe((data: any) => {
       console.log('data tracks: ', data);
       this.listItems = data.tracks;
     });
   }
 
   format(milliseconds: number) {
-    return this.artistService.formatMillisecondsToMinutesAndSeconds(
+    return this.dataService.formatMillisecondsToMinutesAndSeconds(
       milliseconds,
     );
   }
 
   getArtist(id: string) {
- this.getArtistSubscription =   this.artistService.getArtist(id).subscribe((data: any) => {
+ this.getArtistSubscription =   this.dataService.getArtist(id).subscribe((data: any) => {
       this.artist = data;
     });
   }

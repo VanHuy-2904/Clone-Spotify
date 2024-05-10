@@ -11,10 +11,8 @@ export class PlaylistService {
   constructor(private http: HttpClient) {}
 
   getPlaylists(): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    });
-    return this.http.get(`${this.spotifyApiUrl}/me/playlists`, { headers });
+   
+    return this.http.get(`${this.spotifyApiUrl}/me/playlists`,);
   }
 
   getPlaylist(idPlaylist: string): Observable<any> {
