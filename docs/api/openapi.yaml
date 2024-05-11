@@ -2622,7 +2622,53 @@ paths:
         '403':
             $ref: '#/components/responses/err403'            
         '429':
-            $ref: '#/components/responses/err429'       
+            $ref: '#/components/responses/err429'    
+  /me/player/next:
+    post:
+      summary: Skip To Next
+      description: "Start a new context or resume current playback on the user's active device"
+      parameters:
+        - name: device_id
+          in: query
+          description: "The id of the device this command is targeting. If not supplied, the user's currently active device is the target"
+          schema:
+            type: string
+      security:
+        - BearerAuth: []                
+      tags:
+        - "Player"
+      responses:
+        '204': 
+          description: Command sent
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'     
+  /me/player/previous:
+    post:
+      summary: Skip To Previous
+      description: "Start a new context or resume current playback on the user's active device"
+      parameters:
+        - name: device_id
+          in: query
+          description: "The id of the device this command is targeting. If not supplied, the user's currently active device is the target"
+          schema:
+            type: string
+      security:
+        - BearerAuth: []                
+      tags:
+        - "Player"
+      responses:
+        '204': 
+          description: Command sent
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429' 
 components:
   securitySchemes:
     BearerAuth:

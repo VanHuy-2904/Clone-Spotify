@@ -123,18 +123,16 @@ export class MusicService {
     );
   }
 
-  nextMusic(device_id: string): Observable<object> {
+  nextMusic(deviceId: string): Observable<object> {
     return this.http.post<object>(
-      `
-    https://api.spotify.com/v1/me/player/next?${device_id}`,
+      environment.apiConfig + environment.apiPaths.next(deviceId),
       {},
     );
   }
 
-  preMusic(device_id: string): Observable<object> {
+  preMusic(deviceId: string): Observable<object> {
     return this.http.post<object>(
-      `
-    https://api.spotify.com/v1/me/player/previous?${device_id}`,
+      environment.apiConfig + environment.apiPaths.previous(deviceId),
       {},
     );
   }
