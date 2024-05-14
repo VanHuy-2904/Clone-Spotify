@@ -1,29 +1,33 @@
 <div class="main">
-  <div class="banner-img">
+  <div class="banner-img" *ngIf="artist">
     <img [src]="artist.images[0].url" alt="" />
     <div class="a-name">
       <p>{{ artist.name }}</p>
     </div>
   </div>
 
-  <div class="play">
+  <!-- <div class="play">
     <i class="bi bi-play-fill"></i>
-  </div>
+  </div> -->
 
-  <div class="dashboard">
+  <div class="dashboard" *ngIf="listItems">
     <h3>Phổ biến</h3>
     <div class="item" *ngFor="let item of listItems; let i = index">
       <div class="img-ct">
-        <p>{{ i + 1 }}</p>
+        <div class="stt">
+          <p>{{ i + 1 }}</p>
+          <i class="bi bi-play-fill"></i>
+        </div>
         <img [src]="item.album.images[2].url" alt="" />
-        <p>
+        <!-- eslint-disable -->
+        <p (click)="playTrack(item.id, item.uri); updateData(item)">
           {{ item.name }}
         </p>
       </div>
-      <div>
-        <p style="color: #b3b3b3">{{ item.popularity }}</p>
+      <div class="ct-pop">
+        <p>{{ item.popularity }}</p>
       </div>
-      <div style="color: #b3b3b3">
+      <div class="ct-dur">
         <p>{{ format(item.duration_ms) }}</p>
       </div>
     </div>

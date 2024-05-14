@@ -1,46 +1,59 @@
 <div class="main-container">
   <!-- <input type="text" [ngClass] = 'countTest' name="" id=""> -->
   <ng-container *ngIf="token">
-    <div class="topbar">
+    <div class="top-bar">
       <div class="prev-next-buttons">
-        <button (click)="goBack();"><i class="bi bi-arrow-left-short"></i></button>
+        <button (click)="goBack()">
+          <i class="bi bi-arrow-left-short"></i>
+        </button>
+        <!-- eslint-disable -->
 
-        <button (click)="goForward()" type="button" class="bi bi-arrow-right-short"></button>
+        <button
+          (click)="goForward()"
+          type="button"
+          class="bi bi-arrow-right-short"
+        ></button>
         <ng-container>
-        <div class="search-icon-container" *ngIf="search">
-          <i class="bi bi-search"></i>
-          <input
-            [(ngModel)]="searchValue"
-            (input)="onInputChange($event)"
-            type="text"
-            placeholder="Tìm kiếm nghệ sĩ"
-          />
-        </div>
-      </ng-container>
+          <div class="search-icon-container" *ngIf="search">
+            <i class="bi bi-search"></i>
+            <input
+              [(ngModel)]="searchValue"
+              (input)="onInputChange()"
+              type="text"
+              placeholder="Tìm kiếm nghệ sĩ"
+            />
+          </div>
+        </ng-container>
       </div>
 
       <div class="navbar">
-        <ng-container *ngIf="name">
+        <ng-container *ngIf="data">
+          <!-- eslint-disable -->
+
           <div (click)="handleClick()" class="account">
             <img
+              *ngIf="data.images.length > 0"
+              class="account"
+              [src]="data.images[0].url"
+              alt=""
+            />
+
+            <img
+              *ngIf="data.images.length == 0"
               class="account"
               src="https://cdn.pixabay.com/photo/2021/07/25/08/03/account-6491185_1280.png"
               alt=""
             />
 
-            <p>{{ name }}</p>
+            <p>{{ data.name }}</p>
           </div>
+          <!-- eslint-disable -->
         </ng-container>
-
-        <!-- <ng-template #NoName>
-          <a href="/signup">Đăng ký</a>
-          <a href="/login"><button type="button">Đăng nhập</button></a>
-        </ng-template> -->
       </div>
     </div>
   </ng-container>
 </div>
-<div class="acc-ct">
+<div class="acc-ct" *ngIf="showCt">
   <a href="">
     <div class="ct">
       <button (click)="logout()" type="button">Đăng xuất</button>

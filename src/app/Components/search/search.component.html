@@ -2,7 +2,10 @@
   <!-- <ng-container *ngIf="!searchValue"> -->
   <ng-container *ngIf="!searchValue; else Search">
     <h4>Duyệt tìm</h4>
-    <div class="dashboard">
+    <div
+      class="dashboard"
+      *ngIf="data && data.playlists && data.playlists.items"
+    >
       <div class="item" *ngFor="let item of data.playlists.items">
         <a [routerLink]="['/playlist', item.id]">
           <div>
@@ -19,7 +22,12 @@
         <h4>Kết quả hàng đầu</h4>
         <a routerLink="/artist/{{ dataArtist.id }}">
           <div class="playlist">
-            <img [src]="dataArtist.images[0].url" alt="" />
+            <img
+              *ngIf="dataArtist.images"
+              [src]="dataArtist.images[0].url"
+              alt=""
+            />
+
             <p>{{ dataArtist.name }}</p>
           </div>
         </a>
@@ -52,19 +60,19 @@
     </div>
     <h4>Artist</h4>
     <div class="album" *ngIf="dataArtistRea">
-      <div
-        class="item-artistRea"
-        *ngFor="let item of dataArtistRea"
-      >
+      <div class="item-artistRea" *ngFor="let item of dataArtistRea">
         <a routerLink="/artist/{{ item.id }}">
-            <div class="img-artist" *ngIf="item.images.length > 0">
-              <img [src]="item.images[0].url" alt="" />
-            </div>
-            <div class="img-artist" *ngIf="item.images.length == 0">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR-OcqUUVFS-dep5gmuom0QzAUkzK7H_mqOe_HzmYAcQ&s" alt="">
-            </div>
+          <div class="img-artist" *ngIf="item.images.length > 0">
+            <img [src]="item.images[0].url" alt="" />
+          </div>
+          <div class="img-artist" *ngIf="item.images.length === 0">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR-OcqUUVFS-dep5gmuom0QzAUkzK7H_mqOe_HzmYAcQ&s"
+              alt=""
+            />
+          </div>
 
-            <p>{{ item.name }}</p>
+          <p>{{ item.name }}</p>
           <!-- <p>{{item.artists[0].name}}</p> -->
         </a>
       </div>
@@ -76,7 +84,7 @@
           <div>
             <img [src]="item.images[0].url" alt="" />
             <p class="name-album">{{ item.name }}</p>
-            <p class = 'name-artist'>Của {{item.owner.display_name}}</p>
+            <p class="name-artist">Của {{ item.owner.display_name }}</p>
           </div>
           <!-- <p>{{item.artists[0].name}}</p> -->
         </a>

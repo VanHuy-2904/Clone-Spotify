@@ -1,16 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  HostListener,
-  OnInit,
-  Renderer2
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { Observable, Subscription, map } from 'rxjs';
 import { AuthService } from '../../Service/auth/auth.service';
 import { SearchService } from '../../Service/search/search.service';
+import { User } from '../../Service/user/user.i';
+import { UserService } from '../../Service/user/user.service';
 
 @Component({
   selector: 'app-header',
@@ -20,88 +16,72 @@ import { SearchService } from '../../Service/search/search.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  name: string | null;
-  accessToken: any;
+  data!: User;
+  accessToken: string;
   searchValue = '';
   name$!: Observable<string>;
-  token: any;
-  search: boolean = false
+  token: string | null = null;
+  search: boolean = false;
   showCt: boolean = false;
   constructor(
+    private userService: UserService,
     private authService: AuthService,
-    private route: ActivatedRoute,
-    private http: HttpClient,
     private searchService: SearchService,
-    private router: Router,
-    private renderer: Renderer2,
   ) {
-    this.name = '';
     this.accessToken = '';
     this.name$ = this.authService.userName$.pipe(
       map((oldName) => `test ${oldName}`),
     );
   }
-  data: any[] = [];
 
-  test = 1;
-  test2 = 2;
   exchangeCodeSub!: Subscription;
   handleClick() {
     this.showCt = !this.showCt;
   }
 
-
-  onInputChange(event: Event) {
+  onInputChange() {
     this.searchService.setInputValue(this.searchValue);
   }
-
   ngOnInit(): void {
-  
-    this.searchService.getSearchB().subscribe((data)=> {
-      if(data) {          
-        this.search = true
-      }
-      else {
-        this.search = false
-      }
-    })
-    
-    // console.log(this.searchService.get);
-    
-      console.log(this.search);
-      
-    
-    // this.name = 'a'
-    this.authService.getUser().subscribe((data: any) => {
-      console.log(data);
-      
-    })
-    this.name = localStorage.getItem('nameUser');
-    console.log(localStorage.getItem('nameUser'));
-    
+    if (localStorage.getItem('token')) {
+      this.searchService.getSearchB().subscribe((data) => {
+        if (data) {
+          this.search = true;
+        } else {
+          this.search = false;
+        }
+      });
+      this.authService.getUserinfo().subscribe({
+        next: (dataUser: User) => {
+          this.userService.setData(dataUser);
+        },
+        error: (err) => {
+          if (err.status === 401) {
+            localStorage.removeItem('token');
+            this.authService.login();
+          }
+        },
+      });
+    }
+    this.userService.getData().subscribe((dataUser: User) => {
+      this.data = dataUser;
+    });
     this.token = localStorage.getItem('token');
   }
+
   login() {
     this.authService.login();
   }
   logout() {
+    localStorage.removeItem('trackCurrent');
     this.authService.logout();
   }
-  // onInputChange(event: any) {
-  //   this.searchService.setInputValue(this.searchValue);
-  // }
 
   goBack(): void {
     window.history.back();
-
   }
 
   goForward(): void {
     window.history.forward();
   }
-
- 
- 
-
-  
 }

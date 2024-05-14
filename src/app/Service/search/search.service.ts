@@ -1,6 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
+import { TopTrack } from '../data/top-track.i';
 import { Playlist } from '../playlist/playlist.i';
 
 @Injectable({
@@ -26,45 +28,26 @@ export class SearchService {
     this.searchB$.next(input);
   }
 
-  getSearchB():Observable<boolean> {
+  getSearchB(): Observable<boolean> {
     return this.searchB;
   }
 
   getFeature(): Observable<Playlist> {
     return this.http.get<Playlist>(
-      `https://api.spotify.com/v1/browse/featured-playlists?locale=VN`,
+      environment.apiConfig + environment.apiPaths.topTrack,
     );
   }
 
-  // getSearchValue(input: string): Observable<any> {
-  //   return this.http.get(
-  //     `https://api.spotify.com/v1/search?q=${input}&type=artist`,
-  //     {
-  //       headers: new HttpHeaders({
-  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       }),
-  //     },
-  //   );
-  // }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   searchRS(input: string, type: string): Observable<any> {
     return this.http.get(
-      `https://api.spotify.com/v1/search?q=${input}&type=${type}`,
+      environment.apiConfig + environment.apiPaths.search(input, type),
     );
   }
 
-  getTrackRS(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
-  }
-
-  getAlbumRS(input: string): Observable<any> {
-    return this.http.get( `https://api.spotify.com/v1/artists/${input}/albums`,);
-  }
-  getArtistRelated(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/artists/${id}/related-artists`)
-  }
-  getPlaylistArtist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/search?q=${id}&type=playlist
-    `)
+  getTrackRS(id: string): Observable<TopTrack> {
+    return this.http.get<TopTrack>(
+      environment.apiConfig + environment.apiPaths.getTrackArtist(id),
+    );
   }
 }

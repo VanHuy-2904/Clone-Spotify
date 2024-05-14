@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../Service/auth/auth.service';
-import { MusicService } from '../../Service/music/music.service';
 import { Artist } from '../../Service/artist/Artists';
-import { Track } from '../../Service/music/track';
 import { DataService } from '../../Service/data/data.service';
+import { MusicService } from '../../Service/music/music.service';
+import { TrackDetail } from '../../Service/music/track-detail.i';
 
 @Component({
   selector: 'app-artist',
@@ -17,46 +15,62 @@ import { DataService } from '../../Service/data/data.service';
   styleUrl: './artist.component.scss',
 })
 export class ArtistComponent implements OnInit {
-  token: any;
-  getArtistSubscription!: Subscription
+  token: string = '';
+  getArtistSubscription!: Subscription;
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
     private music: MusicService,
-    private authService: AuthService,
-    private dataService: DataService,
+    private musicService: MusicService,
+    private artistService: DataService,
   ) {}
-  listItems: Track[] = [];
+  listItems!: TrackDetail[];
   artist!: Artist;
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {      
+    this.route.params.subscribe((params) => {
       const id = params['id'];
-      console.log(id);
       this.getArtist(id);
       this.getAlbum(id);
     });
   }
 
-  updateData(track: Track) {
-    this.dataService.updateData(track);
+  updateData(currentTrack: TrackDetail) {
+    const dataTrackCurrent = JSON.stringify(currentTrack);
+    localStorage.setItem('trackCurrent', dataTrackCurrent);
+    this.musicService.updateData();
+    this.musicService.playSubject.next(true);
   }
 
   getAlbum(id: string) {
-    this.dataService.getAlbum(id).subscribe((data: any) => {
-      console.log('data tracks: ', data);
+    this.artistService.getTrackArtist(id).subscribe((data) => {
       this.listItems = data.tracks;
     });
   }
 
   format(milliseconds: number) {
-    return this.dataService.formatMillisecondsToMinutesAndSeconds(
+    return this.artistService.formatMillisecondsToMinutesAndSeconds(
       milliseconds,
     );
   }
 
   getArtist(id: string) {
- this.getArtistSubscription =   this.dataService.getArtist(id).subscribe((data: any) => {
-      this.artist = data;
+    this.getArtistSubscription = this.artistService
+      .getArtist(id)
+      .subscribe((data: Artist) => {
+        this.artist = data;
+      });
+  }
+
+  playTrack(id: string, uri: string) {
+    localStorage.setItem('currentPlay', 'true');
+
+    this.musicService.getTrack(id).subscribe((data: TrackDetail) => {
+      const dataString = JSON.stringify(data);
+      localStorage.setItem('trackCurrent', dataString);
+    });
+    this.musicService.getDevice().subscribe((data) => {
+      this.musicService
+        .playTrack(uri, 0, data.devices[0].id)
+        .subscribe(() => {});
     });
   }
 }

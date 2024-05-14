@@ -1,38 +1,38 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
+import { Playlist } from './playlist.i';
+import { PlaylistDetail, PlaylistInfo } from './playlist-detail.i';
+import { images } from '../album/album';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaylistService {
-  private spotifyApiUrl = 'https://api.spotify.com/v1';
-
   constructor(private http: HttpClient) {}
 
-  getPlaylists(): Observable<any> {
-   
-    return this.http.get(`${this.spotifyApiUrl}/me/playlists`,);
-  }
-
-  getPlaylist(idPlaylist: string): Observable<any> {
-    return this.http.get(
-      `https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`,
+  getPlaylist(idPlaylist: string): Observable<PlaylistDetail> {
+    return this.http.get<PlaylistDetail>(
+      environment.apiConfig + environment.apiPaths.getPlaylist(idPlaylist),
     );
   }
 
-  getInfoPlaylist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/playlists/${id}`);
+  getInfoPlaylist(id: string): Observable<PlaylistInfo> {
+    return this.http.get<PlaylistInfo>(
+      environment.apiConfig + environment.apiPaths.infoPlaylist(id),
+    );
   }
 
   getPicture(id: string) {
-    return this.http.get(
-      `
-  https://api.spotify.com/v1/playlists/${id}/images`,
+    return this.http.get<images[]>(
+      environment.apiConfig + environment.apiPaths.picturePlaylist(id),
     );
   }
 
-  getMyPlaylist(): Observable<any> {
-    return this.http.get('https://api.spotify.com/v1/me/playlists ');
+  getMyPlaylist(): Observable<Playlist> {
+    return this.http.get<Playlist>(
+      environment.apiConfig + environment.apiPaths.mePlaylist,
+    );
   }
 }

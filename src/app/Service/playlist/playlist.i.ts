@@ -1,4 +1,5 @@
 import { images } from '../album/album';
+import { PlaylistInfo } from './playlist-detail.i';
 
 export interface Playlist {
   message: string;
@@ -7,7 +8,7 @@ export interface Playlist {
 
 export interface Data {
   href: string;
-  items: Item[];
+  items: PlaylistInfo[];
 }
 
 export interface Item {
