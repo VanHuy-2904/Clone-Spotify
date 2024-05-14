@@ -46,17 +46,13 @@ export class MusicService {
     });
     return this.http.put(
       environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
-      {
-        // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
-        // uris: [uri],
-        // position_ms: progress_ms,
-      },
+      {},
     );
   }
 
   playTrackA(
-    uri: string,
-    progress_ms: number,
+    uri: string[],
+    index: number,
     devicesId: string,
   ): Observable<object> {
     const params = new URLSearchParams({
@@ -65,9 +61,10 @@ export class MusicService {
     return this.http.put(
       environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
       {
-        // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
-        uris: [uri],
-        // position_ms: progress_ms,
+        uris: uri,
+        offset: {
+          position: index,
+        },
       },
     );
   }

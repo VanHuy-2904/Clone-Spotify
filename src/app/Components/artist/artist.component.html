@@ -20,7 +20,7 @@
         </div>
         <img [src]="item.album.images[2].url" alt="" />
         <!-- eslint-disable -->
-        <p (click)="playTrack(item.id, item.uri); updateData(item)">
+        <p (click)="playTrack(item.id, item.uri, i); updateData(item)">
           {{ item.name }}
         </p>
       </div>
