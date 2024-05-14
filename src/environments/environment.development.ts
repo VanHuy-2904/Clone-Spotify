@@ -5,7 +5,7 @@ export const environment = {
   redirectUri: 'http://localhost:4200/callback',
   apiConfig: 'https://api.spotify.com/v1',
   scope:
-    'user-read-private user-read-email user-modify-playback-state user-read-currently-playing user-library-read playlist-modify-public playlist-modify-private user-top-read user-read-playback-state',
+    'streaming user-read-private user-read-email user-modify-playback-state user-read-currently-playing user-library-read playlist-modify-public playlist-modify-private user-top-read user-read-playback-state',
   state: '123',
   apiPaths: {
     mePlaylist: '/me/playlists ',
