@@ -191,4 +191,17 @@ export class AudioComponent implements OnInit, OnDestroy {
         });
     });
   }
+  onChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    const progress: number = (this.dataTrack.duration_ms / 100) * Number(value);
+    this.musicService.getDevice().subscribe((data) => {
+      this.device = data;
+      this.musicService
+        .seekPosition(progress, this.device.devices[0].id)
+        .subscribe(() => {});
+      this.numberC = progress;
+      this.progressTime = this.numberC;
+    });
+  }
 }

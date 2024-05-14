@@ -2669,6 +2669,35 @@ paths:
             $ref: '#/components/responses/err403'            
         '429':
             $ref: '#/components/responses/err429' 
+  /me/player/seek:
+    put:
+      summary: Seek To Position
+      description: "Seeks to the given position in the user’s currently playing track."
+      parameters:
+        - name: position_ms
+          in: query
+          required: true
+          schema: 
+            type: integer
+          
+        - name: device_id
+          in: query
+          description: "The id of the device this command is targeting. If not supplied, the user's currently active device is the target"
+          schema:
+            type: string
+      security:
+        - BearerAuth: []                
+      tags:
+        - "Player"
+      responses:
+        '204': 
+          description: Command sent
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429' 
 components:
   securitySchemes:
     BearerAuth:

@@ -138,4 +138,17 @@ export class MusicService {
       environment.apiConfig + environment.apiPaths.getTrack(id),
     );
   }
+
+  seekPosition(positionMs: number, deviceId: string): Observable<object> {
+    const params = new URLSearchParams({
+      position_ms: Math.floor(positionMs).toString(),
+      device_id: deviceId,
+    });
+    return this.http.put<object>(
+      environment.apiConfig +
+        environment.apiPaths.seek +
+        `?${params.toString()}`,
+      {},
+    );
+  }
 }

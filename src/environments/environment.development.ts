@@ -25,5 +25,6 @@ export const environment = {
     getDevice: '/me/player/devices',
     next: (deviceId: string) => `/me/player/next?${deviceId}`,
     previous: (deviceId: string) => `/me/player/previous?${deviceId}`,
+    seek: '/me/player/seek',
   },
 };
