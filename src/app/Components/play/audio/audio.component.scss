@@ -100,7 +100,10 @@
       span {
         font-size: 13px;
       }
+      .progress-bar-1 {
+        width: 30%;
 
+      }
       .progress-bar {
         height: 4px;
         border-radius: 10px;
@@ -109,7 +112,7 @@
         .progress {
           position: relative;
           height: 100%;
-          width: var(--progressPercent);
+          // width: var(--progressPercent);
           border-radius: 10px;
           background-color: #999;
         }
@@ -138,4 +141,26 @@ i {
 }
 i:hover {
   color: #ddd;
+}
+input[type = "range"] {
+  background: linear-gradient(to right, white var(--progressPercent), #5e5e5e var(--progressPercent));
+  height: 4px;
+  appearance: none;
+  width: 100%;
+  margin: 2px;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  background-color: #5e5e5e;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  /* display: none; */
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: white;
 }

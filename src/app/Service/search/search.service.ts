@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { TopTrack } from '../data/top-track.i';
 import { Playlist } from '../playlist/playlist.i';
+import { Search } from './search.i';
 
 @Injectable({
   providedIn: 'root',
@@ -38,9 +39,8 @@ export class SearchService {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  searchRS(input: string, type: string): Observable<any> {
-    return this.http.get(
+  searchRS(input: string, type: string): Observable<Search> {
+    return this.http.get<Search>(
       environment.apiConfig + environment.apiPaths.search(input, type),
     );
   }

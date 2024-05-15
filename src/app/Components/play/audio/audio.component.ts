@@ -9,6 +9,7 @@ import { Device } from '../../../Service/music/device.i';
 import { MusicService } from '../../../Service/music/music.service';
 import { Item } from '../../../Service/music/track';
 import { TrackDetail } from '../../../Service/music/track-detail.i';
+import { SpotifyService } from '../../../Service/spotify/spotify.service';
 
 @Component({
   selector: 'app-audio',
@@ -26,7 +27,9 @@ export class AudioComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private dataService: DataService,
     private musicService: MusicService,
+    private spotifyService: SpotifyService,
   ) {}
+
   progressPercent: number = 0;
   progressTime!: number;
   playTrue: boolean = true;
@@ -34,8 +37,10 @@ export class AudioComponent implements OnInit, OnDestroy {
   getCurrentTrackSub!: Subscription;
   intervalSub!: Subscription;
   numberC: number = 0;
+  deviceId!: string;
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
+      this.spotifyService.createWebPlayer(localStorage.getItem('token')!);
       this.musicService.getData().subscribe((dataS) => {
         if (dataS) {
           this.getTrackSub = this.musicService
@@ -45,14 +50,9 @@ export class AudioComponent implements OnInit, OnDestroy {
             });
         }
       });
-      this.musicService.getDevice().subscribe((data) => {
-        this.device = data;
-      });
-      // this.musicService.getCurrentPlaying().subscribe((data) => {
-      //   if (data.progress_ms > 1000) this.numberC = data.progress_ms;
-      // });
+
       if (localStorage.getItem('currentPlay') === 'true') {
-        this.musicService.pauseTrack().subscribe();
+        // this.musicService.pauseTrack().subscribe();
         localStorage.setItem('currentPlay', 'false');
       }
       setInterval(() => {
@@ -188,6 +188,19 @@ export class AudioComponent implements OnInit, OnDestroy {
           this.updateCurrent(data.item);
           this.numberC = 0;
         });
+    });
+  }
+  onChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    const progress: number = (this.dataTrack.duration_ms / 100) * Number(value);
+    this.musicService.getDevice().subscribe((data) => {
+      this.device = data;
+      this.musicService
+        .seekPosition(progress, this.device.devices[0].id)
+        .subscribe(() => {});
+      this.numberC = progress;
+      this.progressTime = this.numberC;
     });
   }
 }

@@ -21,7 +21,7 @@ import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 export class DefaultLayoutComponent {
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
-    const headerElement = document.querySelector('.topbar');
+    const headerElement = document.querySelector('.top-bar');
     const main = document.querySelector('.main');
     if (main?.scrollTop && main?.scrollTop > 0) {
       headerElement?.classList.add('scrolled');

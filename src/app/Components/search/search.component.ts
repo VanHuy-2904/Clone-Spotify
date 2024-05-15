@@ -12,6 +12,7 @@ import { PlaylistInfo } from '../../Service/playlist/playlist-detail.i';
 import { Playlist } from '../../Service/playlist/playlist.i';
 import { Search } from '../../Service/search/search.i';
 import { SearchService } from '../../Service/search/search.service';
+import { MusicService } from '../../Service/music/music.service';
 
 @Component({
   selector: 'app-search',
@@ -24,6 +25,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   data!: Playlist;
   searchValue = '';
   dataArtist = new Artist();
+  listItems!: TrackDetail[];
   dataTrack: TrackDetail[] = [];
   dataAlbum: AlbumDetail[] = [];
   dataPlaylist: PlaylistInfo[] = [];
@@ -37,6 +39,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private searchService: SearchService,
     private router: Router,
+    private musicService: MusicService,
   ) {}
   ngOnInit(): void {
     this.searchService.setSearchB(true);
@@ -56,7 +59,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         if (this.searchValue) {
-          this.dataArtist = data.artists.items[0];
+          if ('artists' in data) {
+            // `data` is of type `Search`, which contains `artists`
+            this.dataArtist = data.artists.items[0];
+          }
           this.searchService
             .searchRS(this.searchValue, 'playlist')
             .subscribe((data: Search) => {
@@ -80,6 +86,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.dataTrackSub = this.searchService
             .getTrackRS(this.dataArtist.id)
             .subscribe((dataTrack: TopTrack) => {
+              this.listItems = dataTrack.tracks;
               const albumRandom = dataTrack.tracks.sort(
                 () => Math.random() - 0.5,
               );
@@ -95,7 +102,9 @@ export class SearchComponent implements OnInit, OnDestroy {
                 });
             });
         } else {
-          this.data = data;
+          if ('message' in data) {
+            this.data = data;
+          }
         }
       });
   }
@@ -114,5 +123,26 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (this.dataFeatureSub) {
       this.dataFeatureSub.unsubscribe();
     }
+  }
+
+  playTrack(id: string, uri: string, i: number) {
+    localStorage.setItem('currentPlay', 'true');
+
+    this.musicService.getTrack(id).subscribe((data: TrackDetail) => {
+      const dataString = JSON.stringify(data);
+      localStorage.setItem('trackCurrent', dataString);
+    });
+    const uris = this.listItems.map((track) => track.uri);
+    this.musicService.getDevice().subscribe((data) => {
+      this.musicService
+        .playTrackA(uris, i, data.devices[0].id)
+        .subscribe(() => {});
+    });
+  }
+  updateData(currentTrack: TrackDetail) {
+    const dataTrackCurrent = JSON.stringify(currentTrack);
+    localStorage.setItem('trackCurrent', dataTrackCurrent);
+    this.musicService.updateData();
+    this.musicService.playSubject.next(true);
   }
 }

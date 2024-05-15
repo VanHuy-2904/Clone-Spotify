@@ -46,10 +46,25 @@ export class MusicService {
     });
     return this.http.put(
       environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
+      {},
+    );
+  }
+
+  playTrackA(
+    uri: string[],
+    index: number,
+    devicesId: string,
+  ): Observable<object> {
+    const params = new URLSearchParams({
+      device_id: devicesId,
+    });
+    return this.http.put(
+      environment.apiConfig + environment.apiPaths.playMusic + `?${params}`,
       {
-        // context_uri: 'spotify:album:1FbCsMN3QbJzyChn0JpPf7',
-        // uris: [uri],
-        // position_ms: progress_ms,
+        uris: uri,
+        offset: {
+          position: index,
+        },
       },
     );
   }
@@ -105,24 +120,35 @@ export class MusicService {
     );
   }
 
-  nextMusic(device_id: string): Observable<object> {
+  nextMusic(deviceId: string): Observable<object> {
     return this.http.post<object>(
-      `
-    https://api.spotify.com/v1/me/player/next?${device_id}`,
+      environment.apiConfig + environment.apiPaths.next(deviceId),
       {},
     );
   }
 
-  preMusic(device_id: string): Observable<object> {
+  preMusic(deviceId: string): Observable<object> {
     return this.http.post<object>(
-      `
-    https://api.spotify.com/v1/me/player/previous?${device_id}`,
+      environment.apiConfig + environment.apiPaths.previous(deviceId),
       {},
     );
   }
   getTrack(id: string): Observable<TrackDetail> {
     return this.http.get<TrackDetail>(
       environment.apiConfig + environment.apiPaths.getTrack(id),
+    );
+  }
+
+  seekPosition(positionMs: number, deviceId: string): Observable<object> {
+    const params = new URLSearchParams({
+      position_ms: Math.floor(positionMs).toString(),
+      device_id: deviceId,
+    });
+    return this.http.put<object>(
+      environment.apiConfig +
+        environment.apiPaths.seek +
+        `?${params.toString()}`,
+      {},
     );
   }
 }

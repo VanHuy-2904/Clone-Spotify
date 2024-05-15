@@ -92,11 +92,21 @@
             font-size: 18px;
             color: white;
             font-weight: bold;
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
           }
-          p:nth-child(2) {
-            // color: #252525;
-            color: gray;
-            font-size: 13px;
+          a {
+            p {
+
+              // color: #252525;
+              color: gray;
+              font-size: 13px;
+            }
+            &:hover {
+              text-decoration: underline;
+            }
           }
         }
       }
