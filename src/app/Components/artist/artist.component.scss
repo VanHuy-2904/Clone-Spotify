@@ -1,9 +1,12 @@
 .main {
+  // overflow: auto;
+  // margin-top: 320px;
+  height: calc(100vh - 80px);
   background-color: #121212;
 
   .banner-img {
     position: relative;
-    height: 250px;
+    height: 50%;
     width: 100%;
     img {
       width: 100%;
@@ -40,25 +43,39 @@
     }
     .item {
       transition: all ease 0.2s;
-
       display: flex;
-      padding: 5px;
+      padding: 5px 10px;
+      align-items: center;
       justify-content: space-between;
       color: white;
       &:hover {
         background-color: #252525;
-        border-radius: 10px;
+        border-radius: 5px;
+        .stt {
+          p {
+            display: none;
+          }
+          i {
+            display: block;
+          }
+        }
       }
       p {
         margin-right: 20px;
+        font-size: 15px;
       }
       .img-ct {
+        align-items: center;
+
         display: flex;
         width: 700px;
+        i {
+          display: none;
+        }
         img {
           margin-right: 20px;
-          height: 30px;
-          width: 30px;
+          height: 50px;
+          width: 50px;
         }
       }
       .ct-pop {
@@ -66,32 +83,20 @@
           color: #b3b3b3;
         }
       }
-
-      .ct-dur {
-        p {
-          color: #b3b3b3;
-        }
+      h3 {
+        color: white;
+        font-weight: bold;
       }
-    }
-  }
-  .play {
-    padding: 20px;
-
-    margin: 20px;
-    background-color: green;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    i bi {
-      background-color: #000;
+      .stt {
+        width: 3%;
+      }
     }
   }
 }
 
+p {
+  margin-bottom: 0;
+}
 ::-webkit-scrollbar {
   width: 8px;
 }

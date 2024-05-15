@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Artist } from '../../Service/artist/Artists';
 import { DataService } from '../../Service/data/data.service';
-import { Track } from '../../Service/music/track';
+import { MusicService } from '../../Service/music/music.service';
+import { TrackDetail } from '../../Service/music/track-detail.i';
 
 @Component({
   selector: 'app-artist',
@@ -18,19 +19,31 @@ export class ArtistComponent implements OnInit {
   getArtistSubscription!: Subscription;
   constructor(
     private route: ActivatedRoute,
+    private music: MusicService,
+    private musicService: MusicService,
     private artistService: DataService,
   ) {}
-  listItems: Track[] = [];
+  listItems!: TrackDetail[];
   artist!: Artist;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       this.getArtist(id);
+      this.getAlbum(id);
     });
   }
 
-  updateData(track: Track) {
-    this.artistService.updateData(track);
+  updateData(currentTrack: TrackDetail) {
+    const dataTrackCurrent = JSON.stringify(currentTrack);
+    localStorage.setItem('trackCurrent', dataTrackCurrent);
+    this.musicService.updateData();
+    this.musicService.playSubject.next(true);
+  }
+
+  getAlbum(id: string) {
+    this.artistService.getTrackArtist(id).subscribe((data) => {
+      this.listItems = data.tracks;
+    });
   }
 
   format(milliseconds: number) {
@@ -45,5 +58,20 @@ export class ArtistComponent implements OnInit {
       .subscribe((data: Artist) => {
         this.artist = data;
       });
+  }
+
+  playTrack(id: string, uri: string, i: number) {
+    localStorage.setItem('currentPlay', 'true');
+
+    this.musicService.getTrack(id).subscribe((data: TrackDetail) => {
+      const dataString = JSON.stringify(data);
+      localStorage.setItem('trackCurrent', dataString);
+    });
+    const uris = this.listItems.map((track) => track.uri);
+    this.musicService.getDevice().subscribe((data) => {
+      this.musicService
+        .playTrackA(uris, i, data.devices[0].id)
+        .subscribe(() => {});
+    });
   }
 }

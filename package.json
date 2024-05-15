@@ -26,6 +26,7 @@
     "bootstrap-icons": "^1.11.3",
     "ngx-slider-v2": "^17.0.0",
     "rxjs": "~7.8.0",
+    "spotify-web-sdk": "^0.7.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
@@ -39,6 +40,9 @@
     "@angular/cli": "^17.3.0",
     "@angular/compiler-cli": "^17.3.0",
     "@types/jasmine": "~5.1.0",
+    "@types/spotify-web-playback-sdk": "^0.1.19",
+    "@spotify/web-api-ts-sdk": "^1.2.0",
+    "@types/spotify-api": "^0.0.25",
     "@typescript-eslint/eslint-plugin": "7.2.0",
     "@typescript-eslint/parser": "7.2.0",
     "eslint": "^8.57.0",

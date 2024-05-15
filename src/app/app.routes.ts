@@ -1,14 +1,11 @@
 import { Routes } from '@angular/router';
-
 import { AlbumsComponent } from './Components/albums/albums.component';
 import { ArtistComponent } from './Components/artist/artist.component';
-
 import { DefaultLayoutComponent } from './Layout/default-layout/default-layout.component';
 import { authGuard } from './guard/auth.guard';
 import { HomeComponent } from './page/home/home.component';
-
 import { CallbackComponent } from './Components/callback/callback.component';
-import { MyPlaylistComponent } from './Components/my-playlist/my-playlist.component';
+import { PlaylistsComponent } from './Components/play-list-detail/playlists.component';
 
 export const routes: Routes = [
   {
@@ -31,8 +28,8 @@ export const routes: Routes = [
       },
 
       {
-        path: 'MyPlaylist',
-        component: MyPlaylistComponent,
+        path: 'playlist/:id',
+        component: PlaylistsComponent,
         canActivate: [authGuard],
       },
       {

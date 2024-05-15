@@ -4,7 +4,10 @@
       <h2>Top bài hát phổ biến</h2>
       <div class="list">
         <div class="item" *ngFor="let topTrack of topTracks?.playlists?.items">
-          <a style="text-decoration: none" [routerLink]="">
+          <a
+            style="text-decoration: none"
+            [routerLink]="['/playlist', topTrack.id]"
+          >
             <!-- eslint-disable -->
 
             <img [src]="topTrack.images[0].url" />
@@ -18,7 +21,10 @@
       <h2 style="margin-top: 10px">Album mới phát hành</h2>
       <div class="list" *ngIf="albumNew">
         <div class="item" *ngFor="let newAlbum of albumNew.albums.items">
-          <a style="text-decoration: none" [routerLink]="">
+          <a
+            style="text-decoration: none"
+            [routerLink]="['albums', newAlbum.id]"
+          >
             <img [src]="newAlbum.images[0].url" />
             <div class="play">
               <i class="bi bi-play-fill"></i>

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { Playlist } from './playlist.i';
+import { PlaylistDetail, PlaylistInfo } from './playlist-detail.i';
+import { images } from '../album/album';
 
 @Injectable({
   providedIn: 'root',
@@ -10,20 +12,20 @@ import { Playlist } from './playlist.i';
 export class PlaylistService {
   constructor(private http: HttpClient) {}
 
-  getPlaylist(idPlaylist: string): Observable<Playlist> {
-    return this.http.get<Playlist>(
+  getPlaylist(idPlaylist: string): Observable<PlaylistDetail> {
+    return this.http.get<PlaylistDetail>(
       environment.apiConfig + environment.apiPaths.getPlaylist(idPlaylist),
     );
   }
 
-  getInfoPlaylist(id: string): Observable<Playlist> {
-    return this.http.get<Playlist>(
+  getInfoPlaylist(id: string): Observable<PlaylistInfo> {
+    return this.http.get<PlaylistInfo>(
       environment.apiConfig + environment.apiPaths.infoPlaylist(id),
     );
   }
 
   getPicture(id: string) {
-    return this.http.get<Playlist>(
+    return this.http.get<images[]>(
       environment.apiConfig + environment.apiPaths.picturePlaylist(id),
     );
   }

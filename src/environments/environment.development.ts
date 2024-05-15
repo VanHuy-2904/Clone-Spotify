@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
-  clientId: 'ecbaf92ef2c44f01b609211162ca5885',
-  clientSecret: 'b30ae3e8ad38408685c1befea792dd1f',
+  clientId: '87ac444283e74b2caa2a9be4134a8d67',
+  clientSecret: '0b8b21dbb9d84255ad0c94681ae3d56e',
   redirectUri: 'http://localhost:4200/callback',
   apiConfig: 'https://api.spotify.com/v1',
   scope:
-    'user-read-private user-read-email user-modify-playback-state user-read-currently-playing user-library-read playlist-modify-public playlist-modify-private, user-top-read',
+    'streaming user-read-private user-read-email user-modify-playback-state user-read-currently-playing user-library-read playlist-modify-public playlist-modify-private user-top-read user-read-playback-state',
   state: '123',
   apiPaths: {
     mePlaylist: '/me/playlists ',
@@ -17,5 +17,14 @@ export const environment = {
     getTrackAlbum: (id: string) => `/albums/${id}/tracks`,
     getAlbumDetail: (id: string) => `/albums/${id}`,
     getNewAlbum: '/browse/new-releases',
+    playMusic: '/me/player/play',
+    pauseMusic: '/me/player/pause',
+    currentPlay: '/me/player/currently-playing',
+    getTrack: (id: string) => `/tracks/${id}`,
+    getTrackArtist: (id: string) => `/artists/${id}/top-tracks`,
+    getDevice: '/me/player/devices',
+    next: (deviceId: string) => `/me/player/next?${deviceId}`,
+    previous: (deviceId: string) => `/me/player/previous?${deviceId}`,
+    seek: '/me/player/seek',
   },
 };
