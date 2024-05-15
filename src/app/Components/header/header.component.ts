@@ -53,6 +53,7 @@ export class HeaderComponent implements OnInit {
   }
   onInputChange(event: any) {
     this.searchService.setInputValue(this.searchValue);
+    
   }
 
   ngOnInit(): void {

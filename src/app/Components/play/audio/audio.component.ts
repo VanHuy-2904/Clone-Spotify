@@ -30,16 +30,16 @@ export class AudioComponent implements OnInit, OnDestroy {
   progressTime!: number;
   play: boolean = false;
   ngOnInit(): void {
-    setInterval(() => {
-      if (this.play) {
-        this.musicService.getCurrentPlaying().subscribe((data: any) => {
-          this.progressPercent = Math.floor(
-            (data.progress_ms / data.item.duration_ms) * 100,
-          );
-          this.progressTime = data.progress_ms
-        });
-      }
-    }, 1000);
+    // setInterval(() => {
+    //   if (this.play) {
+    //     this.musicService.getCurrentPlaying().subscribe((data: any) => {
+    //       this.progressPercent = Math.floor(
+    //         (data.progress_ms / data.item.duration_ms) * 100,
+    //       );
+    //       this.progressTime = data.progress_ms
+    //     });
+    //   }
+    // }, 1000);
 
     this.musicService.dataSubject.subscribe((data: any) => {
       this.getTrackSub = this.musicService

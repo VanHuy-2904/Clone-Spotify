@@ -33,12 +33,12 @@ a {
   color: white;
 }
 
-// .main {
-//   max-height: calc(100vh - 95px);
-//   overflow: auto;
-//   max-height: 100vh;
-//   background-color: #121212;
-// }
+.main {
+  height: calc(100vh - 80px);
+  // overflow: auto;
+  // max-height: 100vh;
+  background-color: #121212;
+}
 
 .play {
   padding: 20px;
@@ -80,7 +80,7 @@ a {
 
 .item:hover {
   background-color: #252525;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .item a:hover p:nth-child(1) {
@@ -92,7 +92,7 @@ a {
   display: flex;
 
   width: 100%;
-  padding: 5px;
+  padding: 8px;
   // justify-content: space-between;
   color: white;
 }
@@ -102,14 +102,9 @@ a {
   flex-wrap: wrap;
   // gap: 100px;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
 }
 
-.item div p {
-  // margin-right: 20px;
-  font-size: 10px;
-  padding: 0;
-}
 
 p {
   padding: 0;
@@ -126,6 +121,71 @@ p {
 .tieude {
   display: flex;
 }
+
+.header-tieude{
+  display: flex;
+  margin-bottom: 20px;
+}
+.stt {
+  width: 2%;
+}
+
+.time {
+  width: 10%;
+  p{
+      color: gray;
+      font-size: 15px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+}
+
+.name-album
+{
+  width: 40%;
+}
+.name-track {
+  display: flex;
+  width: 40%;
+  margin-left: 10px;
+}
+
+.name-album, .name-track, .time, .stt p{
+  color: gray;
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content-track{
+  .name-track {
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .name-album, .time {
+
+      p {
+          color: gray;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+  }
+}
+ hr {
+  color: white;
+ }
+
+
+
 
 ::-webkit-scrollbar {
   width: 8px;

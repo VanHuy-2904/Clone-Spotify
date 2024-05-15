@@ -4,12 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../Service/data/data.service';
-// import { PlaylistService } from '../../Service/PlayList/playlist.service';
+import { Track } from '../../Service/music/track';
+import { PlaylistService } from '../../Service/playlist/playlist.service';
+import { MyPlaylistComponent } from '../my-playlist/my-playlist.component';
 
 @Component({
   selector: 'app-playlists',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, MyPlaylistComponent],
   templateUrl: './playlists.component.html',
   styleUrl: './playlists.component.scss',
 })
@@ -19,9 +21,10 @@ export class PlaylistsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    // private playlistService: PlaylistService,
+    private playlistService: PlaylistService,
     private dataService: DataService,
   ) {}
+  user: boolean = false
   data: any[] = [];
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -29,12 +32,15 @@ export class PlaylistsComponent implements OnInit {
       console.log(code);
 
       if (code) {
-        // this.playlistService.getPlaylist(code).subscribe((playlists) => {
-        //   console.log('playlist', playlists);
-        //   this.data = playlists.items;
-        //   this.getPicture(code);
-        //   this.getInfoPlaylist(code);
-        // });
+        this.playlistService.getPlaylist(code).subscribe((playlists) => {
+          console.log('playlist', playlists);
+          this.data = playlists.items;
+          this.getPicture(code);
+          this.getInfoPlaylist(code);
+          console.log("asdsadsa", this.infoPlaylist.owner.id);
+          
+        
+        });
       }
     });
   }
@@ -43,39 +49,29 @@ export class PlaylistsComponent implements OnInit {
   }
 
   getInfoPlaylist(id: string) {
-    // this.playlistService.getInfoPlaylist(id).subscribe((data: any) => {
-    //   console.log(data);
-    //   this.infoPlaylist = data;
-    // });
+    this.playlistService.getInfoPlaylist(id).subscribe((data: any) => {
+      console.log(data);
+      this.infoPlaylist = data;
+      if(data.owner.display_name !== 'spotify')
+        if(data) {
+          this.user = true
+        }
+        else {
+          this.user = false
+        }
+
+    });
   }
 
   getPicture(id: string) {
-    // this.playlistService.getPicture(id).subscribe((data: any) => {
-    //   console.log(data);
-    //   this.imgUrl = data[0].url;
-    // });
+    this.playlistService.getPicture(id).subscribe((data: any) => {
+      console.log(data);
+      this.imgUrl = data[0].url;
+    });
   }
-  updateData(nameTrack: string, artistTrack: string, imgTrack: string, idTrack: string) {
-    this.dataService.updateData(nameTrack, artistTrack, imgTrack, idTrack);
+  updateData(track: Track) {
+    this.dataService.updateData(track);
   }
 
-  playMusic(trackUri: string) {
-    // console.log(1231321312321321, trackUri);
-    const body = {
-      context_uri: trackUri,
-      offset: {
-        position: 0,
-      },
-      position_ms: 0,
-    };
-    this.http
-      .put('https://api.spotify.com/v1/me/player/play', body, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }),
-      })
-      .subscribe((data) => {
-        console.log(data);
-      });
-  }
+
 }

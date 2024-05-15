@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaylistService {
   private spotifyApiUrl = 'https://api.spotify.com/v1';
+  dataSubject = new BehaviorSubject<any>(null);
+  data$ = this.dataSubject.asObservable();
 
   constructor(private http: HttpClient) {}
+  updateData(data: any){
+    this.dataSubject.next(data);
+  }
 
   getPlaylists(): Observable<any> {
     const headers = new HttpHeaders({
@@ -34,7 +39,36 @@ export class PlaylistService {
     );
   }
 
-  getMyPlaylist(): Observable<any> {
-    return this.http.get('https://api.spotify.com/v1/me/playlists ');
+  getMyPlaylist(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/users/${id}/playlists`);
+  }
+
+  getTrackPlaylist(id: string): Observable<any> {
+    return this.http.get(`https://api.spotify.com/v1/playlists/${id}/tracks`);
+  }
+
+  //thêm nhạc vào danh sách phát
+  addTrackToPlaylist(id: string, uri: string): Observable<any> {
+    return this.http.post(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
+      "uris": [uri]
+    });
+  }
+
+  removeTrackFromPlaylist(playlistId: string, trackUri: string): Observable<any> {
+    const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks
+    `;
+    const httpOptions = {
+      // Truyền body dưới dạng đối tượng JSON chứa thông tin track cần xóa
+      body: {
+        tracks: [
+          {
+            uri: trackUri
+          }
+        ]
+      }
+    };
+
+    // Gửi yêu cầu HTTP DELETE với các thông tin đã được thiết lập
+    return this.http.delete(url, httpOptions);
   }
 }

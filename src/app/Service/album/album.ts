@@ -10,4 +10,6 @@ export class Album {
 
 export class images {
   url!: string;
+  height!: number;
+  width!: number
 }

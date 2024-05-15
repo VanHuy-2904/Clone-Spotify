@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main" *ngIf="!user">
   <div
     class="banner-img"
     [ngStyle]="{ 'background-image': 'url(' + imgUrl + ')' }"
@@ -14,39 +14,47 @@
   </div>
 
   <div class="dashboard">
+    <div class="header-tieude">
+      <div class="stt">
+        <p>#</p>
+      </div>
+      <div class="name-track">
+        <p>Tiêu đề</p>
+      </div>
+      <div class="name-album">
+        <p>Album</p>
+      </div>
+      <div class="time">
+        <p><i class="bi bi-clock"></i></p>
+      </div>
+    </div>
+    <hr>
+
     <div class="item" *ngFor="let item of data; let i = index">
-      <div>
+      <div class="stt">
         <p>{{ i + 1 }}</p>
       </div>
 
-      <img [src]="item.track.album.images[2].url" alt="" />
       <div class="content-track">
-        <div style="width: calc(100% / 3)">
-          <p
-            style="
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            "
-          >
+        <div class="name-track">
+          <img [src]="item.track.album.images[2].url" alt="" />
+          <p>
             {{ item.track.name }}
           </p>
         </div>
-        <div style="width: calc(100% / 3); color: #b3b3b3">
-          <p
-            style="
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            "
-          >
+        <div class="name-album">
+          <p>
             {{ item.track.album.name }}
           </p>
         </div>
-        <div>
-          <p style="color: #b3b3b3">{{ Format(item.track.duration_ms) }}</p>
+        <div class="time">
+          <p>{{ Format(item.track.duration_ms) }}</p>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="user">
+  <app-my-playlist></app-my-playlist>
 </div>

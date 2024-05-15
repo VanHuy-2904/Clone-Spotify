@@ -41,6 +41,12 @@ export class SearchService {
     );
   }
 
+  getTrackInputRS(input: string): Observable<any> {
+    return this.http.get(
+      `https://api.spotify.com/v1/search?q=${input}&type=track`,
+    );
+  }
+
   getTrackRS(id: string): Observable<any> {
     return this.http.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`);
   }
