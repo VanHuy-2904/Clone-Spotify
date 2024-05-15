@@ -6,7 +6,6 @@ import { Artist } from '../../Service/artist/Artists';
 import { DataService } from '../../Service/data/data.service';
 import { MusicService } from '../../Service/music/music.service';
 import { TrackDetail } from '../../Service/music/track-detail.i';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-artist',
@@ -23,7 +22,6 @@ export class ArtistComponent implements OnInit {
     private music: MusicService,
     private musicService: MusicService,
     private artistService: DataService,
-    private titleService: Title,
   ) {}
   listItems!: TrackDetail[];
   artist!: Artist;
