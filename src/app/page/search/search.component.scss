@@ -99,7 +99,6 @@
           }
           a {
             p {
-
               // color: #252525;
               color: gray;
               font-size: 13px;
@@ -198,16 +197,15 @@ a {
 }
 
 @media only screen and (max-width: 1024px) {
- 
   .main-res {
     display: flex;
     flex-direction: column;
   }
-  .album{
-    .item-artistRea{
-      .img-artist{
+  .album {
+    .item-artistRea {
+      .img-artist {
         height: 100px !important;
-        img{
+        img {
           width: 70px !important;
           height: 70px !important;
         }
@@ -219,9 +217,4 @@ a {
       display: none;
     }
   }
-
-
-  
-
-
 }

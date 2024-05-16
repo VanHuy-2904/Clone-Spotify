@@ -13,8 +13,8 @@ export class SearchService {
   private inputValue$ = new BehaviorSubject('');
   data$ = this.inputValue$.asObservable();
 
-  private searchB$ = new BehaviorSubject<boolean>(false);
-  searchB = this.searchB$.asObservable();
+  private searchBehaviorSubject = new BehaviorSubject<boolean>(false);
+  search$ = this.searchBehaviorSubject.asObservable();
   constructor(private http: HttpClient) {}
 
   setInputValue(input: string) {
@@ -25,12 +25,12 @@ export class SearchService {
     return this.data$;
   }
 
-  setSearchB(input: boolean) {
-    this.searchB$.next(input);
+  setSearchBehaviorSubject(input: boolean) {
+    this.searchBehaviorSubject.next(input);
   }
 
-  getSearchB(): Observable<boolean> {
-    return this.searchB;
+  getSearchBehaviorSubject(): Observable<boolean> {
+    return this.search$;
   }
 
   getFeature(): Observable<Playlist> {

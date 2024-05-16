@@ -7,6 +7,7 @@ import { AuthService } from '../../Service/auth/auth.service';
 import { SearchService } from '../../Service/search/search.service';
 import { User } from '../../Service/user/user.i';
 import { UserService } from '../../Service/user/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -21,12 +22,13 @@ export class HeaderComponent implements OnInit {
   searchValue = '';
   name$!: Observable<string>;
   token: string | null = null;
-  search: boolean = false;
-  showCt: boolean = false;
+  isDisplaySearch: boolean = false;
+  showButtonLogOut: boolean = false;
   constructor(
     private userService: UserService,
     private authService: AuthService,
     private searchService: SearchService,
+    private location: Location,
   ) {
     this.accessToken = '';
     this.name$ = this.authService.userName$.pipe(
@@ -36,7 +38,7 @@ export class HeaderComponent implements OnInit {
 
   exchangeCodeSub!: Subscription;
   handleClick() {
-    this.showCt = !this.showCt;
+    this.showButtonLogOut = !this.showButtonLogOut;
   }
 
   onInputChange() {
@@ -44,11 +46,11 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
-      this.searchService.getSearchB().subscribe((data) => {
+      this.searchService.getSearchBehaviorSubject().subscribe((data) => {
         if (data) {
-          this.search = true;
+          this.isDisplaySearch = true;
         } else {
-          this.search = false;
+          this.isDisplaySearch = false;
         }
       });
       this.authService.getUserinfo().subscribe({
@@ -78,10 +80,10 @@ export class HeaderComponent implements OnInit {
   }
 
   goBack(): void {
-    window.history.back();
+    this.location.back();
   }
 
   goForward(): void {
-    window.history.forward();
+    this.location.forward();
   }
 }
