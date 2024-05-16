@@ -1,12 +1,13 @@
-import { Album } from "../album/album"
-import { Artist } from "../artist/Artists"
+export interface Track {
+  items: Item[];
+}
 
-export class Track {
-    id!: string
-    name!: string
-    artists!: Artist[]
-    uri!: string
-    popularity!: number
-    duration_ms!: number
-    album!: Album
- }
+export interface Item {
+  duration_ms: number;
+  href: string;
+  id: string;
+  name: string;
+  preview_url: string;
+  type: string;
+  uri: string;
+}

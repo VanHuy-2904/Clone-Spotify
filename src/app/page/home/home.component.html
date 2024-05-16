@@ -3,28 +3,34 @@
     <div class="spotify-playlists">
       <h2>Top bài hát phổ biến</h2>
       <div class="list">
-        <div  (click)="updateData(topTrack); playTrack(topTrack)" class="item" *ngFor="let topTrack of topTracks">
-          <a style="text-decoration: none" [routerLink]="">
-            <img [src]="topTrack.album.images[1].url" />
+        <div class="item" *ngFor="let topTrack of topTracks?.playlists?.items">
+          <a
+            style="text-decoration: none"
+            [routerLink]="['/playlist', topTrack.id]"
+          >
+            <!-- eslint-disable -->
+
+            <img [src]="topTrack.images[0].url" />
             <div class="play">
-              <span class="fa fa-play"></span>
+              <i class="bi bi-play-fill"></i>
             </div>
             <h4>{{ topTrack.name }}</h4>
           </a>
         </div>
       </div>
-      <h2 style="margin-top: 10px;">Album mới phát hành</h2>
-      <div class="list">
-        <div class="item" *ngFor="let newAlbum of albumNew">
-          <a [routerLink]="['albums', newAlbum.id]">
-          <a style="text-decoration: none" [routerLink]="">
+      <h2 style="margin-top: 10px">Album mới phát hành</h2>
+      <div class="list" *ngIf="albumNew">
+        <div class="item" *ngFor="let newAlbum of albumNew.albums.items">
+          <a
+            style="text-decoration: none"
+            [routerLink]="['albums', newAlbum.id]"
+          >
             <img [src]="newAlbum.images[0].url" />
             <div class="play">
-              <span class="fa fa-play"></span>
+              <i class="bi bi-play-fill"></i>
             </div>
             <h4>{{ newAlbum.name }}</h4>
           </a>
-        </a>
         </div>
       </div>
 
@@ -62,6 +68,6 @@
 <ng-template #noToken>
   <div class="main">
     <a href="/signup">Đăng ký</a>
-    <a href="/login"><button type="button">Đăng nhập</button></a>
+    <button (click)="login()" type="button">Đăng nhập</button>
   </div></ng-template
 >
