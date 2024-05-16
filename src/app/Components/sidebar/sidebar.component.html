@@ -23,14 +23,33 @@
           <span class="bi bi-music-note-list"></span>
           <span>Playlist</span>
         </a>
-      </li>
-
-      <li>
-        <a href="#">
-          <span class="bi bi-suit-heart-fill"></span>
-          <span>Liked Songs</span>
-        </a>
+        <!-- eslint-disable -->
+        <div class="plus" (click)="createPlaylist()">
+          <i class="bi bi-plus-lg"></i>
+        </div>
       </li>
     </ul>
+    <div class="main" *ngIf="myPlaylist">
+      <div class="playlist" *ngFor="let item of myPlaylist.items">
+        <a [routerLink]="['playlist', item.id]">
+          <div class="img-playlist">
+            <ng-container
+              *ngIf="item.images && item.images.length > 0; else noImg"
+            >
+              <img [src]="item.images[0].url" alt="" />
+            </ng-container>
+
+            <ng-template #noImg>
+              <i class="bi bi-music-note-beamed"></i>
+            </ng-template>
+          </div>
+          <div class="content">
+            <div class="name">
+              <p>{{ item.name }}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
 </div>

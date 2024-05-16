@@ -1,74 +1,86 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
+import { images } from '../album/album';
+import { PlaylistDetail, PlaylistInfo } from './playlist-detail.i';
+import { Data } from './playlist.i';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaylistService {
-  private spotifyApiUrl = 'https://api.spotify.com/v1';
-  dataSubject = new BehaviorSubject<any>(null);
+  dataSubject = new BehaviorSubject<PlaylistDetail | null>(null);
   data$ = this.dataSubject.asObservable();
 
   constructor(private http: HttpClient) {}
-  updateData(data: any){
+  updateData(data: PlaylistDetail) {
     this.dataSubject.next(data);
   }
 
-  getPlaylists(): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    });
-    return this.http.get(`${this.spotifyApiUrl}/me/playlists`, { headers });
-  }
-
-  getPlaylist(idPlaylist: string): Observable<any> {
-    return this.http.get(
-      `https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`,
+  getPlaylist(idPlaylist: string): Observable<PlaylistDetail> {
+    return this.http.get<PlaylistDetail>(
+      environment.apiConfig + environment.apiPaths.getPlaylist(idPlaylist),
     );
   }
 
-  getInfoPlaylist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/playlists/${id}`);
+  getInfoPlaylist(id: string): Observable<PlaylistInfo> {
+    return this.http.get<PlaylistInfo>(
+      environment.apiConfig + environment.apiPaths.infoPlaylist(id),
+    );
   }
 
   getPicture(id: string) {
-    return this.http.get(
-      `
-  https://api.spotify.com/v1/playlists/${id}/images`,
+    return this.http.get<images[]>(
+      environment.apiConfig + environment.apiPaths.picturePlaylist(id),
     );
   }
 
-  getMyPlaylist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/users/${id}/playlists`);
+  getTrackPlaylist(id: string): Observable<PlaylistDetail> {
+    return this.http.get<PlaylistDetail>(
+      environment.apiConfig + environment.apiPaths.getTrackPlaylist(id),
+    );
   }
 
-  getTrackPlaylist(id: string): Observable<any> {
-    return this.http.get(`https://api.spotify.com/v1/playlists/${id}/tracks`);
+  addTrackToPlaylist(id: string, uri: string): Observable<string | object> {
+    return this.http.post(
+      environment.apiConfig + environment.apiPaths.getTrackPlaylist(id),
+      {
+        uris: [uri],
+      },
+    );
   }
 
-  //thêm nhạc vào danh sách phát
-  addTrackToPlaylist(id: string, uri: string): Observable<any> {
-    return this.http.post(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
-      "uris": [uri]
-    });
-  }
-
-  removeTrackFromPlaylist(playlistId: string, trackUri: string): Observable<any> {
-    const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks
-    `;
-    const httpOptions = {
-      // Truyền body dưới dạng đối tượng JSON chứa thông tin track cần xóa
+  removeTrackFromPlaylist(
+    playlistId: string,
+    trackUri: string,
+  ): Observable<string | object> {
+    const url =
+      environment.apiConfig + environment.apiPaths.getTrackPlaylist(playlistId);
+    const bodies = {
       body: {
         tracks: [
           {
-            uri: trackUri
-          }
-        ]
-      }
+            uri: trackUri,
+          },
+        ],
+      },
     };
+    return this.http.delete(url, bodies);
+  }
+  getMyPlaylist(): Observable<Data> {
+    return this.http.get<Data>(
+      environment.apiConfig + environment.apiPaths.mePlaylist,
+    );
+  }
 
-    // Gửi yêu cầu HTTP DELETE với các thông tin đã được thiết lập
-    return this.http.delete(url, httpOptions);
+  createPlaylist(id: string, name: string): Observable<Data> {
+    const body = {
+      name: name,
+    };
+    return this.http.post<Data>(
+      environment.apiConfig + environment.apiPaths.createNewPlaylist(id),
+      body,
+    );
   }
 }

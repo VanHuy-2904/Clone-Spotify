@@ -1,101 +1,117 @@
 <div class="main">
   <div class="banner-img">
-
-    <div class="content">
-      <ng-container *ngIf="data.length>0; else noImg" >
-        <div class="img-ct" >
-          <img [src]="data[0].track.album.images[1].url" alt="">
+    <div class="content" *ngIf="infoPlaylist">
+      <ng-container *ngIf="data.length > 0; else noImg">
+        <div class="img-ct">
+          <img [src]="data[0].track.album.images[1].url" alt="" />
         </div>
       </ng-container>
-     
+
       <ng-template #noImg>
-        <div class="img-ct" >
+        <div class="img-ct">
           <button><i class="bi bi-music-note-beamed"></i></button>
         </div>
       </ng-template>
-      
 
-      <p>{{ infoPlaylist.name }}</p>
-      <!-- <p>{{album.artists[0].name}}</p> -->
+      <!-- eslint-disable -->
+      <p (click)="openEdit()">{{ infoPlaylist.name }}</p>
     </div>
   </div>
+  <!-- eslint-disable -->
 
-  <div class="play">
+  <div
+    class="play"
+    (click)="
+      updateData(data[0].track);
+      playTrack(data[0].track.id, infoPlaylist.uri, 0)
+    "
+  >
     <i class="bi bi-play-fill"></i>
   </div>
 
   <div class="dashboard">
-    <div class="header-tieude" *ngIf="data.length >0">
-
-        <div class="stt">
-            <p>#</p>
-        </div>
-        <div class="name-track" >
-            <p>Tiêu đề</p>
-        </div>
-        <div class="name-album">
-            <p>Album</p>
-        </div>
-        <div class="time"><p><i class="bi bi-clock"></i></p></div>
+    <div class="header-tieude" *ngIf="data && data.length > 0">
+      <div class="stt">
+        <p>#</p>
+      </div>
+      <div class="name-track">
+        <p>Tiêu đề</p>
+      </div>
+      <div class="name-album">
+        <p>Album</p>
+      </div>
+      <div class="time">
+        <p><i class="bi bi-clock"></i></p>
+      </div>
     </div>
-    <hr *ngIf="data.length >0">
+    <hr *ngIf="data && data.length > 0" />
 
     <div class="item" *ngFor="let item of data; let i = index">
       <div class="stt">
         <p>{{ i + 1 }}</p>
+        <i class="bi bi-play-fill"></i>
       </div>
 
       <div class="content-track">
-          <div class="name-track">
-            <img [src]="item.track.album.images[2].url" alt="" />
-          <p>
+        <div class="name-track">
+          <img [src]="item.track.album.images[2].url" alt="" />
+          <p
+            (click)="
+              updateData(item.track);
+              playTrack(item.track.id, infoPlaylist.uri, i)
+            "
+          >
             {{ item.track.name }}
           </p>
         </div>
         <div class="name-album">
-          <p 
-          >
-            <a [routerLink] = "['/albums', item.track.album.id]">{{ item.track.album.name }}</a>
+          <p>
+            <a [routerLink]="['/albums', item.track.album.id]">{{
+              item.track.album.name
+            }}</a>
           </p>
         </div>
         <div class="time">
           <p>{{ Format(item.track.duration_ms) }}</p>
         </div>
         <div class="remove">
-       <i (click)="removeTrack(item.track.uri)" class="bi bi-x-lg"></i>
+          <!-- eslint-disable -->
+          <i (click)="removeTrack(item.track.uri)" class="bi bi-x-lg"></i>
         </div>
-
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="search">
-        <div class="search-content">
-          <h3>Hãy cùng tim nội dung cho danh sách phát của bạn</h3>
-        </div>
-        <div class="input">
-          <i class="bi bi-search"></i>
-          <input type="text" placeholder="Tìm bài hát"    [(ngModel)]="searchValue"
-          (input)="onInputChange($event)"/>
-        </div>
-        <div class="list-track" *ngIf="dataTrack && searchValue">
-          <div class="item-search" *ngFor="let item of dataTrack">
-            <div class="content-t">
-            <div class="img-track"><img [src]="item.album.images[0].url" alt=""></div>
+      <div class="search-content">
+        <h3>Hãy cùng tìm nội dung cho danh sách phát của bạn</h3>
+      </div>
+      <div class="input">
+        <i class="bi bi-search"></i>
+        <input
+          type="text"
+          placeholder="Tìm bài hát"
+          [(ngModel)]="searchValue"
+          (input)="onInputChange()"
+        />
+      </div>
+      <div class="list-track" *ngIf="dataTrack && searchValue">
+        <div class="item-search" *ngFor="let item of dataTrack">
+          <div class="content-t">
+            <div class="img-track">
+              <img [src]="item.album.images[0].url" alt="" />
+            </div>
             <div class="ct-track">
-                <p>{{item.name}}</p>
+              <p>{{ item.name }}</p>
             </div>
-            </div>
-            <div class="name-album">
-              <p>{{item.album.name}}</p>
-            </div>
-            <div class="action">
-              <button (click)="addTrackToPlaylist(item.uri)">Thêm</button>
-            </div>
-
-          
+          </div>
+          <div class="name-album">
+            <p>{{ item.album.name }}</p>
+          </div>
+          <div class="action">
+            <button (click)="addTrackToPlaylist(item.uri)">Thêm</button>
           </div>
         </div>
       </div>
+    </div>
   </div>
-
 </div>
