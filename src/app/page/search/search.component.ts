@@ -29,12 +29,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   dataTrack: TrackDetail[] = [];
   dataAlbum: AlbumDetail[] = [];
   dataPlaylist: PlaylistInfo[] = [];
-  dataArtistRea: Artist[] = [];
-  dataArtistSub!: Subscription;
-  dataAlbumSub!: Subscription;
-  dataTrackSub!: Subscription;
-  dataFeatureSub!: Subscription;
-  searchSub!: Subscription;
+  dataArtists: Artist[] = [];
+  dataArtistSubscription!: Subscription;
+  dataAlbumSubscription!: Subscription;
+  dataTrackSubscription!: Subscription;
+  dataFeatureSubscription!: Subscription;
+  searchSubscription!: Subscription;
   constructor(
     private http: HttpClient,
     private searchService: SearchService,
@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private musicService: MusicService,
   ) {}
   ngOnInit(): void {
-    this.searchService.setSearchB(true);
+    this.searchService.setSearchBehaviorSubject(true);
     this.searchService
       .getInput()
       .pipe(
@@ -60,7 +60,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         if (this.searchValue) {
           if ('artists' in data) {
-            // `data` is of type `Search`, which contains `artists`
             this.dataArtist = data.artists.items[0];
           }
           this.searchService
@@ -80,10 +79,10 @@ export class SearchComponent implements OnInit, OnDestroy {
                 const artistRandom = dataA.artists.items.sort(
                   () => Math.random() - 0.5,
                 );
-                this.dataArtistRea = artistRandom.slice(0, 7);
+                this.dataArtists = artistRandom.slice(0, 7);
               }
             });
-          this.dataTrackSub = this.searchService
+          this.dataTrackSubscription = this.searchService
             .getTrackRS(this.dataArtist.id)
             .subscribe((dataTrack: TopTrack) => {
               this.listItems = dataTrack.tracks;
@@ -92,7 +91,7 @@ export class SearchComponent implements OnInit, OnDestroy {
               );
 
               this.dataTrack = albumRandom.slice(0, 4);
-              this.dataAlbumSub = this.searchService
+              this.dataAlbumSubscription = this.searchService
                 .searchRS(this.searchValue, 'album')
                 .subscribe((dataAlbum: Search) => {
                   const albumRandom = dataAlbum.albums.items.sort(
@@ -110,18 +109,18 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.searchService.setSearchB(false);
-    if (this.dataAlbumSub) {
-      this.dataAlbumSub.unsubscribe();
+    this.searchService.setSearchBehaviorSubject(false);
+    if (this.dataAlbumSubscription) {
+      this.dataAlbumSubscription.unsubscribe();
     }
-    if (this.dataArtistSub) {
-      this.dataArtistSub.unsubscribe();
+    if (this.dataArtistSubscription) {
+      this.dataArtistSubscription.unsubscribe();
     }
-    if (this.dataTrackSub) {
-      this.dataTrackSub.unsubscribe();
+    if (this.dataTrackSubscription) {
+      this.dataTrackSubscription.unsubscribe();
     }
-    if (this.dataFeatureSub) {
-      this.dataFeatureSub.unsubscribe();
+    if (this.dataFeatureSubscription) {
+      this.dataFeatureSubscription.unsubscribe();
     }
   }
 

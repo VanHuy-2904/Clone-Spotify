@@ -1,10 +1,10 @@
 import { Artist } from '../artist/Artists';
 
 export interface Album {
-  albums: DataA;
+  albums: DataArtist;
 }
 
-export interface DataA {
+export interface DataArtist {
   href: string;
   items: Item[];
 }

@@ -141,12 +141,8 @@ i {
 i:hover {
   color: #ddd;
 }
-input[type="range"] {
-  background: linear-gradient(
-    to right,
-    white var(--progressPercent),
-    #5e5e5e var(--progressPercent)
-  );
+input[type = "range"] {
+  background: linear-gradient(to right, white var(--progressPercent), #5e5e5e var(--progressPercent));
   height: 4px;
   appearance: none;
   width: 100%;

@@ -10,10 +10,10 @@ import { Artist } from '../artist/Artists';
 
 export interface PlaylistDetail {
   href: string;
-  items: ItemP[];
+  items: ItemPlaylist[];
 }
 
-export interface ItemP {
+export interface ItemPlaylist {
   track: Data;
 }
 

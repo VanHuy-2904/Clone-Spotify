@@ -3,7 +3,7 @@
     <div class="content" *ngIf="infoPlaylist">
       <ng-container *ngIf="data.length > 0; else noImg">
         <div class="img-ct">
-          <img [src]="data[0].track.album.images[1].url" alt="" />
+          <img [src]="imgUrl" alt="" />
         </div>
       </ng-container>
 

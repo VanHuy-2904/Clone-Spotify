@@ -5,19 +5,22 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DataService } from '../../Service/data/data.service';
 import { TrackDetail } from '../../Service/music/track-detail.i';
-import { ItemP, PlaylistInfo } from '../../Service/playlist/playlist-detail.i';
+import {
+  ItemPlaylist,
+  PlaylistInfo,
+} from '../../Service/playlist/playlist-detail.i';
 import { Item } from '../../Service/music/track';
 
 import { PlaylistService } from '../../Service/playlist/playlist.service';
 import { SearchService } from '../../Service/search/search.service';
 import { MusicService } from '../../Service/music/music.service';
 import { Device } from '../../Service/music/device.i';
-import { EditInfoPlaylistComponent } from '../edit-info-playlist/edit-info-playlist.component';
+// import { EditInfoPlaylistComponent } from '../edit-info-playlist/edit-info-playlist.component';
 
 @Component({
   selector: 'app-my-playlist',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink, EditInfoPlaylistComponent],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './my-playlist.component.html',
   styleUrl: './my-playlist.component.scss',
 })
@@ -35,7 +38,7 @@ export class MyPlaylistComponent implements OnInit {
   ) {}
   dataTrack!: TrackDetail[];
   searchValue: string = '';
-  data!: ItemP[];
+  data!: ItemPlaylist[];
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const code = params.get('id');

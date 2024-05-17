@@ -1,15 +1,15 @@
-import { DataA, images } from '../album/album';
+import { DataArtist, images } from '../album/album';
 import { TrackDetail } from '../music/track-detail.i';
 import { Data } from '../playlist/playlist.i';
 
 export interface Search {
-  tracks: DataT;
+  tracks: DataTrack;
   artists: Artists;
-  albums: DataA;
+  albums: DataArtist;
   playlists: Data;
 }
 
-export interface DataT {
+export interface DataTrack {
   items: TrackDetail[];
 }
 

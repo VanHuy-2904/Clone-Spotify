@@ -69,8 +69,8 @@
       </div>
     </div>
     <h4>Artist</h4>
-    <div class="album" *ngIf="dataArtistRea">
-      <div class="item-artistRea" *ngFor="let item of dataArtistRea">
+    <div class="album" *ngIf="dataArtists">
+      <div class="item-artistRea" *ngFor="let item of dataArtists">
         <a routerLink="/artist/{{ item.id }}">
           <div class="img-artist" *ngIf="item.images.length > 0">
             <img [src]="item.images[0].url" alt="" />

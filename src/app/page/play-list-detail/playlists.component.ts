@@ -2,23 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { images } from '../../Service/album/album';
 import { DataService } from '../../Service/data/data.service';
-import { Device } from '../../Service/music/device.i';
 import { MusicService } from '../../Service/music/music.service';
-import { Item } from '../../Service/music/track';
-import { TrackDetail } from '../../Service/music/track-detail.i';
 import {
   PlaylistDetail,
   PlaylistInfo,
 } from '../../Service/playlist/playlist-detail.i';
 import { PlaylistService } from '../../Service/playlist/playlist.service';
+import { Item } from '../../Service/music/track';
+import { TrackDetail } from '../../Service/music/track-detail.i';
+import { Device } from '../../Service/music/device.i';
+import { images } from '../../Service/album/album';
 import { MyPlaylistComponent } from '../my-playlist/my-playlist.component';
 
 @Component({
   selector: 'app-playlists',
   standalone: true,
-  imports: [FormsModule, CommonModule, MyPlaylistComponent, RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink, MyPlaylistComponent],
   templateUrl: './playlists.component.html',
   styleUrl: './playlists.component.scss',
 })
