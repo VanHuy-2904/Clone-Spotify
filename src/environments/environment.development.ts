@@ -23,6 +23,7 @@ export const environment = {
     getTrack: (id: string) => `/tracks/${id}`,
     getTrackArtist: (id: string) => `/artists/${id}/top-tracks`,
     getDevice: '/me/player/devices',
+    search: (input: string, type: string) => `/search?q=${input}&type=${type}`,
     next: (deviceId: string) => `/me/player/next?${deviceId}`,
     previous: (deviceId: string) => `/me/player/previous?${deviceId}`,
     seek: '/me/player/seek',

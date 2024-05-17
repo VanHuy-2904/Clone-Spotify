@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Observable, Subscription, map } from 'rxjs';
 import { AuthService } from '../../Service/auth/auth.service';
-import { UserService } from '../../Service/user/user.service';
+import { SearchService } from '../../Service/search/search.service';
 import { User } from '../../Service/user/user.i';
+import { UserService } from '../../Service/user/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -20,10 +22,13 @@ export class HeaderComponent implements OnInit {
   searchValue = '';
   name$!: Observable<string>;
   token: string | null = null;
-  showCt: boolean = false;
+  isDisplaySearch: boolean = false;
+  showButtonLogOut: boolean = false;
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private searchService: SearchService,
+    private location: Location,
   ) {
     this.accessToken = '';
     this.name$ = this.authService.userName$.pipe(
@@ -33,11 +38,21 @@ export class HeaderComponent implements OnInit {
 
   exchangeCodeSub!: Subscription;
   handleClick() {
-    this.showCt = !this.showCt;
+    this.showButtonLogOut = !this.showButtonLogOut;
   }
 
+  onInputChange() {
+    this.searchService.setInputValue(this.searchValue);
+  }
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
+      this.searchService.getSearchBehaviorSubject().subscribe((data) => {
+        if (data) {
+          this.isDisplaySearch = true;
+        } else {
+          this.isDisplaySearch = false;
+        }
+      });
       this.authService.getUserinfo().subscribe({
         next: (dataUser: User) => {
           this.userService.setData(dataUser);
@@ -55,6 +70,7 @@ export class HeaderComponent implements OnInit {
     });
     this.token = localStorage.getItem('token');
   }
+
   login() {
     this.authService.login();
   }
@@ -62,7 +78,12 @@ export class HeaderComponent implements OnInit {
     localStorage.removeItem('trackCurrent');
     this.authService.logout();
   }
-  // onInputChange(event: any) {
-  //   this.searchService.setInputValue(this.searchValue);
-  // }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  goForward(): void {
+    this.location.forward();
+  }
 }

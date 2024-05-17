@@ -3,17 +3,27 @@
   <ng-container *ngIf="token">
     <div class="top-bar">
       <div class="prev-next-buttons">
-        <button><i class="bi bi-arrow-left-short"></i></button>
+        <button (click)="goBack()">
+          <i class="bi bi-arrow-left-short"></i>
+        </button>
+        <!-- eslint-disable -->
 
-        <button type="button"><i class="bi bi-arrow-right-short"></i></button>
-        <div class="search-icon-container">
-          <i class="bi bi-search"></i>
-          <input
-            [(ngModel)]="searchValue"
-            type="text"
-            placeholder="Tìm kiếm nghệ sĩ"
-          />
-        </div>
+        <button
+          (click)="goForward()"
+          type="button"
+          class="bi bi-arrow-right-short"
+        ></button>
+        <ng-container>
+          <div class="search-icon-container" *ngIf="isDisplaySearch">
+            <i class="bi bi-search"></i>
+            <input
+              [(ngModel)]="searchValue"
+              (input)="onInputChange()"
+              type="text"
+              placeholder="Tìm kiếm nghệ sĩ"
+            />
+          </div>
+        </ng-container>
       </div>
 
       <div class="navbar">
@@ -43,7 +53,7 @@
     </div>
   </ng-container>
 </div>
-<div class="acc-ct" *ngIf="showCt">
+<div class="acc-ct" *ngIf="showButtonLogOut">
   <a href="">
     <div class="ct">
       <button (click)="logout()" type="button">Đăng xuất</button>

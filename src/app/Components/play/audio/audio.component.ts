@@ -158,7 +158,6 @@ export class AudioComponent implements OnInit, OnDestroy {
       // }
     });
   }
-
   handleClickNext() {
     localStorage.setItem('currentPlay', 'true');
     this.musicService.playSubject.next(true);

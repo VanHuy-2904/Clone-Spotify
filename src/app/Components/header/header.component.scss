@@ -17,7 +17,6 @@
       font-weight: bold;
       // font-size: 14px;
       letter-spacing: 1px;
-
       &:hover,
       &:active,
       &:focus {
@@ -83,6 +82,7 @@
         top: 10px;
         left: 10px;
         font-size: 10px;
+        color: white;
       }
 
       input {
@@ -91,13 +91,20 @@
         height: 100%;
         border-radius: 30px;
         padding-left: 25px;
-        font-size: 8px;
+        font-size: 13px;
         border: none;
+        background-color: #252525;
+        color: white;
       }
     }
   }
   // padding: 14px 20px;
 }
+
+.scrolled {
+  background-color: black;
+}
+
 a {
   text-decoration: none;
   color: white;

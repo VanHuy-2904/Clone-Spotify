@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ArtistComponent } from '../../Components/artist/artist.component';
+import { ArtistComponent } from '../artist/artist.component';
 import { Album } from '../../Service/album/album';
 import { AlbumService } from '../../Service/album/album.service';
 import { Artist } from '../../Service/artist/Artists';
