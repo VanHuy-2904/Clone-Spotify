@@ -29,8 +29,12 @@
         </div>
       </li>
     </ul>
-    <div class="main" *ngIf="myPlaylist">
-      <div class="playlist" *ngFor="let item of myPlaylist.items">
+    <div class="mainSlider" *ngIf="myPlaylist">
+      <div
+        class="playlist"
+        *ngFor="let item of myPlaylist.items"
+        (contextmenu)="handleRightClick($event, item.id)"
+      >
         <a [routerLink]="['playlist', item.id]">
           <div class="img-playlist">
             <ng-container
@@ -49,6 +53,13 @@
             </div>
           </div>
         </a>
+        <div
+          class="menu"
+          *ngIf="showMenuId === item.id"
+          (click)="deletePlaylist(item.id)"
+        >
+          <p>Xóa</p>
+        </div>
       </div>
     </div>
   </div>

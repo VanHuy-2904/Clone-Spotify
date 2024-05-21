@@ -111,11 +111,12 @@
         }
       }
     }
-    .main {
+    .mainSlider {
       height: calc(100vh - 280px);
       width: 100%;
       overflow: auto;
       .playlist {
+        position: relative;
         a {
           text-decoration: none;
           padding: 5px;
@@ -141,6 +142,7 @@
           }
           img {
             height: 100%;
+            width: 100%;
           }
         }
         .content {
@@ -156,6 +158,32 @@
               text-overflow: ellipsis;
               color: white;
               font-size: 15px;
+            }
+          }
+        }
+        .menu {
+          width: 70px;
+          height: 40px;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          color: white;
+          z-index: 1000;
+          background-color: black;
+          border-radius: 4px;
+          p {
+            margin: 5px;
+            padding: 3px;
+
+          }
+          // padding: 5px;
+          &:hover {
+            cursor: pointer;
+            p {
+              border-radius: 3px;
+              margin: 5px;
+              background-color: #252525;
+              padding: 3px;
             }
           }
         }

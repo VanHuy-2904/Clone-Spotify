@@ -1,35 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 // import { PlaylistService } from '../../Service/PlayList/playlist.service';
-import { RouterLink } from '@angular/router';
-import { PlaylistService } from '../../Service/playlist/playlist.service';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../Service/auth/auth.service';
 import { Data } from '../../Service/playlist/playlist.i';
-import { CommonModule } from '@angular/common';
+import { PlaylistService } from '../../Service/playlist/playlist.service';
+import { EditInfoPlaylistComponent } from '../edit-info-playlist/edit-info-playlist.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, EditInfoPlaylistComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
   id: string = '';
   myPlaylist!: Data;
+  showMenuId: string = '';
   constructor(
     private playlistService: PlaylistService,
     private authService: AuthService,
+    private router: Router,
   ) {}
   ngOnInit() {
     this.authService.getUserinfo().subscribe(() => {
-      this.playlistService.getMyPlaylist().subscribe((dataP) => {
-        {
-          this.id = dataP.items[0].id;
+      this.loadMyPlaylist();
+    });
+  }
+
+  loadMyPlaylist() {
+    this.playlistService.getMyPlaylist().subscribe((dataMy) => {
+      this.playlistService.updateMyPlaylist(dataMy);
+      // this.myPlaylist = data;
+      this.playlistService.getMyPlaylistSubject().subscribe((data) => {
+        if (data) {
+          this.myPlaylist = data;
         }
-      });
-      this.playlistService.getMyPlaylist().subscribe((data) => {
-        console.log(data);
-        this.myPlaylist = data;
       });
     });
   }
@@ -46,6 +53,23 @@ export class SidebarComponent implements OnInit {
             this.myPlaylist = data;
           });
         });
+    });
+  }
+
+  handleRightClick(event: Event, id: string) {
+    event.preventDefault();
+    this.showMenuId = id;
+  }
+
+  @HostListener('document:click', ['event'])
+  closeMenu() {
+    this.showMenuId = '';
+  }
+
+  deletePlaylist(id: string) {
+    this.playlistService.deletePlaylist(id).subscribe(() => {
+      this.loadMyPlaylist();
+      this.router.navigate(['/']);
     });
   }
 }

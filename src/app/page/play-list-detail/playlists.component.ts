@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DataService } from '../../Service/data/data.service';
@@ -14,6 +14,7 @@ import { TrackDetail } from '../../Service/music/track-detail.i';
 import { Device } from '../../Service/music/device.i';
 import { images } from '../../Service/album/album';
 import { MyPlaylistComponent } from '../my-playlist/my-playlist.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-playlists',
@@ -22,9 +23,10 @@ import { MyPlaylistComponent } from '../my-playlist/my-playlist.component';
   templateUrl: './playlists.component.html',
   styleUrl: './playlists.component.scss',
 })
-export class PlaylistsComponent implements OnInit {
+export class PlaylistsComponent implements OnInit, OnDestroy {
   imgUrl = '';
   infoPlaylist!: PlaylistInfo;
+  pictureSubscription!: Subscription;
   constructor(
     private route: ActivatedRoute,
     private playlistService: PlaylistService,
@@ -59,9 +61,11 @@ export class PlaylistsComponent implements OnInit {
         } else {
           this.user = false;
         }
-      this.playlistService.getPicture(id).subscribe((data: images[]) => {
-        if (data.length) this.imgUrl = data[0].url;
-      });
+      this.pictureSubscription = this.playlistService
+        .getPicture(id)
+        .subscribe((data: images[]) => {
+          if (data.length) this.imgUrl = data[0].url;
+        });
     });
   }
 
@@ -85,5 +89,8 @@ export class PlaylistsComponent implements OnInit {
         .playList(uri, 0, data.devices[0].id, i)
         .subscribe(() => {});
     });
+  }
+  ngOnDestroy(): void {
+    this.pictureSubscription.unsubscribe();
   }
 }

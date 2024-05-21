@@ -1,7 +1,7 @@
 <div class="main">
   <div class="banner-img">
     <div class="content" *ngIf="infoPlaylist">
-      <ng-container *ngIf="data.length > 0; else noImg">
+      <ng-container *ngIf="imgUrl; else noImg">
         <div class="img-ct">
           <img [src]="imgUrl" alt="" />
         </div>
@@ -14,7 +14,9 @@
       </ng-template>
 
       <!-- eslint-disable -->
-      <p (click)="openEdit()">{{ infoPlaylist.name }}</p>
+      <button *ngIf="infoPlaylist.name" (click)="openModal()">
+        {{ infoPlaylist.name }}
+      </button>
     </div>
   </div>
   <!-- eslint-disable -->
@@ -105,7 +107,9 @@
             </div>
           </div>
           <div class="name-album">
-            <p>{{ item.album.name }}</p>
+            <a [routerLink]="['/albums', item.album.id]">
+              <p>{{ item.album.name }}</p></a
+            >
           </div>
           <div class="action">
             <button (click)="addTrackToPlaylist(item.uri)">Thêm</button>
@@ -114,4 +118,12 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf="infoPlaylist && infoPlaylist.name">
+    <app-edit-info-playlist
+      #modal
+      [imgUrl]="imgUrl"
+      [playlistName]="infoPlaylist.name"
+      (playlistUpdateData)="updateInfoPlaylist($event)"
+    ></app-edit-info-playlist>
+  </ng-container>
 </div>

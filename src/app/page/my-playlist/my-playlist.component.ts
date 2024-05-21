@@ -1,33 +1,37 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { EditInfoPlaylistComponent } from '../../Components/edit-info-playlist/edit-info-playlist.component';
 import { DataService } from '../../Service/data/data.service';
+import { Device } from '../../Service/music/device.i';
+import { MusicService } from '../../Service/music/music.service';
+import { Item } from '../../Service/music/track';
 import { TrackDetail } from '../../Service/music/track-detail.i';
 import {
   ItemPlaylist,
   PlaylistInfo,
 } from '../../Service/playlist/playlist-detail.i';
-import { Item } from '../../Service/music/track';
-
 import { PlaylistService } from '../../Service/playlist/playlist.service';
 import { SearchService } from '../../Service/search/search.service';
-import { MusicService } from '../../Service/music/music.service';
-import { Device } from '../../Service/music/device.i';
-// import { EditInfoPlaylistComponent } from '../edit-info-playlist/edit-info-playlist.component';
+import { Subscription, debounceTime, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-my-playlist',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink, EditInfoPlaylistComponent],
   templateUrl: './my-playlist.component.html',
   styleUrl: './my-playlist.component.scss',
 })
-export class MyPlaylistComponent implements OnInit {
-  show: boolean = false;
+export class MyPlaylistComponent implements OnInit, OnDestroy {
+  @ViewChild('modal') modal!: EditInfoPlaylistComponent;
+  showModal: boolean = false;
   imgUrl = '';
   infoPlaylist!: PlaylistInfo;
+  infoPlaylistSubscription!: Subscription;
+  getPictureSubscription!: Subscription;
+  dataSubscription!: Subscription;
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -39,43 +43,95 @@ export class MyPlaylistComponent implements OnInit {
   dataTrack!: TrackDetail[];
   searchValue: string = '';
   data!: ItemPlaylist[];
+  idPlaylist: string = '';
   ngOnInit(): void {
+    localStorage.removeItem('dataSavePlaylist');
     this.route.paramMap.subscribe((params) => {
       const code = params.get('id');
       if (code) {
+        this.idPlaylist = code;
         this.playlistService.getPlaylist(code).subscribe((playlists) => {
           this.playlistService.updateData(playlists);
           // this.data = playlists.items;
           this.getPicture(code);
           this.getInfoPlaylist(code);
-          this.searchService.getInput().subscribe((data) => {
-            if (data) {
-              this.searchService.searchRS(data, 'track').subscribe((data) => {
-                this.dataTrack = data.tracks.items;
-              });
-            }
-          });
+          this.searchService
+            .getInput()
+            .pipe(
+              debounceTime(1000),
+              switchMap((input: string) => {
+                if (input) return this.searchService.searchRS(input, 'track');
+                else return [];
+              }),
+            )
+            .subscribe((data) => {
+              this.dataTrack = data.tracks.items;
+            });
         });
       }
     });
   }
+
+  updateInfoPlaylist(namePlaylist: string) {
+    if (namePlaylist) {
+      this.infoPlaylist.name = namePlaylist;
+    }
+    this.getPicture(this.idPlaylist);
+    this.playlistService.getMyPlaylist().subscribe((data) => {
+      for (let i = 0; i < data.items.length; i++) {
+        if (data.items[i].id === this.idPlaylist && namePlaylist) {
+          data.items[i].name = namePlaylist;
+          localStorage.setItem(
+            'dataSavePlaylist',
+            JSON.stringify(data.items[i]),
+          );
+          break;
+        }
+      }
+      this.playlistService.updateMyPlaylist(data);
+    });
+  }
+
   Format(milliseconds: number): string {
     return this.dataService.formatMillisecondsToMinutesAndSeconds(milliseconds);
   }
 
   getInfoPlaylist(id: string) {
-    this.playlistService.getInfoPlaylist(id).subscribe((data) => {
-      this.playlistService.data$.subscribe((data) => {
-        if (data) this.data = data.items;
+    this.infoPlaylistSubscription = this.playlistService
+      .getInfoPlaylist(id)
+      .subscribe((data) => {
+        this.dataSubscription = this.playlistService.data$.subscribe((data) => {
+          if (data) this.data = data.items;
+        });
+        if (localStorage.getItem('dataSavePlaylist')) {
+          const dataPlaylist = JSON.parse(
+            localStorage.getItem('dataSavePlaylist')!,
+          );
+          if (id === dataPlaylist.id) {
+            this.infoPlaylist = dataPlaylist;
+          } else {
+            this.infoPlaylist = data;
+          }
+        } else {
+          this.infoPlaylist = data;
+        }
       });
-      this.infoPlaylist = data;
-    });
   }
 
   getPicture(id: string) {
-    this.playlistService.getPicture(id).subscribe((data) => {
-      if (data.length) this.imgUrl = data[0].url;
-    });
+    this.getPictureSubscription = this.playlistService
+      .getPicture(id)
+      .subscribe((dataImg) => {
+        if (dataImg.length) {
+          this.imgUrl = dataImg[0].url;
+        } else {
+          this.imgUrl = '';
+        }
+      });
+  }
+
+  openModal() {
+    if (this.modal) this.modal.openModal();
   }
 
   onInputChange() {
@@ -124,8 +180,6 @@ export class MyPlaylistComponent implements OnInit {
 
   playTrack(id: string, uri: string, i: number) {
     localStorage.setItem('currentPlay', 'true');
-    // localStorage.removeItem('test');
-
     this.musicService.getTrack(id).subscribe((data: TrackDetail) => {
       const dataString = JSON.stringify(data);
       localStorage.setItem('trackCurrent', dataString);
@@ -138,7 +192,12 @@ export class MyPlaylistComponent implements OnInit {
   }
 
   openEdit() {
-    this.show = true;
-    console.log(this.show);
+    this.showModal = true;
+  }
+
+  ngOnDestroy(): void {
+    this.infoPlaylistSubscription.unsubscribe();
+    this.getPictureSubscription.unsubscribe();
+    this.dataSubscription.unsubscribe();
   }
 }
