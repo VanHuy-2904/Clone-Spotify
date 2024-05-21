@@ -1556,6 +1556,113 @@ paths:
             $ref: '#/components/responses/err403'            
         '429':
             $ref: '#/components/responses/err429'    
+    post:
+      summary: Add Items to Playlist
+      description: ""
+      parameters:
+        - name: playlist_id
+          required: true
+          in: query
+          schema:
+            type: string
+            description: The Spotify ID of the playlist.
+            example: 3cEYpjA9oz9GiPac4AsH4n
+        - name: position
+          in: query
+          schema: 
+            type: string
+            example: 0
+        - name: uris
+          in: query
+          schema:
+            type: integer
+            example: potify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh,spotify%3Atrack%3A1301WleyT98MSxVHPZCA6M
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                uris: 
+                  type: array
+                  description: "A JSON array of the Spotify URIs to add."
+                  example: ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh"]
+                position:
+                  type: integer
+                  example: 0
+      security:
+        - BearerAuth: []
+      tags:
+        - "Playlist"
+      responses:
+        '200': 
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  snapshot_id:
+                    type: string
+                    example: abc
+  
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'
+    delete:
+      summary: Remove Playlist Items
+      description: ""
+      parameters:
+        - name: playlist_id
+          required: true
+          in: query
+          schema:
+            type: string
+            description: The Spotify ID of the playlist.
+            example: 3cEYpjA9oz9GiPac4AsH4n
+       
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                tracks:
+                  type: object
+                  properties:
+                    uri: 
+                      type: array
+                      description: "A JSON array of the Spotify URIs to add."
+                      example: ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh"]
+                    snapshot_id:
+                      type: string
+                      example: abc
+      security:
+        - BearerAuth: []
+      tags:
+        - "Playlist"
+      responses:
+        '200': 
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  snapshot_id:
+                    type: string
+                    example: abc
+  
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'
+
   /me/player/currently-playing:
     get:
       summary: Get the object currently being played on the user's Spotify account.
@@ -2321,7 +2428,50 @@ paths:
         '403':
             $ref: '#/components/responses/err403'            
         '429':
-            $ref: '#/components/responses/err429'    
+            $ref: '#/components/responses/err429'  
+    put:
+      summary: Change Playlist Details
+      description: "Change a playlist's name and public/private state. (The user must, of course, own the playlist.)"
+      parameters:
+        - name: playlist_id
+          required: true
+          in: query
+          description: "The Spotify ID of the playlist."
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                name: 
+                  type: string
+                  description: "The new name for the playlist, for example 'My New Playlist Title'"
+                  example: "My New Playlist Title"
+                public: 
+                  type: boolean
+                  description: If true the playlist will be public, if false it will be private.
+                collaborative:
+                  type: boolean
+                  description: If true, the playlist will become collaborative and other users will be able to modify the playlist in their Spotify client.
+                description: 
+                  type: string
+                  description: Value for playlist description as displayed in Spotify Clients and in the Web API.   
+      security:
+        - BearerAuth: []
+      tags:
+        - "Playlist"
+      responses:
+        '200': 
+          description: Playlist updated
+        '401':
+          $ref: '#/components/responses/err401'
+        '403':
+          $ref: '#/components/responses/err403'            
+        '429':
+          $ref: '#/components/responses/err429'    
+
   /artists/{id}:
     get:
       summary: Get Artist
@@ -3531,6 +3681,205 @@ paths:
             $ref: '#/components/responses/err403'            
         '429':
             $ref: '#/components/responses/err429' 
+ 
+  /me/playlists:
+    get:
+      summary: Get Current User's Playlists
+      description: "Get a list of the playlists owned or followed by the current Spotify user."
+      parameters:
+        - name: limit
+          in: query
+          description: "The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50."
+          schema:
+            type: integer
+            default: 20
+            minimum: 0
+            maximum: 50
+            example: 10
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 5
+            example: 0
+      security:
+        - BearerAuth: []
+      tags:
+        - "Playlist"
+      responses:
+        '200': 
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - "href"
+                  - "limit"
+                  - "offset"
+                  - "previous"
+                  - "total"
+                  - "items"
+                properties:
+                  href:
+                    type: string
+                    description: A link to the Web API endpoint returning the full result of the request
+                    example: https://api.spotify.com/v1/me/shows?offset=0&limit=20
+                  limit:
+                    type: integer
+                    description: The maximum number of items in the response (as set in the query or by default).
+                    example: 20
+                  next:
+                    type: string
+                    description: URL to the next page of items. ( null if none)
+                    example: https://api.spotify.com/v1/me/shows?offset=1&limit=1
+                  offset: 
+                    type: integer
+                    description: The offset of the items returned (as set in the query or by default)
+                    example: 0
+                  previous: 
+                    type: string
+                    description: URL to the previous page of items. ( null if none)
+                    example: https://api.spotify.com/v1/me/shows?offset=1&limit=1
+                  total: 
+                    type: integer
+                    description: The total number of items available to return.
+                    example: 4
+                  items: 
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        collaborative:
+                          type: boolean
+                          description: true if the owner allows other users to modify the playlist.
+                          example: false
+                        description:
+                          type: string
+                          description: The playlist description. Only returned for modified, verified playlists, otherwise null.
+                        external_urls:
+                          type: object
+                          properties:
+                            spotify: 
+                              type: string
+                              description: The Spotify URL for the object.
+                        href:
+                          type: string
+                          description: A link to the Web API endpoint providing full details of the playlist.
+                        id:
+                          type: string
+                          description: The Spotify ID for the playlist.
+                        images: 
+                          type: array
+                        
+                          items:
+                            type: object
+                            required:
+                              - "url"
+                              - "height"
+                              - "width"
+                            properties:
+                              url:
+                                type: string
+                                description: "The source URL of the image."
+                              height:
+                                type: integer
+                                description: The image height in pixels.
+                              width:
+                              
+                                type: integer
+                                description: The image width in pixels.
+                        name: 
+                          type: string
+                          description: The name of the playlist.
+                        owner:
+                          type: object
+                          description: the user who owns the playlist
+                          properties:
+                            external_urls:
+                              type: object
+                              description: Known external URLs for this playlist.
+                              properties:
+                                spotify:
+                                  type: string
+                                  description: The Spotify URL for the object.
+                            followers:
+                              type: object
+                              description: Information about the followers of this user.
+                              properties:
+                                href:
+                                  type: string
+                                total:
+                                  type: integer
+                            href:
+                              type: string
+                              description: A link to the Web API endpoint for this user.
+                            id: 
+                              type: string
+                              description: The Spotify user ID for this user.
+                            type:
+                              type: string
+                              enum:
+                                - user
+                            uri: 
+                              type: string
+                              description: The Spotify user ID for this user.
+                            display_name:
+                              type: string
+                              description: The name displayed on the user's profile. null if not available.
+                        public:   
+                          type: boolean
+                          description: The playlist's public/private status true the playlist is public, false the playlist is private, null the playlist status is not relevant.
+                          example: false
+                        snapshot_id:
+                          type: string
+                          description: The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version
+                        tracks:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              description: A link to the Web API endpoint where full details of the playlist's tracks can be retrieved.
+                            total:
+                              type: integer
+                              description: Number of tracks in the playlist.
+                        type:
+                          type: string
+                          description: The object type "playlist"
+                        uri: 
+                          type: string
+                          description: The Spotify URI for the playlist.
+        '401':
+            $ref: '#/components/responses/err401'
+        '403':
+            $ref: '#/components/responses/err403'            
+        '429':
+            $ref: '#/components/responses/err429'   
+  /playlists/{playlist_id}/followers:
+    delete:
+      summary: Unfollow Playlist
+      description: "Remove the current user as a follower of a playlist."
+      parameters:
+        - name: playlist_id
+          required: true
+          in: query
+          description: "The Spotify ID of the playlist."
+          schema:
+            type: string
+      security:
+        - BearerAuth: []
+      tags:
+        - "Playlist"
+      responses:
+        '200': 
+          description: Playlist unfollowed
+        '401':
+          $ref: '#/components/responses/err401'
+        '403':
+          $ref: '#/components/responses/err403'            
+        '429':
+          $ref: '#/components/responses/err429' 
+  
 
 components:
   securitySchemes:
