@@ -103,10 +103,9 @@ export class MyPlaylistComponent implements OnInit, OnDestroy {
         this.dataSubscription = this.playlistService.data$.subscribe((data) => {
           if (data) this.data = data.items;
         });
-        if (localStorage.getItem('dataSavePlaylist')) {
-          const dataPlaylist = JSON.parse(
-            localStorage.getItem('dataSavePlaylist')!,
-          );
+        const dataSavePlaylist = localStorage.getItem('dataSavePlaylist');
+        if (dataSavePlaylist) {
+          const dataPlaylist = JSON.parse(dataSavePlaylist!);
           if (id === dataPlaylist.id) {
             this.infoPlaylist = dataPlaylist;
           } else {
