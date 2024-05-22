@@ -107,11 +107,11 @@ export class EditInfoPlaylistComponent implements OnInit, OnDestroy {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onImgChange(event: any) {
+  onImgChange(event: Event) {
     this.imgBackup = this.imgUrl;
-    const file: File = event.target.files[0];
-    if (file) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      const file: File = input.files[0];
       if (file.size < 256 * 1024) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
