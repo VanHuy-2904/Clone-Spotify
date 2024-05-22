@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -35,6 +37,7 @@ export class EditInfoPlaylistComponent implements OnInit, OnDestroy {
   isImageChange: boolean = false;
   paramsSubscription!: Subscription;
   idPlaylist: string = '';
+  @ViewChild('fileImg') imgInput!: ElementRef<HTMLInputElement>;
   constructor(
     private formBuilder: FormBuilder,
     private playlistService: PlaylistService,
@@ -63,8 +66,7 @@ export class EditInfoPlaylistComponent implements OnInit, OnDestroy {
   }
 
   clickInput() {
-    const file = document.getElementById('fileImg');
-    file?.click();
+    this.imgInput.nativeElement.click();
   }
 
   onSubmit() {
