@@ -1,5 +1,8 @@
-<div class="main">
-  <div class="banner-img" [style.--backgroundImg]="'url(' + imgUrl + ')'">
+<div class="main" *ngIf="!user">
+  <div
+    class="banner-img"
+    [ngStyle]="{ 'background-image': 'url(' + imgUrl + ')' }"
+  >
     <div class="content" *ngIf="infoPlaylist">
       <p>{{ infoPlaylist.name }}</p>
       <!-- <p>{{album.artists[0].name}}</p> -->
@@ -54,4 +57,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="user">
+  <app-my-playlist></app-my-playlist>
 </div>

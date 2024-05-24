@@ -3,10 +3,14 @@ import { TrackDetail } from '../music/track-detail.i';
 import { Data } from '../playlist/playlist.i';
 
 export interface Search {
-  tracks: TrackDetail[];
+  tracks: DataTrack;
   artists: Artists;
   albums: DataArtist;
   playlists: Data;
+}
+
+export interface DataTrack {
+  items: TrackDetail[];
 }
 
 export interface Artists {
