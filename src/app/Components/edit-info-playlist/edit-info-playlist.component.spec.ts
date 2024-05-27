@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditInfoPlaylistComponent } from './edit-info-playlist.component';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 describe('EditInfoPlaylistComponent', () => {
   let component: EditInfoPlaylistComponent;
@@ -10,11 +8,7 @@ describe('EditInfoPlaylistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        EditInfoPlaylistComponent,
-        HttpClientModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [EditInfoPlaylistComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EditInfoPlaylistComponent);

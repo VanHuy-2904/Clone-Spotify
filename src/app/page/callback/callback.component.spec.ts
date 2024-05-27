@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CallbackComponent } from './callback.component';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 
 describe('CallbackComponent', () => {
   let component: CallbackComponent;
@@ -10,7 +8,7 @@ describe('CallbackComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CallbackComponent, RouterModule.forRoot([]), HttpClientModule],
+      imports: [CallbackComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CallbackComponent);

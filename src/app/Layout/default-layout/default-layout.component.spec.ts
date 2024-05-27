@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DefaultLayoutComponent } from './default-layout.component';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 describe('DefaultLayoutComponent', () => {
   let component: DefaultLayoutComponent;
@@ -9,11 +7,7 @@ describe('DefaultLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        DefaultLayoutComponent,
-        HttpClientModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [DefaultLayoutComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DefaultLayoutComponent);

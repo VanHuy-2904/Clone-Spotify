@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AlbumsComponent } from './albums.component';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 
 describe('AlbumsComponent', () => {
   let component: AlbumsComponent;
@@ -10,7 +8,7 @@ describe('AlbumsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AlbumsComponent, RouterModule.forRoot([]), HttpClientModule],
+      imports: [AlbumsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlbumsComponent);

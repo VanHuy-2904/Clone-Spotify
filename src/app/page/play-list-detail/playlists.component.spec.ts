@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PlaylistsComponent } from './playlists.component';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 
 describe('PlaylistsComponent', () => {
   let component: PlaylistsComponent;
@@ -10,7 +8,7 @@ describe('PlaylistsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlaylistsComponent, RouterModule.forRoot([]), HttpClientModule],
+      imports: [PlaylistsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PlaylistsComponent);

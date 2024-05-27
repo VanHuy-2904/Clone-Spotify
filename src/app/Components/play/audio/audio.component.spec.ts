@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AudioComponent } from './audio.component';
-import { HttpClientModule } from '@angular/common/http';
 
 describe('AudioComponent', () => {
   let component: AudioComponent;
@@ -9,7 +8,7 @@ describe('AudioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AudioComponent, HttpClientModule],
+      imports: [AudioComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AudioComponent);
