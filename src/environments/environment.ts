@@ -1,3 +1,4 @@
 export const environment = {
-  production: false,
+  production: true,
+  redirectUri: 'https://clone-spotify-iszk.vercel.app/callback',
 };
