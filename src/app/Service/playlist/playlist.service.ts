@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { images } from '../album/album';
 import { PlaylistDetail, PlaylistInfo } from './playlist-detail.i';
 import { Data } from './playlist.i';

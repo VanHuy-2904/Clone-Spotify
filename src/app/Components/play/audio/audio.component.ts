@@ -71,8 +71,8 @@ export class AudioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getTrackSub.unsubscribe();
-    this.getCurrentTrackSub.unsubscribe();
+    if (this.getTrackSub) this.getTrackSub.unsubscribe();
+    if (this.getCurrentTrackSub) this.getCurrentTrackSub.unsubscribe();
   }
 
   handleClick() {

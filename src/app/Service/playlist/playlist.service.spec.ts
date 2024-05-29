@@ -4,7 +4,6 @@ import { PlaylistService } from './playlist.service';
 
 describe('PlaylistService', () => {
   let service: PlaylistService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(PlaylistService);

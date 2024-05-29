@@ -195,8 +195,9 @@ export class MyPlaylistComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.infoPlaylistSubscription.unsubscribe();
-    this.getPictureSubscription.unsubscribe();
-    this.dataSubscription.unsubscribe();
+    if (this.infoPlaylistSubscription)
+      this.infoPlaylistSubscription.unsubscribe();
+    if (this.getPictureSubscription) this.getPictureSubscription.unsubscribe();
+    if (this.dataSubscription) this.dataSubscription.unsubscribe();
   }
 }

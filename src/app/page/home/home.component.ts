@@ -55,8 +55,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getTopTrack.unsubscribe();
-    this.getAlbumSub.unsubscribe();
+    if (this.getTopTrack) this.getTopTrack.unsubscribe();
+    if (this.getAlbumSub) this.getAlbumSub.unsubscribe();
   }
 
   login() {
